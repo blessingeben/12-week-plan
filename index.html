@@ -89,7 +89,7 @@ input{font-family:inherit;outline:none}
 <body>
 <div id="app"></div>
 <script>
-var API_KEY = "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";
+var API_KEY = localStorage.getItem("anthropic_key") || "";
 var DAYS_SHORT = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 var DAYS_FULL = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 
@@ -719,11 +719,21 @@ var assistantMessages = [];
 var ASSISTANT_SYSTEM = "You are a personal productivity assistant built into a 12-week life planning app. You know everything about the user's plan.\n\nUSER CONTEXT:\n- On medical leave with unpredictable energy\n- Three goals: (1) Prioritize creative outlets: reconnect with art via The Artist Way, relaunch jewelry store as social impact brand, build Substack presence. (2) Invest in myself: sustainable routines, clear home zone by zone, daily mind/body/soul moments. (3) Invest in community: consistent contact with friends and family, launch dinner club, begin volunteering.\n- Tool stack: Google Keep (capture), Physical planner (daily tasks), Apple Calendar (schedule), Routinery (morning and evening routines), FlyLady (home zones), Notion (jewelry store and business notes), Substack (writing)\n- Weekly rhythm: Mon/Wed = work catchup + jewelry store. Tue = Substack + art. Thu = community + art. Fri-Sun = lighter load. Saturday = Artist Way chapter + Artist Date.\n- System states: Recovery (MVD only), Stabilization (routines + home), Maintenance (full routines + 2-3 project tasks), Growth (full routines + daily project blocks)\n- Minimum Viable Day: wake without phone, water, check Apple Calendar, write 1 task in planner, Morning Pages\n- The Artist Way runs one chapter per week for 12 weeks with daily Morning Pages (3 handwritten pages) and weekly Artist Date\n- Jewelry store is a social impact brand: proceeds go to local social justice organizations via wish lists, customers updated via newsletter\n- Executive dysfunction is a real factor. Systems must be visible, low-friction, and forgiving.\n- Planning amnesia is real. Everything important must be written down or built into the environment.\n\nWhen suggesting Apple Shortcuts:\n- Be specific about exactly how to set up the shortcut\n- Focus on shortcuts that reduce friction for daily habits\n- Common useful shortcuts: log water intake, open Morning Pages reminder, start Routinery, open Google Keep, log mood, start focus timer\n\nWhen suggesting habit stacks:\n- Use existing anchors: morning routine, meals, movement, evening routine\n- Keep stacks to 2-3 habits maximum\n- Always attach new habits to existing strong anchors\n\nTone: calm, direct, practical, non-preachy. No hustle culture. Assume variable energy. Short answers preferred unless detail is requested.";
 
 function buildAssistant() {
-  var chatHistory = div("", [], {style:{flex:"1",overflowY:"auto",padding:"10px 14px",display:"flex",flexDirection:"column",gap:"10px"}});
-
+  if (!API_KEY) {
+    var storedKey = localStorage.getItem("anthropic_key");
+    if (storedKey) { API_KEY = storedKey; }
+  }
+  
   function renderMessages() {
     chatHistory.innerHTML = "";
-    if (assistantMessages.length === 0) {
+    if (!API_KEY) {
+  chatHistory.innerHTML = "";
+  var keyInput = el("input", {placeholder:"Paste your Anthropic API key here", style:{width:"100%",padding:"10px",borderRadius:"8px",border:"1px solid #eee",fontSize:"13px",marginBottom:"8px"}}, null);
+  var keyBtn = el("button", {style:{width:"100%",padding:"10px",borderRadius:"8px",background:"#111",color:"#fff",fontSize:"13px",cursor:"pointer"}, onClick:function() { var k = keyInput.value.trim(); if(k){ API_KEY = k; localStorage.setItem("anthropic_key",k); renderMessages(); } }}, "Save key");
+  chatHistory.appendChild(el("div",{style:{padding:"20px 0"}}, [el("div",{style:{fontSize:"14px",fontWeight:"600",color:"#111",marginBottom:"8px"}}, "Enter your Anthropic API key"), el("div",{style:{fontSize:"12px",color:"#888",marginBottom:"12px",lineHeight:"1.6"}}, "Your key is saved only on this device. Get it from console.anthropic.com"), keyInput, keyBtn]));
+  return;
+}
+if (assistantMessages.length === 0) {
       var suggestions = [
         "What should I focus on this week?",
         "Suggest an Apple Shortcut for my morning routine",
