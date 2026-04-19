@@ -391,14 +391,14 @@ return tasks.length > 0 ? Math.round((done / tasks.length) * 100) : 0;
 function getWeekPct(wm) {
 if (!wm.hasDays) {
 var setup = wm.setup || [];
-var done  = setup.filter(function(*, i) { return state.checked[“w”+wm.week+“s”+i]; }).length;
+var done  = setup.filter(function(_, i) { return state.checked[“w”+wm.week+“s”+i]; }).length;
 return setup.length > 0 ? Math.round((done / setup.length) * 100) : 0;
 }
 var total = 0, done = 0;
 for (var d = 0; d < 7; d++) {
 var tasks = getTasks(wm.week, d);
 total += tasks.length;
-done  += tasks.filter(function(*, i) { return state.checked[“w”+wm.week+“d”+d+“t”+i]; }).length;
+done  += tasks.filter(function(_, i) { return state.checked[“w”+wm.week+“d”+d+“t”+i]; }).length;
 }
 return total > 0 ? Math.round((done / total) * 100) : 0;
 }
@@ -529,12 +529,12 @@ var totalTasks = 0, totalDone = 0;
 WEEK_META.forEach(function(wm) {
 if (!wm.hasDays) {
 totalTasks += (wm.setup||[]).length;
-totalDone  += (wm.setup||[]).filter(function(*, i) { return state.checked[“w”+wm.week+“s”+i]; }).length;
+totalDone  += (wm.setup||[]).filter(function(_, i) { return state.checked[“w”+wm.week+“s”+i]; }).length;
 } else {
 for (var d = 0; d < 7; d++) {
 var tasks = getTasks(wm.week, d);
 totalTasks += tasks.length;
-totalDone  += tasks.filter(function(*, i) { return state.checked[“w”+wm.week+“d”+d+“t”+i]; }).length;
+totalDone  += tasks.filter(function(_, i) { return state.checked[“w”+wm.week+“d”+d+“t”+i]; }).length;
 }
 }
 });
