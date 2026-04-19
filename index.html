@@ -408,7 +408,7 @@ function bottomNav() {
     {icon:"sunrise", label:"Today",    v:"today"},
     {icon:"calendar",label:"Weeks",    v:"weeks"},
     {icon:"chart",   label:"Measures", v:"measures"},
-    {icon:"park",    label:"Parking",  v:"parking"}
+    {icon:"park",    label:"Parking",  v:"parking"},
     {icon:"assist", label:"Assistant", v:"assistant"}
   ];
   var icons = {sunrise:"☀️", calendar:"📅", chart:"📊", park:"🅿️", assist:"🤖"};
@@ -723,7 +723,9 @@ function buildAssistant() {
     var storedKey = localStorage.getItem("anthropic_key");
     if (storedKey) { API_KEY = storedKey; }
   }
-  
+
+  var chatHistory = div("", [], {style:{flex:"1",overflowY:"auto",padding:"10px 14px",display:"flex",flexDirection:"column",gap:"10px"}});
+
   function renderMessages() {
     chatHistory.innerHTML = "";
     if (!API_KEY) {
