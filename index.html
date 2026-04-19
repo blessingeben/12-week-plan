@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="12-Week Plan"/>
+<title>12-Week Plan</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f9f9f9;color:#111;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:100px}
+input,button,textarea{font-family:inherit}
+::-webkit-scrollbar{display:none}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect,useRef} = React;
+
+// ─── CONSTANTS ───────────────────────────────────────────────
+const DAYS = [“Mon”,“Tue”,“Wed”,“Thu”,“Fri”,“Sat”,“Sun”];
+const DAYSFULL = [“Monday”,“Tuesday”,“Wednesday”,“Thursday”,“Friday”,“Saturday”,“Sunday”];
+
+const SC = {
+Recovery:{bg:”#FCEBEB”,text:”#791F1F”,dot:”#E24B4A”,light:”#fee”},
+Stabilization:{bg:”#FAEEDA”,text:”#633806”,dot:”#EF9F27”,light:”#fdf6e8”},
+Maintenance:{bg:”#E6F1FB”,text:”#0C447C”,dot:”#378ADD”,light:”#eef5fd”},
+Growth:{bg:”#E1F5EE”,text:”#085041”,dot:”#1D9E75”,light:”#edf9f3”}
+};
+const getSC = s => SC[s]||SC.Maintenance;
+
+const BLOCK_COLORS = {
+“Routine”:”#FAEEDA”,
+“Mind”:”#FBEAF0”,
+“Body”:”#FCEBEB”,
+“Soul”:”#E1F5EE”,
+“Work”:”#E6F1FB”,
+“Creative”:”#EEEDFE”,
+“Business”:”#FAECE7”,
+“Community”:”#EAF3DE”,
+“Home”:”#F1EFE8”,
+“Planning”:”#E6F1FB”,
+“Rest”:”#F1EFE8”
+};
+const BLOCK_TEXT = {
+“Routine”:”#633806”,“Mind”:”#72243E”,“Body”:”#791F1F”,“Soul”:”#085041”,
+“Work”:”#0C447C”,“Creative”:”#3C3489”,“Business”:”#712B13”,“Community”:”#27500A”,
+“Home”:”#444441”,“Planning”:”#0C447C”,“Rest”:”#444441”
+};
+
+// ─── ONBOARDING ───────────────────────────────────────────────
+const ONBOARDING = [
+{
+title:“Welcome to your\n12-Week Plan”,
+color:”#EEEDFE”,text:”#3C3489”,
+body:“This is your personal operating system for the next 12 weeks. Every day is fully prescribed — you never have to wonder what to do next.\n\nBased on The 12 Week Year, The Artist’s Way, and your three goals, every week has a theme, every day has a focus, and every task tells you exactly what to do and for how long.”
+},
+{
+title:“Your tool stack”,
+color:”#E1F5EE”,text:”#085041”,
+body:“You are using exactly these tools — nothing else:\n\n📓 Google Keep → capture any thought the moment it appears\n\n📋 Physical planner → write today’s tasks every morning with a time next to each\n\n📅 Apple Calendar → check first every morning\n\n📱 Routinery → runs your morning + evening routines step by step\n\n🏠 FlyLady → guides your weekly home zone\n\n📓 Notion → jewelry store planning and business notes only\n\n✍️ Substack → where your writing gets published”
+},
+{
+title:“How to use this app”,
+color:”#FAEEDA”,text:”#633806”,
+body:“Every morning:\nOpen this app → tap Today → read your daily tasks from top to bottom → do them in order.\n\nEvery Sunday:\nOpen this app → tap Weekly Review → score last week → set your state for the week ahead → read Saturday’s planning tasks.\n\nWhen your energy is low:\nTap Today → tap the energy button at the top → switch to Low Energy. Your task list shrinks to MVD only.\n\nWhen something big changes:\nTap any week → tap Week State → switch to Recovery. Expectations adjust automatically.”
+},
+{
+title:“Your three goals”,
+color:”#FCEBEB”,text:”#791F1F”,
+body:“Goal 1 — Prioritize creative outlets\nReconnect with your art through The Artist’s Way. Relaunch your jewelry store as a social impact brand. Build your Substack writing presence.\n\nGoal 2 — Invest in yourself\nBuild sustainable routines. Clear your home zone by zone. Create daily mind, body, and soul moments.\n\nGoal 3 — Invest in community\nCall friends and family consistently. Launch your dinner club. Begin meaningful local volunteering.”
+},
+{
+title:“The only rule that matters”,
+color:”#E6F1FB”,text:”#0C447C”,
+body:“Incomplete weeks are not failed weeks.\n\nYour score target starts at 60% in week 1 and rises to 80% by week 12.\n\nOn hard days, your Minimum Viable Day is:\n1. Wake without reaching for your phone\n2. Drink a full glass of water\n3. Check Apple Calendar\n4. Write 1 task in your physical planner\n5. Do your Morning Pages\n\nThat is a successful day. Everything else is a bonus.”
+}
+];
+
+// ─── DAILY TASK GENERATOR ─────────────────────────────────────
+// Returns tasks for a given day index (0=Mon) and week number
+// Each task: {block, label, detail, duration}
+
+function getDayTasks(weekNum, dayIdx) {
+const isWeekend = dayIdx >= 4; // Fri=4, Sat=5, Sun=6
+const isFri = dayIdx === 4;
+const isSat = dayIdx === 5;
+const isSun = dayIdx === 6;
+
+// ── UNIVERSAL MORNING (every day) ──
+const morning = [
+{block:“Routine”,label:“Wake without your phone”,detail:“Before touching your phone, sit up, take 3 slow breaths, and plant your feet on the floor. Phone stays face-down for the first 10 minutes.”,duration:“5 min”},
+{block:“Body”,label:“Drink a full glass of water”,detail:“Keep a glass or bottle on your nightstand so this requires zero effort. Do it before anything else.”,duration:“1 min”},
+{block:“Routine”,label:“Open Routinery → run Morning Anchor”,detail:“Open Routinery and tap your Morning Anchor routine. Follow each step as it appears. Do not skip ahead.”,duration:“15–20 min”},
+{block:“Mind”,label:“Morning Pages”,detail:“Open your dedicated Morning Pages notebook — the one labeled ‘Morning Pages’ only. Write 3 full pages, stream of consciousness. Do not plan, edit, or reread. Just write whatever is in your head. If you have nothing to write, write ‘I have nothing to write’ until something comes. Set a timer for 25 minutes.”,duration:“25 min”},
+{block:“Planning”,label:“Check Apple Calendar”,detail:“Open Apple Calendar. Read what is scheduled today. Note any meetings or commitments that affect your available time blocks. Close the app after 5 minutes.”,duration:“5 min”},
+{block:“Planning”,label:“Write today’s plan in your physical planner”,detail:“Open your physical planner to today’s page. Write 3–5 tasks. Next to each task write how many minutes you are committing to it. Example: ‘Jewelry store name brainstorm — 20 min.’ You are committing to the time, not to finishing the task.”,duration:“5–10 min”}
+];
+
+// ── UNIVERSAL EVENING (every day) ──
+const evening = [
+{block:“Mind”,label:“Google Keep brain sweep”,detail:“Open Google Keep. Dump everything still in your head — worries, ideas, tomorrow’s tasks, things people said. This takes 3 minutes and clears your mind so it stops running loops while you try to sleep.”,duration:“3 min”},
+{block:“Mind”,label:“Apple Journal — 2 sentences”,detail:“Open Apple Journal. Write exactly 2 sentences: how today felt, and one thing for tomorrow. Do not write more. The habit is more important than the length.”,duration:“3 min”},
+{block:“Routine”,label:“Open Routinery → run Evening Anchor”,detail:“Open Routinery and tap your Evening Anchor routine. Follow each step. This includes skincare, brushing teeth, and any other personal care steps you’ve added.”,duration:“15–20 min”},
+{block:“Routine”,label:“One physical reset”,detail:“Pick exactly one of these: dishes done, bag packed for tomorrow, desk cleared, or tomorrow’s outfit laid out. One only. This signals to your brain that the day is closed.”,duration:“5–10 min”},
+{block:“Routine”,label:“Phone on charger — screens off by 11pm”,detail:“Put your phone on the charger across the room or outside your bedroom. If you want to listen to something, use Audible audio only. No social feeds, no email, no scrolling after this point.”,duration:“Immediate”}
+];
+
+// ── SOUL (every day) ──
+const soul = {block:“Soul”,label:“Faith moment”,detail:“Open your Bible app or Enduring Word. Read one passage or chapter. Spend 5 minutes in prayer or quiet reflection. This can happen anywhere — morning, midday, or evening. Pick the time that feels most natural and keep it consistent.”,duration:“5–10 min”};
+
+// ── NOURISH (every day) ──
+const nourish = {block:“Body”,label:“Log meals in Nourish”,detail:“Open Nourish after each meal and log what you ate. If you skipped a meal, log it as skipped. The habit of opening the app matters more than perfection right now.”,duration:“2 min per meal”};
+
+// ── WEEKDAY DEEP WORK BLOCKS (Mon–Thu) ──
+const workBlock = {block:“Work”,label:“Work catchup — deep work block”,detail:“Open your physical planner and pick the highest priority work task. Set your Clock app timer for 25 minutes. Work on that task only — phone on silent, Outlook and Slack closed. When the timer goes off, take a 5-minute break, then repeat for a second 25-minute block if energy allows.”,duration:“50–75 min”};
+
+const selfOrg = {block:“Planning”,label:“Afternoon self-org block — 30 min”,detail:“Open Google Keep. Move any captured notes into your physical planner or Notion. Update today’s task list — mark what’s done, move what’s unfinished to tomorrow. Close Outlook and Slack after this block. Work is done.”,duration:“30 min”};
+
+// ── WEEK-SPECIFIC DEEP WORK (changes by week) ──
+const artistsWay = (ch) => ({block:“Creative”,label:`The Artist's Way — Week ${ch} chapter`,detail:`Open The Artist's Way to Week ${ch}. Read the full chapter — do not skim. After reading, open your Morning Pages notebook and complete the chapter's check-in questions on a fresh page. Takes about 30–40 minutes total. Do this before doing the chapter tasks.`,duration:“30–40 min”});
+
+const artistDate = {block:“Creative”,label:“Artist Date — solo creative outing”,detail:“Go somewhere alone that feeds your creativity. This could be a gallery, a craft store, a new neighborhood, a market, a concert, or anywhere that isn’t work or obligation. No phone scrolling while you’re there — just observe, absorb, and enjoy. Schedule this in Apple Calendar before Saturday arrives so it actually happens.”,duration:“1–2 hours”};
+
+const artPractice = (mins, note) => ({block:“Creative”,label:`Daily art practice — ${mins} min`,detail:`Set your Clock app timer for ${mins} minutes. Open your sketchbook or art supplies. Make something — anything. Do not judge it, do not photograph it for social media, do not show anyone. This time is for reconnecting with your creative self. ${note||""}`,duration:`${mins} min`});
+
+const jewelryTask = (task, detail) => ({block:“Business”,label:`Jewelry store — ${task}`,detail:`Open Notion → '12-Week Business Hub.' ${detail}`,duration:“20–30 min”});
+
+const substackTask = (task, detail) => ({block:“Creative”,label:`Substack — ${task}`,detail,duration:“20–45 min”});
+
+const communityTask = (task, detail) => ({block:“Community”,label:task,detail,duration:“15–30 min”});
+
+const homeTask = (zone, detail) => ({block:“Home”,label:`Home zone — ${zone}`,detail:`Open FlyLady. Navigate to today's zone task. ${detail} Set a timer for 20 minutes. Stop when the timer goes off even if not finished — this is a recurring practice, not a one-time project.`,duration:“20 min”});
+
+const movement = (type, detail) => ({block:“Body”,label:`Movement — ${type}`,detail,duration:“20–45 min”});
+
+// ── BUILD DAY BY DAY ──
+let midday = [];
+let deepWork = [];
+let afterWork = [];
+
+if(isSun) {
+// SUNDAY — planning day, lighter
+midday = [
+soul,
+{block:“Planning”,label:“Weekly Review — score last week”,detail:“Open this app. Go to the current week. Count how many tasks you completed versus how many were planned. Write your score percentage in the Week State tab. Be honest — this is data, not judgment.”,duration:“10 min”},
+{block:“Planning”,label:“Set system state for the week ahead”,detail:“Open this app. Go to next week. Tap Week State. Choose Recovery, Stabilization, Maintenance, or Growth based on how you’re feeling going into the week. This sets your expectations for the entire week.”,duration:“5 min”},
+{block:“Planning”,label:“Read next week’s tasks”,detail:“Open this app. Go to next week. Read every daily task for Monday through Sunday. Familiarize yourself with what’s coming so nothing surprises you.”,duration:“10 min”},
+{block:“Planning”,label:“Block next week’s deep work slots in Apple Calendar”,detail:“Open Apple Calendar. Create recurring blocks for the week: ‘Deep Work — Work’ (Mon + Wed morning), ‘Deep Work — Creative’ (Tue + Thu evening), ‘Project Block’ (Fri afternoon). Label each one. Treat them as unmovable appointments.”,duration:“10 min”}
+];
+afterWork = [
+nourish,
+movement(“gentle walk or rest”,“Open Nike Run Club if walking. Even 15 minutes counts. If your body needs full rest today, take it — Sunday is a recovery anchor.”),
+{block:“Rest”,label:“Intentional rest — no screens if possible”,detail:“Spend at least 30 minutes doing something that restores you and does not involve a screen. Read a physical book, sit outside, cook something you enjoy, listen to music. This is not laziness — this is maintenance.”,duration:“30+ min”}
+];
+} else if(isSat) {
+// SATURDAY — Artist’s Way planning day, Artist Date, lighter
+midday = [
+soul,
+artistsWay(weekNum > 0 ? weekNum : 1),
+artistDate,
+artPractice(30, “Saturday art practice is exploratory — try a new medium, a new subject, or a technique from This Is Not A Sketchbook.”)
+];
+afterWork = [
+nourish,
+movement(“walk or light workout”,“Open Nike Run Club for a walk or Nike Training Club for a light session. Saturday movement should feel enjoyable, not obligatory.”),
+communityTask(“Intentional contact — call or text one person”,“Pick one friend or family member. Call them or send a voice note — not just a text. The goal is genuine connection, not checking a box. Ask how they’re really doing and listen.”),
+{block:“Rest”,label:“Free time — protect it”,detail:“Saturday evenings are yours. Watch something, go out, rest, or create. The only rule is no work email and no project stress. You’ve earned this.”,duration:“Rest”}
+];
+} else if(isFri) {
+// FRIDAY — lighter, wrap the week, community focus
+midday = [
+soul,
+nourish,
+workBlock,
+selfOrg
+];
+afterWork = [
+movement(“walk or workout”,“Open Nike Run Club or Nike Training Club. Friday movement sets up a good weekend — even a 20-minute walk counts.”),
+{block:“Community”,label:“Reach out to one person”,detail:“Send a voice note, call, or text one friend or family member with genuine intention. Not a group chat message — a direct, personal reach-out. Ask a real question and mean it.”,duration:“10–15 min”},
+artPractice(20, “Friday art practice is low pressure — sketch something from your day or whatever feels natural.”),
+nourish
+];
+} else {
+// MON–THU — full weekdays with rotating deep work focus
+const dayFocus = {
+0: “Work catchup + Art practice”, // Mon
+1: “Creative + Substack”,          // Tue
+2: “Work catchup + Jewelry store”, // Wed
+3: “Community + Creative”          // Thu
+};
+
+```
+if(dayIdx === 0) { // Monday
+  deepWork = [
+    workBlock,
+    artPractice(weekNum <= 3 ? 15 : weekNum <= 6 ? 20 : 30, "Monday art practice is short and consistent — the goal is showing up, not making something great.")
+  ];
+  afterWork = [
+    movement("walk","Open Nike Run Club. Start your Monday with movement — even 20 minutes changes your entire evening energy."),
+    nourish,
+    jewelryTask(
+      weekNum <= 3 ? "brand foundation writing" : weekNum <= 6 ? "product selection" : "Shopify and launch prep",
+      weekNum <= 3
+        ? "Open a new page titled 'Brand Foundation.' Answer in writing: What does this brand stand for beyond selling jewelry? Who is your customer? How does the social impact model work — which organizations, and how do proceeds flow to them? Write freely for 20 minutes. Don't edit."
+        : weekNum <= 6
+        ? "Open your 'Product Selection' page. Research 3 new product options today. For each one write: name, supplier, price point, and why it fits the brand. Add photos or links."
+        : "Open your 'Launch Checklist' page. Complete the next 2 items on the list. If the list doesn't exist yet, create it now with every remaining step to launch."
+    ),
+    soul
+  ];
+} else if(dayIdx === 1) { // Tuesday
+  deepWork = [
+    substackTask(
+      weekNum <= 3 ? "write your first draft" : weekNum <= 6 ? "publish or revise" : "write this week's piece",
+      weekNum <= 3
+        ? "Open Substack. Create a new draft. Write for 30 minutes without stopping. Topic: introduce yourself and why you're building this brand. Do not edit while writing. Set a timer and go."
+        : weekNum <= 6
+        ? "Open your Substack draft from last week. Read it once. Make 3 specific improvements — a clearer opening, a stronger ending, or a section that needs more detail. Then schedule it to publish."
+        : "Open Substack. Write this week's piece in one sitting. Pick a topic from your running ideas list in Google Keep. Write for 30–45 minutes. Schedule it to publish before Friday."
+    ),
+    artPractice(weekNum <= 3 ? 15 : weekNum <= 6 ? 25 : 35, "Tuesday art practice: work on something from This Is Not A Sketchbook. Open the book to where you left off and complete the next exercise.")
+  ];
+  afterWork = [
+    movement("workout","Open Nike Training Club. Select a workout that matches your energy — they have options for every level. Complete the full session."),
+    nourish,
+    soul,
+    communityTask("Check in with one person","Send a voice note to one friend or family member you haven't spoken to recently. Keep it simple — 'Hey, thinking of you, how are you doing?' Voice notes feel more personal than texts.")
+  ];
+} else if(dayIdx === 2) { // Wednesday
+  deepWork = [
+    workBlock,
+    jewelryTask(
+      weekNum <= 3 ? "social impact model" : weekNum <= 6 ? "branding and visual identity" : "newsletter and marketing",
+      weekNum <= 3
+        ? "Open your 'Brand Foundation' page. Add a new section: 'Social Impact Model.' Write: which 2–3 local organizations will receive proceeds, what percentage or amount per sale, and how you will report impact to customers in your newsletter. Be specific."
+        : weekNum <= 6
+        ? "Open Pinterest or your Milanote board. Spend 20 minutes collecting images that represent your brand's visual direction — colors, typography, jewelry styles, packaging, mood. Then open Notion and write 3 sentences describing what you want the brand to look and feel like."
+        : "Open your 'Newsletter' page in Notion. Draft your first customer newsletter: brand introduction, social impact mission, and a preview of your first products. Aim for 200–300 words."
+    )
+  ];
+  afterWork = [
+    movement("walk","Open Nike Run Club. Wednesday walk is your midweek reset — go somewhere you haven't been before if possible. Part of building local familiarity."),
+    nourish,
+    artPractice(weekNum <= 3 ? 15 : weekNum <= 6 ? 25 : 35, "Wednesday art practice: free exploration. No instructions, no exercises. Make whatever you feel like making."),
+    soul
+  ];
+} else if(dayIdx === 3) { // Thursday
+  deepWork = [
+    workBlock,
+    artPractice(weekNum <= 3 ? 15 : weekNum <= 6 ? 25 : 40, weekNum >= 7 ? "Thursday art practice: this is your longest art session of the week. Work on a piece you want to develop further or explore a concept from your Artist's Way chapter this week." : "Thursday art practice: complete an exercise from This Is Not A Sketchbook or revisit something from earlier this week.")
+  ];
+  afterWork = [
+    movement("workout","Open Nike Training Club. Thursday workout — push a little harder than Tuesday since the weekend is coming."),
+    nourish,
+    communityTask(
+      weekNum >= 4 ? "Dinner club or community planning" : "Intentional community contact",
+      weekNum >= 4
+        ? "Open your notes and review the dinner club plan. If you haven't floated the idea yet, text or call 3 people today with a specific date and concept. If you have floated it, follow up with confirmations or plan the next one."
+        : "Call or text one friend or family member you've been meaning to reach. Make it a real conversation, not a quick check-in."
+    ),
+    soul
+  ];
+}
+```
+
+}
+
+// ── ASSEMBLE ──
+const allTasks = [
+…morning,
+…(isWeekend ? [] : [{block:“Work”,label:“Scan Outlook for fires only — 5 min max”,detail:“Open Outlook. You are not processing your inbox — you are checking for anything urgent that changes today’s plan. If nothing is on fire, close Outlook and do not open it again until your self-org block this afternoon.”,duration:“5 min”}]),
+…deepWork,
+…midday,
+…afterWork,
+…evening
+];
+
+// Remove duplicates of soul and nourish if already added
+const seen = new Set();
+return allTasks.filter(t => {
+const key = t.label;
+if(seen.has(key)) return false;
+seen.add(key);
+return true;
+});
+}
+
+// ─── WEEK DATA ────────────────────────────────────────────────
+const WEEK_META = [
+{week:0,label:“Before Week 1”,state:“Stabilization”,score:null,theme:“Do these first — in this order”,hasDays:false,
+setupTasks:[
+{label:“Buy one dedicated Morning Pages notebook”,detail:“Go to any store that sells notebooks. Buy one that is only for Morning Pages — label it ‘Morning Pages’ on the cover. This notebook is never used for planning, journaling, or anything else. Keep it on your nightstand tonight.”},
+{label:“Create your Notion Business Hub”,detail:“Open Notion. Create a new page titled ‘12-Week Business Hub.’ Inside it, create 4 sub-pages: ‘Brand Foundation,’ ‘Product Selection,’ ‘Launch Checklist,’ and ‘Newsletter Drafts.’ Don’t fill anything in yet — just create the structure.”},
+{label:“Set up Routinery — Morning Anchor”,detail:“Open Routinery. Create a new routine called ‘Morning Anchor.’ Add these steps in order: (1) Drink water — 1 min, (2) Stretch or sit up slowly — 5 min, (3) Wash face — 5 min, (4) Get dressed — 10 min. Save the routine. Set it to trigger at your typical wake time.”},
+{label:“Set up Routinery — Evening Anchor”,detail:“Open Routinery. Create a new routine called ‘Evening Anchor.’ Add these steps: (1) Skincare routine — 5 min, (2) Brush teeth — 2 min, (3) Change into sleep clothes — 3 min, (4) Tidy one surface — 5 min. Save it. Set it to trigger at 10pm.”},
+{label:“Set up FlyLady — home zone schedule”,detail:“Open FlyLady. Navigate to the Zone Cleaning section. Set your current zone to Zone 1 (your bedroom). Read what FlyLady assigns for this zone this week. You don’t need to do anything yet — just familiarize yourself with how the zones work.”},
+{label:“Clean your bedroom to a functional baseline”,detail:“Set a timer for 45 minutes. In that time: (1) Remove everything from the floor, (2) Clear your nightstand — water glass and Morning Pages notebook only, (3) Make your bed, (4) Open a window for 5 minutes. Stop when the timer goes off. Done is better than perfect.”},
+{label:“Set up one consistent workspace”,detail:“Pick one spot in your home where you will work on personal projects. It can be a desk, a table, or a corner. Clear that surface completely. Place your physical planner, a pen, and your Morning Pages notebook within arm’s reach. This spot is now your anchor workspace.”},
+{label:“Set your 10:45pm wind-down alarm”,detail:“Open Apple Calendar. Create a daily recurring event at 10:45pm titled ‘Wind-down — 15 min warning.’ Set it to repeat every day. This is your signal to begin your Evening Anchor routine and get off screens by 11pm.”},
+{label:“Download and open your Substack account”,detail:“Go to substack.com. Create a free account if you don’t have one. Create your publication — pick a name that feels right for now, you can change it later. Don’t write anything yet. Just get the account set up and note your publication URL.”}
+]},
+{week:1,label:“Week 1”,state:“Stabilization”,score:“60%”,theme:“Start the engine — routines only”,hasDays:true},
+{week:2,label:“Week 2”,state:“Stabilization”,score:“60%”,theme:“Build the daily rhythm”,hasDays:true},
+{week:3,label:“Week 3”,state:“Stabilization”,score:“65%”,theme:“First upgrade — standard routines begin”,hasDays:true},
+{week:4,label:“Week 4”,state:“Maintenance”,score:“70%”,theme:“First traction — one domino per goal”,hasDays:true},
+{week:5,label:“Week 5”,state:“Maintenance”,score:“70%”,theme:“Deepen the practice”,hasDays:true},
+{week:6,label:“Week 6”,state:“Maintenance”,score:“70%”,theme:“Close the first half — review and assess”,hasDays:true},
+{week:7,label:“Week 7”,state:“Growth”,score:“75%”,theme:“Back half begins — outputs accelerate”,hasDays:true},
+{week:8,label:“Week 8”,state:“Growth”,score:“75%”,theme:“Build momentum”,hasDays:true},
+{week:9,label:“Week 9”,state:“Growth”,score:“75%”,theme:“Push through resistance”,hasDays:true},
+{week:10,label:“Week 10”,state:“Growth”,score:“80%”,theme:“Launch”,hasDays:true},
+{week:11,label:“Week 11”,state:“Growth”,score:“80%”,theme:“Document the impact”,hasDays:true},
+{week:12,label:“Week 12”,state:“Growth”,score:“80%”,theme:“Complete and set up cycle 2”,hasDays:true}
+];
+
+const MEASURES = [
+{goal:“Morning Pages”,track:“Days completed out of 7”,target:“7/7”},
+{goal:“Art practice”,track:“Days you made something”,target:“5–7”},
+{goal:“Artist Date”,track:“Solo creative outings”,target:“1”},
+{goal:“Jewelry store”,track:“Tasks or decisions completed”,target:“2–3”},
+{goal:“Substack”,track:“Pieces drafted or published”,target:“1”},
+{goal:“Journal”,track:“Entries completed”,target:“5–7”},
+{goal:“Movement”,track:“Walk or workout sessions”,target:“4–5”},
+{goal:“Faith”,track:“Bible or prayer moments”,target:“5–7”},
+{goal:“Home zone”,track:“Zones cleaned or maintained”,target:“1”},
+{goal:“Community”,track:“Intentional calls or meetups”,target:“2–3”}
+];
+
+const PARKING = [
+{tag:“Week 7”,text:“Art show planning — begins only if art practice feels rebuilt. If not ready, moves to cycle 2.”},
+{tag:“Week 8”,text:“DashPass cancellation — reassess when cooking at home 4+ nights consistently.”},
+{tag:“Week 4”,text:“MindFlow AI — 30-day trial ends. Open with a specific purpose or cancel.”},
+{tag:“Week 6”,text:“Milanote — 30-day trial ends. Keep for jewelry store mood boarding or cut.”},
+{tag:“Open”,text:“Return to work — restructure deep work blocks around your new schedule when medical leave ends.”},
+{tag:“Cycle 2”,text:“Art show as a primary goal if not executed in cycle 1.”},
+{tag:“December”,text:“Routinery and FlyLady subscription renewal decisions.”},
+{tag:“Ongoing”,text:“Local area exploration — one new neighborhood or spot per week to build familiarity.”}
+];
+
+// ─── STYLES ───────────────────────────────────────────────────
+const S = {
+wrap:{maxWidth:480,margin:“0 auto”,minHeight:“100vh”,background:”#f9f9f9”,paddingBottom:100},
+hdr:{padding:“20px 16px 14px”,background:”#fff”,borderBottom:“1px solid #eee”},
+htitle:{fontSize:22,fontWeight:700,color:”#111”},
+hsub:{fontSize:13,color:”#888”,marginTop:3},
+bottomNav:{position:“fixed”,bottom:0,left:“50%”,transform:“translateX(-50%)”,width:“100%”,maxWidth:480,background:”#fff”,borderTop:“1px solid #eee”,display:“flex”,padding:“8px 0 20px”,zIndex:100},
+bnBtn:(a)=>({flex:1,display:“flex”,flexDirection:“column”,alignItems:“center”,gap:3,border:“none”,background:“none”,cursor:“pointer”,padding:“4px 0”}),
+bnLabel:(a)=>({fontSize:10,fontWeight:a?600:400,color:a?”#111”:”#aaa”}),
+bnDot:(a)=>({width:5,height:5,borderRadius:“50%”,background:a?”#111”:“transparent”,marginTop:1}),
+card:{margin:“10px 14px”,background:”#fff”,border:“1px solid #eee”,borderRadius:14,overflow:“hidden”},
+cardHead:(c)=>({padding:“11px 14px”,background:c||”#f5f5f5”,display:“flex”,alignItems:“center”,justifyContent:“space-between”}),
+cardTitle:{fontSize:13,fontWeight:600,color:”#111”},
+cardSub:{fontSize:11,color:”#888”},
+badge:(c,t)=>({fontSize:10,fontWeight:600,padding:“2px 8px”,borderRadius:20,background:c,color:t}),
+taskRow:{display:“flex”,alignItems:“flex-start”,gap:10,padding:“10px 14px”,borderTop:“1px solid #f5f5f5”,cursor:“pointer”},
+cb:(d)=>({width:22,height:22,borderRadius:7,border:`1.5px solid ${d?"#1D9E75":"#ddd"}`,background:d?”#1D9E75”:”#fff”,display:“flex”,alignItems:“center”,justifyContent:“center”,flexShrink:0,marginTop:1}),
+taskBody:{flex:1},
+taskLabel:(d)=>({fontSize:13,fontWeight:500,color:d?”#bbb”:”#111”,textDecoration:d?“line-through”:“none”,lineHeight:1.4}),
+taskDetail:{fontSize:12,color:”#666”,lineHeight:1.6,marginTop:4},
+taskDur:{fontSize:11,color:”#1D9E75”,fontWeight:500,marginTop:3},
+blockTag:(b)=>({display:“inline-block”,fontSize:9,fontWeight:600,padding:“1px 6px”,borderRadius:10,background:BLOCK_COLORS[b]||”#eee”,color:BLOCK_TEXT[b]||”#666”,marginBottom:4,textTransform:“uppercase”,letterSpacing:”.04em”}),
+dayRow:{display:“flex”,gap:6,padding:“10px 14px”,overflowX:“auto”},
+dayBtn:(a,done)=>({minWidth:52,padding:“8px 6px”,borderRadius:10,border:`1.5px solid ${a?"#111":done?"#1D9E75":"#eee"}`,background:a?”#111”:done?”#E1F5EE”:”#fff”,display:“flex”,flexDirection:“column”,alignItems:“center”,gap:2,cursor:“pointer”,flexShrink:0}),
+dayBtnLabel:(a,done)=>({fontSize:11,fontWeight:600,color:a?”#fff”:done?”#085041”:”#888”}),
+dayBtnDot:(a,done)=>({width:5,height:5,borderRadius:“50%”,background:a?”#fff”:done?”#1D9E75”:“transparent”}),
+weekCard:(w)=>({margin:“8px 14px”,background:”#fff”,border:“1px solid #eee”,borderRadius:14,overflow:“hidden”,cursor:“pointer”}),
+weekHead:(w)=>({padding:“13px 14px”,background:getSC(w.state).bg}),
+weekTitle:(w)=>({fontSize:14,fontWeight:600,color:getSC(w.state).text}),
+weekTheme:(w)=>({fontSize:12,color:getSC(w.state).text,opacity:.8,marginTop:2}),
+progressBar:{height:3,background:“rgba(0,0,0,0.08)”,borderRadius:2,marginTop:8},
+progressFill:(p,c)=>({height:“100%”,width:`${p}%`,background:c,borderRadius:2,transition:“width .3s”}),
+weekPct:(w)=>({fontSize:10,color:getSC(w.state).text,opacity:.75,marginTop:3}),
+back:{display:“flex”,alignItems:“center”,gap:6,padding:“14px 14px 8px”,cursor:“pointer”,color:”#666”,fontSize:14,background:“none”,border:“none”,outline:“none”},
+dhead:(w)=>({padding:“16px 14px”,background:getSC(w.state).bg}),
+stateRow:{display:“flex”,gap:6,flexWrap:“wrap”,padding:“10px 14px”},
+stateChip:(a,s)=>({padding:“5px 12px”,borderRadius:20,fontSize:12,fontWeight:a?600:400,background:a?getSC(s).bg:“transparent”,color:a?getSC(s).text:”#888”,border:`1px solid ${a?getSC(s).dot:"#eee"}`,cursor:“pointer”}),
+scoreInput:{flex:1,padding:“8px 10px”,borderRadius:8,border:“1px solid #eee”,fontSize:13,background:”#f9f9f9”,color:”#111”,outline:“none”},
+mrow:{display:“flex”,alignItems:“center”,justifyContent:“space-between”,padding:“9px 14px”,borderBottom:“1px solid #f5f5f5”},
+pitem:{padding:“11px 14px”,borderBottom:“1px solid #f5f5f5”},
+ptag:{display:“inline-block”,padding:“2px 8px”,borderRadius:20,fontSize:10,fontWeight:600,background:”#FAEEDA”,color:”#633806”,marginBottom:4},
+// onboarding
+obWrap:{position:“fixed”,inset:0,background:”#fff”,zIndex:200,display:“flex”,flexDirection:“column”,maxWidth:480,margin:“0 auto”},
+obBody:{flex:1,overflowY:“auto”,padding:“40px 24px 20px”,display:“flex”,flexDirection:“column”,justifyContent:“center”},
+obTitle:{fontSize:26,fontWeight:700,lineHeight:1.2,marginBottom:16,whiteSpace:“pre-line”},
+obText:{fontSize:14,color:”#444”,lineHeight:1.8,whiteSpace:“pre-line”},
+obFoot:{padding:“16px 24px 40px”,borderTop:“1px solid #eee”,display:“flex”,alignItems:“center”,justifyContent:“space-between”},
+obDots:{display:“flex”,gap:6},
+obDot:(a)=>({width:a?24:8,height:8,borderRadius:4,background:a?”#111”:”#ddd”,transition:“width .2s”}),
+obBtn:{padding:“12px 28px”,borderRadius:14,background:”#111”,color:”#fff”,border:“none”,fontSize:15,fontWeight:600,cursor:“pointer”},
+obSkip:{fontSize:13,color:”#aaa”,background:“none”,border:“none”,cursor:“pointer”}
+};
+
+function Checkmark(){
+return React.createElement(“svg”,{width:12,height:12,viewBox:“0 0 12 12”,fill:“none”},
+React.createElement(“path”,{d:“M2 6l3 3 5-5”,stroke:”#fff”,strokeWidth:1.8,strokeLinecap:“round”,strokeLinejoin:“round”})
+);
+}
+
+// ─── ONBOARDING SCREEN ────────────────────────────────────────
+function Onboarding({onDone}){
+const [step,setStep] = useState(0);
+const s = ONBOARDING[step];
+return React.createElement(“div”,{style:S.obWrap},
+React.createElement(“div”,{style:{…S.obBody,background:s.color}},
+React.createElement(“div”,{style:{…S.obTitle,color:s.text}},s.title),
+React.createElement(“div”,{style:{…S.obText,color:s.text,opacity:.85}},s.body)
+),
+React.createElement(“div”,{style:S.obFoot},
+React.createElement(“div”,{style:S.obDots},
+ONBOARDING.map((_,i)=>React.createElement(“div”,{key:i,style:S.obDot(i===step)}))
+),
+step < ONBOARDING.length-1
+? React.createElement(“div”,{style:{display:“flex”,alignItems:“center”,gap:16}},
+React.createElement(“button”,{style:S.obSkip,onClick:onDone},“Skip”),
+React.createElement(“button”,{style:S.obBtn,onClick:()=>setStep(step+1)},“Next →”)
+)
+: React.createElement(“button”,{style:S.obBtn,onClick:onDone},“Start my plan”)
+)
+);
+}
+
+// ─── TASK ITEM ────────────────────────────────────────────────
+function TaskItem({task, id, checked, onToggle}){
+const [open,setOpen] = useState(false);
+const done = !!checked[id];
+return React.createElement(“div”,{style:S.taskRow,onClick:()=>setOpen(!open)},
+React.createElement(“div”,{style:S.cb(done),onClick:(e)=>{e.stopPropagation();onToggle(id)}},
+done&&React.createElement(Checkmark)
+),
+React.createElement(“div”,{style:S.taskBody},
+React.createElement(“div”,{style:S.blockTag(task.block)},task.block),
+React.createElement(“div”,{style:S.taskLabel(done)},task.label),
+open&&React.createElement(“div”,{style:S.taskDetail},task.detail),
+React.createElement(“div”,{style:S.taskDur},task.duration)
+)
+);
+}
+
+// ─── MAIN APP ─────────────────────────────────────────────────
+function App(){
+const [showOnboarding,setShowOnboarding] = useState(false);
+const [view,setView] = useState(“today”);
+const [selWeekIdx,setSelWeekIdx] = useState(null);
+const [selDayIdx,setSelDayIdx] = useState(0);
+const [weekTab,setWeekTab] = useState(“days”);
+const [checked,setChecked] = useState({});
+const [wstate,setWstate] = useState({});
+const [wscore,setWscore] = useState({});
+const [todayEnergy,setTodayEnergy] = useState(“Medium”);
+
+useEffect(()=>{
+try{
+const ob = localStorage.getItem(“ob_done”);
+if(!ob) setShowOnboarding(true);
+const c=localStorage.getItem(“chk”); if(c) setChecked(JSON.parse(c));
+const w=localStorage.getItem(“wst”); if(w) setWstate(JSON.parse(w));
+const sc=localStorage.getItem(“wsc”); if(sc) setWscore(JSON.parse(sc));
+const e=localStorage.getItem(“energy”); if(e) setTodayEnergy(e);
+}catch{}
+},[]);
+
+const finishOnboarding = () => {
+setShowOnboarding(false);
+try{localStorage.setItem(“ob_done”,“1”);}catch{}
+};
+
+const toggle = id => {
+const n={…checked,[id]:!checked[id]};
+setChecked(n);
+try{localStorage.setItem(“chk”,JSON.stringify(n));}catch{}
+};
+
+const setWS = (wk,st) => {
+const n={…wstate,[wk]:st};
+setWstate(n);
+try{localStorage.setItem(“wst”,JSON.stringify(n));}catch{}
+};
+
+const setSC = (wk,sc) => {
+const n={…wscore,[wk]:sc};
+setWscore(n);
+try{localStorage.setItem(“wsc”,JSON.stringify(n));}catch{}
+};
+
+const setEnergy = e => {
+setTodayEnergy(e);
+try{localStorage.setItem(“energy”,e);}catch{}
+};
+
+const getDayPct = (weekNum, dayIdx) => {
+const tasks = getDayTasks(weekNum, dayIdx);
+const done = tasks.filter((_,i)=>checked[`w${weekNum}d${dayIdx}t${i}`]).length;
+return tasks.length > 0 ? Math.round((done/tasks.length)*100) : 0;
+};
+
+const getWeekPct = (weekNum) => {
+if(!WEEK_META[weekNum].hasDays) {
+const wm = WEEK_META[weekNum];
+if(!wm.setupTasks) return 0;
+const done = wm.setupTasks.filter((*,i)=>checked[`w${weekNum}setup${i}`]).length;
+return Math.round((done/wm.setupTasks.length)*100);
+}
+let total=0,done=0;
+for(let d=0;d<7;d++){
+const tasks=getDayTasks(weekNum,d);
+total+=tasks.length;
+done+=tasks.filter((*,i)=>checked[`w${weekNum}d${d}t${i}`]).length;
+}
+return total>0?Math.round((done/total)*100):0;
+};
+
+const totalDone = Object.values(checked).filter(Boolean).length;
+const totalTasks = WEEK_META.reduce((acc,wm)=>{
+if(!wm.hasDays) return acc+(wm.setupTasks||[]).length;
+for(let d=0;d<7;d++) acc+=getDayTasks(wm.week,d).length;
+return acc;
+},0);
+const overallPct = Math.round((totalDone/totalTasks)*100)||0;
+
+// ── TODAY VIEW ──
+const todayDate = new Date();
+const todayDayIdx = (todayDate.getDay()+6)%7; // 0=Mon
+const currentWeekNum = 1; // default to week 1; user can change
+const todayTasks = getDayTasks(currentWeekNum, todayDayIdx);
+const filteredTasks = todayEnergy===“Low”
+? todayTasks.filter(t=>[“Routine”,“Mind”,“Planning”,“Soul”].includes(t.block)).slice(0,8)
+: todayEnergy===“High”
+? todayTasks
+: todayTasks;
+
+// ── BOTTOM NAV ──
+const NavItem = ({icon,label,v}) =>
+React.createElement(“button”,{style:S.bnBtn(view===v),onClick:()=>setView(v)},
+React.createElement(“div”,{style:{fontSize:20}},icon),
+React.createElement(“div”,{style:S.bnLabel(view===v)},label),
+React.createElement(“div”,{style:S.bnDot(view===v)})
+);
+
+const BottomNav = () =>
+React.createElement(“div”,{style:S.bottomNav},
+React.createElement(NavItem,{icon:“☀️”,label:“Today”,v:“today”}),
+React.createElement(NavItem,{icon:“📅”,label:“Weeks”,v:“weeks”}),
+React.createElement(NavItem,{icon:“📊”,label:“Measures”,v:“measures”}),
+React.createElement(NavItem,{icon:“🅿️”,label:“Parking”,v:“parking”})
+);
+
+// ── WEEK DETAIL VIEW ──
+if(view===“weekDetail” && selWeekIdx!==null){
+const wm = WEEK_META[selWeekIdx];
+const curState = wstate[wm.week]||wm.state;
+const curScore = wscore[wm.week]||””;
+const sc2 = getSC(curState);
+const weekPct = getWeekPct(wm.week);
+
+```
+return React.createElement("div",{style:S.wrap},
+  showOnboarding&&React.createElement(Onboarding,{onDone:finishOnboarding}),
+  React.createElement("button",{style:S.back,onClick:()=>setView("weeks")},"← All weeks"),
+  React.createElement("div",{style:{...S.dhead(wm)}},
+    React.createElement("div",{style:{fontSize:20,fontWeight:700,color:sc2.text}},wm.label),
+    React.createElement("div",{style:{fontSize:13,color:sc2.text,opacity:.8,marginTop:3}},wm.theme),
+    React.createElement("div",{style:{...S.progressBar,marginTop:10}},
+      React.createElement("div",{style:S.progressFill(weekPct,sc2.dot)})
+    ),
+    React.createElement("div",{style:{fontSize:11,color:sc2.text,opacity:.75,marginTop:4}},`${weekPct}% complete`)
+  ),
+  // Tabs
+  React.createElement("div",{style:{display:"flex",borderBottom:"1px solid #eee",background:"#fff"}},
+    ["days","state","measures"].map(t=>
+      React.createElement("button",{key:t,onClick:()=>setWeekTab(t),style:{flex:1,padding:"11px 0",fontSize:13,fontWeight:weekTab===t?600:400,color:weekTab===t?"#111":"#aaa",border:"none",borderBottom:weekTab===t?"2px solid #111":"2px solid transparent",background:"none",cursor:"pointer"}},
+        t==="days"?"Daily Tasks":t==="state"?"Week State":"Measures"
+      )
+    )
+  ),
+  // Days tab
+  weekTab==="days"&&React.createElement("div",null,
+    !wm.hasDays
+      ? React.createElement("div",null,
+          React.createElement("div",{style:{padding:"12px 14px 4px",fontSize:11,fontWeight:600,color:"#888",textTransform:"uppercase",letterSpacing:".05em"}},"Setup checklist"),
+          (wm.setupTasks||[]).map((task,i)=>{
+            const id=`w${wm.week}setup${i}`;
+            return React.createElement(TaskItem,{key:i,task:{...task,block:"Setup",duration:"—"},id,checked,onToggle:toggle});
+          })
+        )
+      : React.createElement("div",null,
+          React.createElement("div",{style:S.dayRow},
+            DAYS.map((d,di)=>{
+              const pct=getDayPct(wm.week,di);
+              const done=pct===100;
+              const active=selDayIdx===di;
+              return React.createElement("div",{key:di,style:S.dayBtn(active,done),onClick:()=>setSelDayIdx(di)},
+                React.createElement("div",{style:S.dayBtnLabel(active,done)},d),
+                React.createElement("div",{style:S.dayBtnDot(active,done)})
+              );
+            })
+          ),
+          React.createElement("div",{style:{padding:"6px 14px 2px",fontSize:12,fontWeight:600,color:"#888"}},
+            `${DAYSFULL[selDayIdx]} — ${getDayPct(wm.week,selDayIdx)}% complete`
+          ),
+          getDayTasks(wm.week,selDayIdx).map((task,i)=>{
+            const id=`w${wm.week}d${selDayIdx}t${i}`;
+            return React.createElement(TaskItem,{key:i,task,id,checked,onToggle:toggle});
+          })
+        )
+  ),
+  // State tab
+  weekTab==="state"&&React.createElement("div",null,
+    React.createElement("div",{style:{padding:"12px 14px 4px",fontSize:11,fontWeight:600,color:"#888",textTransform:"uppercase",letterSpacing:".05em"}},"System state this week"),
+    React.createElement("div",{style:S.stateRow},
+      ["Recovery","Stabilization","Maintenance","Growth"].map(st=>
+        React.createElement("div",{key:st,style:S.stateChip(curState===st,st),onClick:()=>setWS(wm.week,st)},st)
+      )
+    ),
+    React.createElement("div",{style:{padding:"4px 14px 12px",fontSize:12,color:"#666",lineHeight:1.6}},
+      getSC(curState)&&{
+        Recovery:"MVD only. Rest is the work. No project blocks, no pressure.",
+        Stabilization:"Routines + home cleanup. One project task max per day.",
+        Maintenance:"Full routines + 2–3 project tasks per week per goal. Your baseline.",
+        Growth:"Full routines + daily project blocks. Protect high energy for creative work."
+      }[curState]
+    ),
+    React.createElement("div",{style:{padding:"0 14px 8px",fontSize:11,fontWeight:600,color:"#888",textTransform:"uppercase",letterSpacing:".05em"}},"Weekly score"),
+    React.createElement("div",{style:{padding:"0 14px 16px",display:"flex",gap:10,alignItems:"center"}},
+      React.createElement("input",{style:S.scoreInput,placeholder:`Target: ${wm.score||"—"}`,value:curScore,onChange:e=>setSC(wm.week,e.target.value)}),
+      React.createElement("div",{style:{fontSize:12,color:"#888"}},`/ ${wm.score||"—"}`)
+    )
+  ),
+  // Measures tab
+  weekTab==="measures"&&React.createElement("div",null,
+    MEASURES.map((m,i)=>
+      React.createElement("div",{key:i,style:S.mrow},
+        React.createElement("div",null,
+          React.createElement("div",{style:{fontSize:13,fontWeight:500,color:"#111"}},m.goal),
+          React.createElement("div",{style:{fontSize:11,color:"#888",marginTop:1}},m.track)
+        ),
+        React.createElement("div",{style:{fontSize:13,fontWeight:600,color:"#1D9E75"}},m.target)
+      )
+    )
+  ),
+  React.createElement(BottomNav)
+);
+```
+
+}
+
+// ── TODAY VIEW ──
+if(view===“today”){
+return React.createElement(“div”,{style:S.wrap},
+showOnboarding&&React.createElement(Onboarding,{onDone:finishOnboarding}),
+React.createElement(“div”,{style:{…S.hdr,background:”#fff”}},
+React.createElement(“div”,{style:S.htitle},`${DAYSFULL[todayDayIdx]}`),
+React.createElement(“div”,{style:S.hsub},“Week 1 · Stabilization · Target 60%”)
+),
+// Energy selector
+React.createElement(“div”,{style:{padding:“10px 14px”,background:”#fff”,borderBottom:“1px solid #eee”,display:“flex”,gap:6}},
+[“Low”,“Medium”,“High”].map(e=>
+React.createElement(“div”,{key:e,onClick:()=>setEnergy(e),style:{
+flex:1,padding:“7px 0”,borderRadius:10,textAlign:“center”,cursor:“pointer”,
+background:todayEnergy===e?(e===“Low”?”#FCEBEB”:e===“Medium”?”#FAEEDA”:”#E1F5EE”):”#f5f5f5”,
+border:`1px solid ${todayEnergy===e?(e==="Low"?"#E24B4A":e==="Medium"?"#EF9F27":"#1D9E75"):"#eee"}`,
+fontSize:12,fontWeight:todayEnergy===e?600:400,
+color:todayEnergy===e?(e===“Low”?”#791F1F”:e===“Medium”?”#633806”:”#085041”):”#888”
+}},e,” energy”)
+)
+),
+React.createElement(“div”,{style:{padding:“8px 14px 2px”,fontSize:11,fontWeight:600,color:”#888”,textTransform:“uppercase”,letterSpacing:”.05em”}},
+`${filteredTasks.filter((_,i)=>checked[`w${currentWeekNum}d${todayDayIdx}t${i}`]).length} of ${filteredTasks.length} tasks complete`
+),
+filteredTasks.map((task,i)=>{
+const id=`w${currentWeekNum}d${todayDayIdx}t${i}`;
+return React.createElement(TaskItem,{key:i,task,id,checked,onToggle:toggle});
+}),
+React.createElement(BottomNav)
+);
+}
+
+// ── WEEKS VIEW ──
+if(view===“weeks”){
+return React.createElement(“div”,{style:S.wrap},
+showOnboarding&&React.createElement(Onboarding,{onDone:finishOnboarding}),
+React.createElement(“div”,{style:S.hdr},
+React.createElement(“div”,{style:S.htitle},“All Weeks”),
+React.createElement(“div”,{style:S.hsub},“Tap a week to open daily tasks”)
+),
+React.createElement(“div”,{style:{height:8}}),
+// Overall progress
+React.createElement(“div”,{style:{margin:“0 14px 10px”,background:”#fff”,border:“1px solid #eee”,borderRadius:14,padding:14}},
+React.createElement(“div”,{style:{fontSize:12,color:”#888”,marginBottom:4}},“Overall progress”),
+React.createElement(“div”,{style:{fontSize:32,fontWeight:700,color:”#111”}},`${overallPct}%`),
+React.createElement(“div”,{style:{…S.progressBar,marginTop:8}},
+React.createElement(“div”,{style:S.progressFill(overallPct,”#1D9E75”)})
+),
+React.createElement(“div”,{style:{fontSize:12,color:”#888”,marginTop:6}},`${totalDone} tasks complete`)
+),
+WEEK_META.map((wm,i)=>{
+const pct=getWeekPct(wm.week);
+const sc2=getSC(wm.state);
+return React.createElement(“div”,{key:i,style:S.weekCard(wm),onClick:()=>{setSelWeekIdx(i);setWeekTab(“days”);setSelDayIdx(0);setView(“weekDetail”)}},
+React.createElement(“div”,{style:S.weekHead(wm)},
+React.createElement(“div”,{style:{display:“flex”,alignItems:“flex-start”,justifyContent:“space-between”}},
+React.createElement(“div”,null,
+React.createElement(“div”,{style:S.weekTitle(wm)},wm.label),
+React.createElement(“div”,{style:S.weekTheme(wm)},wm.theme)
+),
+wm.score&&React.createElement(“div”,{style:S.badge(sc2.bg,sc2.text)},`Target ${wm.score}`)
+),
+React.createElement(“div”,{style:S.progressBar},
+React.createElement(“div”,{style:S.progressFill(pct,sc2.dot)})
+),
+React.createElement(“div”,{style:S.weekPct(wm)},pct>0?`${pct}% complete`:“Tap to open”)
+)
+);
+}),
+React.createElement(BottomNav)
+);
+}
+
+// ── MEASURES VIEW ──
+if(view===“measures”){
+return React.createElement(“div”,{style:S.wrap},
+React.createElement(“div”,{style:S.hdr},
+React.createElement(“div”,{style:S.htitle},“Lead Measures”),
+React.createElement(“div”,{style:S.hsub},“Track these weekly — not outcomes”)
+),
+React.createElement(“div”,{style:{height:8}}),
+React.createElement(“div”,{style:{…S.card,margin:“10px 14px”}},
+React.createElement(“div”,{style:S.cardHead(”#EEEDFE”)},
+React.createElement(“div”,{style:S.cardTitle},“Weekly targets”)
+),
+MEASURES.map((m,i)=>
+React.createElement(“div”,{key:i,style:S.mrow},
+React.createElement(“div”,null,
+React.createElement(“div”,{style:{fontSize:13,fontWeight:500,color:”#111”}},m.goal),
+React.createElement(“div”,{style:{fontSize:11,color:”#888”,marginTop:1}},m.track)
+),
+React.createElement(“div”,{style:{fontSize:13,fontWeight:600,color:”#1D9E75”}},m.target)
+)
+)
+),
+React.createElement(“div”,{style:{…S.card,margin:“10px 14px”}},
+React.createElement(“div”,{style:S.cardHead(”#FAEEDA”)},
+React.createElement(“div”,{style:S.cardTitle},“Energy variants”)
+),
+[
+{level:“Low energy day”,desc:“MVD only: Morning Pages, water, check calendar, write 1 task, rest. No project blocks, no workout pressure. Rest is the work.”},
+{level:“Medium energy day”,desc:“Full morning routine + Morning Pages + work tasks + 30-min personal project block + full evening routine. This is your baseline.”},
+{level:“High energy day”,desc:“Full morning routine + Morning Pages + 3 deep work blocks + full workout + 60-min project block. Don’t spend high energy days on admin — use them for creative and business work.”}
+].map((e,i)=>
+React.createElement(“div”,{key:i,style:{padding:“11px 14px”,borderTop:i>0?“1px solid #f5f5f5”:“none”}},
+React.createElement(“div”,{style:{fontSize:13,fontWeight:600,color:”#111”,marginBottom:3}},e.level),
+React.createElement(“div”,{style:{fontSize:12,color:”#666”,lineHeight:1.6}},e.desc)
+)
+)
+),
+React.createElement(BottomNav)
+);
+}
+
+// ── PARKING VIEW ──
+if(view===“parking”){
+return React.createElement(“div”,{style:S.wrap},
+React.createElement(“div”,{style:S.hdr},
+React.createElement(“div”,{style:S.htitle},“Parking Lot”),
+React.createElement(“div”,{style:S.hsub},“Deferred decisions — revisit at the right time”)
+),
+React.createElement(“div”,{style:{height:8}}),
+React.createElement(“div”,{style:{…S.card,margin:“10px 14px”}},
+PARKING.map((p,i)=>
+React.createElement(“div”,{key:i,style:S.pitem},
+React.createElement(“div”,{style:S.ptag},p.tag),
+React.createElement(“div”,{style:{fontSize:13,color:”#111”,lineHeight:1.5}},p.text)
+)
+)
+),
+React.createElement(BottomNav)
+);
+}
+
+return null;
+}
+
+ReactDOM.createRoot(document.getElementById(“root”)).render(React.createElement(App));
+</script>
+
+</body>
+</html>
