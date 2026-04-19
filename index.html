@@ -333,9 +333,9 @@ try { localStorage.setItem(key, typeof val === “string” ? val : JSON.stringi
 }
 
 function render() {
-var app = document.getElementById(“app”);
-app.innerHTML = “”;
-app.appendChild(buildView());
+var container = document.getElementById("app");
+container.innerHTML = "";
+container.appendChild(buildView());
 }
 
 function el(tag, attrs, children) {
