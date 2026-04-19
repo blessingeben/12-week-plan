@@ -89,6 +89,7 @@ input{font-family:inherit;outline:none}
 <body>
 <div id="app"></div>
 <script>
+var API_KEY = "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";
 var DAYS_SHORT = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 var DAYS_FULL = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 
@@ -408,8 +409,9 @@ function bottomNav() {
     {icon:"calendar",label:"Weeks",    v:"weeks"},
     {icon:"chart",   label:"Measures", v:"measures"},
     {icon:"park",    label:"Parking",  v:"parking"}
+    {icon:"assist", label:"Assistant", v:"assistant"}
   ];
-  var icons = {sunrise:"☀️", calendar:"📅", chart:"📊", park:"🅿️"};
+  var icons = {sunrise:"☀️", calendar:"📅", chart:"📊", park:"🅿️", assist:"🤖"};
   return div("bottom-nav", items.map(function(item) {
     var active = state.view === item.v || (item.v === "weekDetail" && state.view === "weekDetail");
     return el("button", {class:"bn-btn", onClick:function() { state.view = item.v; render(); }}, [
@@ -712,6 +714,165 @@ function buildMeasures() {
   ]);
 }
 
+var assistantMessages = [];
+
+var ASSISTANT_SYSTEM = "You are a personal productivity assistant built into a 12-week life planning app. You know everything about the user's plan.\n\nUSER CONTEXT:\n- On medical leave with unpredictable energy\n- Three goals: (1) Prioritize creative outlets: reconnect with art via The Artist Way, relaunch jewelry store as social impact brand, build Substack presence. (2) Invest in myself: sustainable routines, clear home zone by zone, daily mind/body/soul moments. (3) Invest in community: consistent contact with friends and family, launch dinner club, begin volunteering.\n- Tool stack: Google Keep (capture), Physical planner (daily tasks), Apple Calendar (schedule), Routinery (morning and evening routines), FlyLady (home zones), Notion (jewelry store and business notes), Substack (writing)\n- Weekly rhythm: Mon/Wed = work catchup + jewelry store. Tue = Substack + art. Thu = community + art. Fri-Sun = lighter load. Saturday = Artist Way chapter + Artist Date.\n- System states: Recovery (MVD only), Stabilization (routines + home), Maintenance (full routines + 2-3 project tasks), Growth (full routines + daily project blocks)\n- Minimum Viable Day: wake without phone, water, check Apple Calendar, write 1 task in planner, Morning Pages\n- The Artist Way runs one chapter per week for 12 weeks with daily Morning Pages (3 handwritten pages) and weekly Artist Date\n- Jewelry store is a social impact brand: proceeds go to local social justice organizations via wish lists, customers updated via newsletter\n- Executive dysfunction is a real factor. Systems must be visible, low-friction, and forgiving.\n- Planning amnesia is real. Everything important must be written down or built into the environment.\n\nWhen suggesting Apple Shortcuts:\n- Be specific about exactly how to set up the shortcut\n- Focus on shortcuts that reduce friction for daily habits\n- Common useful shortcuts: log water intake, open Morning Pages reminder, start Routinery, open Google Keep, log mood, start focus timer\n\nWhen suggesting habit stacks:\n- Use existing anchors: morning routine, meals, movement, evening routine\n- Keep stacks to 2-3 habits maximum\n- Always attach new habits to existing strong anchors\n\nTone: calm, direct, practical, non-preachy. No hustle culture. Assume variable energy. Short answers preferred unless detail is requested.";
+
+function buildAssistant() {
+  var chatHistory = div("", [], {style:{flex:"1",overflowY:"auto",padding:"10px 14px",display:"flex",flexDirection:"column",gap:"10px"}});
+
+  function renderMessages() {
+    chatHistory.innerHTML = "";
+    if (assistantMessages.length === 0) {
+      var suggestions = [
+        "What should I focus on this week?",
+        "Suggest an Apple Shortcut for my morning routine",
+        "How do I habit stack my faith practice?",
+        "I had a low energy week. What do I adjust?",
+        "Help me optimize my evening routine",
+        "What tasks can I combine to save time?"
+      ];
+      chatHistory.appendChild(div("", [
+        el("div", {style:{fontSize:"14px",fontWeight:"600",color:"#111",marginBottom:"6px"}}, "Hi, I know your full 12-week plan."),
+        el("div", {style:{fontSize:"13px",color:"#666",lineHeight:"1.6",marginBottom:"14px"}}, "Ask me anything about your plan, routines, habit stacks, or Apple Shortcuts."),
+        div("", suggestions.map(function(s) {
+          return el("div", {
+            style:{padding:"10px 12px",background:"#f5f5f5",borderRadius:"10px",fontSize:"13px",color:"#333",cursor:"pointer",marginBottom:"6px"},
+            onClick:function() { sendMessage(s); }
+          }, s);
+        }))
+      ], {style:{padding:"4px 0"}}));
+      return;
+    }
+    assistantMessages.forEach(function(msg) {
+      var isUser = msg.role === "user";
+      chatHistory.appendChild(el("div", {
+        style:{
+          display:"flex",
+          justifyContent: isUser ? "flex-end" : "flex-start"
+        }
+      }, [
+        el("div", {
+          style:{
+            maxWidth:"85%",
+            padding:"10px 13px",
+            borderRadius: isUser ? "14px 14px 4px 14px" : "14px 14px 14px 4px",
+            background: isUser ? "#111" : "#fff",
+            border: isUser ? "none" : "1px solid #eee",
+            fontSize:"13px",
+            color: isUser ? "#fff" : "#111",
+            lineHeight:"1.6",
+            whiteSpace:"pre-wrap"
+          }
+        }, msg.content)
+      ]));
+    });
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
+
+  var isLoading = false;
+
+  function sendMessage(text) {
+    if (isLoading || !text.trim()) return;
+    assistantMessages.push({role:"user", content:text.trim()});
+    isLoading = true;
+    renderMessages();
+
+    var loadingEl = el("div", {
+      style:{display:"flex",justifyContent:"flex-start"}
+    }, [
+      el("div", {
+        style:{padding:"10px 13px",borderRadius:"14px 14px 14px 4px",background:"#fff",border:"1px solid #eee",fontSize:"13px",color:"#888"}
+      }, "Thinking...")
+    ]);
+    chatHistory.appendChild(loadingEl);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+
+    var messages = assistantMessages.slice(0, -1).concat([{role:"user",content:text.trim()}]);
+
+    fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "x-api-key": API_KEY,
+        "anthropic-version":"2023-06-01",
+        "anthropic-dangerous-direct-browser-access":"true"
+      },
+      body:JSON.stringify({
+        model:"claude-sonnet-4-20250514",
+        max_tokens:1000,
+        system:ASSISTANT_SYSTEM,
+        messages:messages
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      isLoading = false;
+      loadingEl.remove();
+      var reply = data.content && data.content[0] ? data.content[0].text : "Sorry, I could not get a response. Please try again.";
+      assistantMessages.push({role:"assistant", content:reply});
+      renderMessages();
+    })
+    .catch(function(err) {
+      isLoading = false;
+      loadingEl.remove();
+      assistantMessages.push({role:"assistant", content:"Something went wrong. Check your internet connection and try again."});
+      renderMessages();
+    });
+  }
+
+  renderMessages();
+
+  var inputRow = div("", null, {style:{display:"flex",gap:"8px",padding:"10px 14px 20px",background:"#fff",borderTop:"1px solid #eee"}});
+
+  var input = el("input", {
+    placeholder:"Ask about your plan...",
+    style:{flex:"1",padding:"10px 12px",borderRadius:"22px",border:"1px solid #eee",fontSize:"14px",background:"#f9f9f9",color:"#111",outline:"none"}
+  }, null);
+
+  input.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      var val = input.value;
+      input.value = "";
+      sendMessage(val);
+    }
+  });
+
+  var sendBtn = el("button", {
+    style:{width:"40px",height:"40px",borderRadius:"50%",background:"#111",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:"0"},
+    onClick:function() {
+      var val = input.value;
+      input.value = "";
+      sendMessage(val);
+    }
+  }, [
+    el("svg", {width:"16",height:"16",viewBox:"0 0 16 16",fill:"none"}, [
+      el("path", {d:"M2 8L14 2L10 8L14 14L2 8Z",fill:"#fff"}, null)
+    ])
+  ]);
+
+  inputRow.appendChild(input);
+  inputRow.appendChild(sendBtn);
+
+  var clearBtn = el("button", {
+    style:{background:"none",border:"none",fontSize:"12px",color:"#aaa",cursor:"pointer",padding:"0 14px 6px",textAlign:"right",display:"block",width:"100%"},
+    onClick:function() { assistantMessages = []; renderMessages(); }
+  }, "Clear conversation");
+
+  return el("div", {
+    style:{display:"flex",flexDirection:"column",height:"100vh",maxHeight:"100vh",background:"#f9f9f9",paddingBottom:"90px"}
+  }, [
+    el("div", {class:"hdr"}, [
+      el("div", {class:"hdr-title"}, "Assistant"),
+      el("div", {class:"hdr-sub"}, "Knows your full 12-week plan")
+    ]),
+    clearBtn,
+    chatHistory,
+    inputRow,
+    bottomNav()
+  ]);
+}
+  
 function buildParking() {
   return div("", [
     el("div", {class:"hdr"}, [
@@ -734,6 +895,7 @@ function buildView() {
   else if (state.view === "weekDetail") wrap.appendChild(buildWeekDetail());
   else if (state.view === "measures")   wrap.appendChild(buildMeasures());
   else if (state.view === "parking")    wrap.appendChild(buildParking());
+  else if (state.view === "assistant")  wrap.appendChild(buildAssistant());
   return wrap;
 }
 
