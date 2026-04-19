@@ -17,8 +17,8 @@ input{font-family:inherit;outline:none}
 .hdr-sub{font-size:13px;color:#888;margin-top:3px}
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 0 20px;z-index:100}
 .bn-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;padding:4px 0}
-.bn-icon{font-size:20px}
-.bn-label{font-size:10px;color:#aaa}
+.bn-icon{font-size:18px}
+.bn-label{font-size:9px;color:#aaa}
 .bn-label.active{font-weight:600;color:#111}
 .bn-dot{width:5px;height:5px;border-radius:50%;background:transparent;margin-top:1px}
 .bn-dot.active{background:#111}
@@ -151,6 +151,10 @@ var PARKING = [
   {tag:"December",text:"Routinery and FlyLady subscription renewal decisions."},
   {tag:"Ongoing",text:"Local area exploration: one new neighborhood or spot per week to build familiarity."}
 ];
+
+var assistantMessages = [];
+
+var ASSISTANT_SYSTEM = "You are a personal productivity assistant built into a 12-week life planning app. You know everything about the user plan.\n\nUSER CONTEXT:\n- On medical leave with unpredictable energy\n- Three goals: (1) Prioritize creative outlets: reconnect with art via The Artist Way, relaunch jewelry store as social impact brand, build Substack presence. (2) Invest in myself: sustainable routines, clear home zone by zone, daily mind/body/soul moments. (3) Invest in community: consistent contact with friends and family, launch dinner club, begin volunteering.\n- Tool stack: Google Keep (capture), Physical planner (daily tasks), Apple Calendar (schedule), Routinery (morning and evening routines), FlyLady (home zones), Notion (jewelry store and business notes), Substack (writing)\n- Weekly rhythm: Mon/Wed = work catchup + jewelry store. Tue = Substack + art. Thu = community + art. Fri-Sun = lighter load. Saturday = Artist Way chapter + Artist Date.\n- System states: Recovery (MVD only), Stabilization (routines + home), Maintenance (full routines + 2-3 project tasks), Growth (full routines + daily project blocks)\n- Minimum Viable Day: wake without phone, water, check Apple Calendar, write 1 task in planner, Morning Pages\n- The Artist Way runs one chapter per week for 12 weeks with daily Morning Pages and weekly Artist Date\n- Jewelry store is a social impact brand: proceeds go to local social justice organizations via wish lists, customers updated via newsletter\n- Executive dysfunction is a real factor. Systems must be visible, low-friction, and forgiving.\n- Planning amnesia is real. Everything important must be written down or built into the environment.\n\nWhen suggesting Apple Shortcuts: be specific about exactly how to set up the shortcut. Focus on shortcuts that reduce friction for daily habits.\n\nWhen suggesting habit stacks: use existing anchors, keep stacks to 2-3 habits maximum, always attach new habits to existing strong anchors.\n\nTone: calm, direct, practical, non-preachy. No hustle culture. Assume variable energy. Short answers preferred unless detail is requested.";
 
 function getTasks(weekNum, dayIdx) {
   var isFri = dayIdx === 4;
@@ -287,7 +291,7 @@ function getTasks(weekNum, dayIdx) {
 }
 
 var WEEK_META = [
-  {week:0,  label:"Before Week 1", state:"Stabilization", score:null,  theme:"Do these first in this order",           hasDays:false, setup:[
+  {week:0,  label:"Before Week 1", state:"Stabilization", score:null,  theme:"Do these first in this order", hasDays:false, setup:[
     {label:"Buy one dedicated Morning Pages notebook",    detail:"Go to any store that sells notebooks. Buy one that is only for Morning Pages. Label it Morning Pages on the cover. Keep it on your nightstand tonight."},
     {label:"Create your Notion Business Hub",             detail:"Open Notion. Create a new page titled 12-Week Business Hub. Inside create 4 sub-pages: Brand Foundation, Product Selection, Launch Checklist, and Newsletter Drafts. Do not fill anything in yet."},
     {label:"Set up Routinery Morning Anchor",             detail:"Open Routinery. Create a new routine called Morning Anchor. Add these steps: Drink water 1 min, Stretch or sit up slowly 5 min, Wash face 5 min, Get dressed 10 min. Set it to trigger at your typical wake time."},
@@ -298,18 +302,18 @@ var WEEK_META = [
     {label:"Set your 10:45pm wind-down alarm",            detail:"Open Apple Calendar. Create a daily recurring event at 10:45pm titled Wind-down 15 min warning. This is your signal to begin your Evening Anchor routine and get off screens by 11pm."},
     {label:"Create your Substack account",                detail:"Go to substack.com. Create a free account. Create your publication and pick a name that feels right for now. Do not write anything yet. Just get the account set up."}
   ]},
-  {week:1,  label:"Week 1",  state:"Stabilization", score:"60%", theme:"Start the engine: routines only",             hasDays:true},
-  {week:2,  label:"Week 2",  state:"Stabilization", score:"60%", theme:"Build the daily rhythm",                       hasDays:true},
-  {week:3,  label:"Week 3",  state:"Stabilization", score:"65%", theme:"First upgrade: standard routines begin",       hasDays:true},
-  {week:4,  label:"Week 4",  state:"Maintenance",   score:"70%", theme:"First traction: one domino per goal",          hasDays:true},
-  {week:5,  label:"Week 5",  state:"Maintenance",   score:"70%", theme:"Deepen the practice",                          hasDays:true},
-  {week:6,  label:"Week 6",  state:"Maintenance",   score:"70%", theme:"Close the first half: review and assess",      hasDays:true},
-  {week:7,  label:"Week 7",  state:"Growth",        score:"75%", theme:"Back half begins: outputs accelerate",         hasDays:true},
-  {week:8,  label:"Week 8",  state:"Growth",        score:"75%", theme:"Build momentum",                               hasDays:true},
-  {week:9,  label:"Week 9",  state:"Growth",        score:"75%", theme:"Push through resistance",                      hasDays:true},
-  {week:10, label:"Week 10", state:"Growth",        score:"80%", theme:"Launch",                                       hasDays:true},
-  {week:11, label:"Week 11", state:"Growth",        score:"80%", theme:"Document the impact",                          hasDays:true},
-  {week:12, label:"Week 12", state:"Growth",        score:"80%", theme:"Complete and set up cycle 2",                  hasDays:true}
+  {week:1,  label:"Week 1",  state:"Stabilization", score:"60%", theme:"Start the engine: routines only",          hasDays:true},
+  {week:2,  label:"Week 2",  state:"Stabilization", score:"60%", theme:"Build the daily rhythm",                    hasDays:true},
+  {week:3,  label:"Week 3",  state:"Stabilization", score:"65%", theme:"First upgrade: standard routines begin",   hasDays:true},
+  {week:4,  label:"Week 4",  state:"Maintenance",   score:"70%", theme:"First traction: one domino per goal",      hasDays:true},
+  {week:5,  label:"Week 5",  state:"Maintenance",   score:"70%", theme:"Deepen the practice",                      hasDays:true},
+  {week:6,  label:"Week 6",  state:"Maintenance",   score:"70%", theme:"Close the first half: review and assess",  hasDays:true},
+  {week:7,  label:"Week 7",  state:"Growth",        score:"75%", theme:"Back half begins: outputs accelerate",     hasDays:true},
+  {week:8,  label:"Week 8",  state:"Growth",        score:"75%", theme:"Build momentum",                           hasDays:true},
+  {week:9,  label:"Week 9",  state:"Growth",        score:"75%", theme:"Push through resistance",                  hasDays:true},
+  {week:10, label:"Week 10", state:"Growth",        score:"80%", theme:"Launch",                                   hasDays:true},
+  {week:11, label:"Week 11", state:"Growth",        score:"80%", theme:"Document the impact",                      hasDays:true},
+  {week:12, label:"Week 12", state:"Growth",        score:"80%", theme:"Complete and set up cycle 2",              hasDays:true}
 ];
 
 var state = {
@@ -405,11 +409,11 @@ function getWeekPct(wm) {
 
 function bottomNav() {
   var items = [
-    {icon:"sunrise", label:"Today",    v:"today"},
-    {icon:"calendar",label:"Weeks",    v:"weeks"},
-    {icon:"chart",   label:"Measures", v:"measures"},
-    {icon:"park",    label:"Parking",  v:"parking"},
-    {icon:"assist", label:"Assistant", v:"assistant"}
+    {icon:"sunrise", label:"Today",     v:"today"},
+    {icon:"calendar",label:"Weeks",     v:"weeks"},
+    {icon:"chart",   label:"Measures",  v:"measures"},
+    {icon:"park",    label:"Parking",   v:"parking"},
+    {icon:"assist",  label:"Assistant", v:"assistant"}
   ];
   var icons = {sunrise:"☀️", calendar:"📅", chart:"📊", park:"🅿️", assist:"🤖"};
   return div("bottom-nav", items.map(function(item) {
@@ -450,20 +454,16 @@ function taskItem(task, id) {
 function buildOnboarding() {
   var s    = ONBOARDING[state.obStep];
   var wrap = div("ob-wrap", null);
-
   var lines = s.body.split("\n").map(function(line) {
     return el("div", {style:{marginBottom:"8px"}}, line || " ");
   });
-
   var body = el("div", {class:"ob-body", style:{background:s.bg}}, [
     el("div", {class:"ob-title", style:{color:s.text}}, s.title),
     el("div", {class:"ob-text",  style:{color:s.text}}, lines)
   ]);
-
   var dots = div("ob-dots", ONBOARDING.map(function(_, i) {
     return div("ob-dot" + (i === state.obStep ? " active" : ""), null);
   }));
-
   var isLast = state.obStep === ONBOARDING.length - 1;
   var nextBtn = btn("ob-btn", isLast ? "Start my plan" : "Next", function() {
     if (isLast) { state.onboarding = false; save("ob2","1"); }
@@ -473,7 +473,6 @@ function buildOnboarding() {
   var skipBtn = !isLast ? btn("ob-skip", "Skip", function() {
     state.onboarding = false; save("ob2","1"); render();
   }) : null;
-
   var foot = div("ob-foot", [dots, div("", [skipBtn, nextBtn].filter(Boolean))]);
   wrap.appendChild(body);
   wrap.appendChild(foot);
@@ -485,17 +484,14 @@ function buildToday() {
   var dayIdx = (today.getDay() + 6) % 7;
   var weekNum = 1;
   var allTasks = getTasks(weekNum, dayIdx);
-
   var filtered = state.energy === "Low"
     ? allTasks.filter(function(t) {
         return ["Routine","Mind","Planning","Soul","Body"].indexOf(t.block) > -1;
       }).slice(0, 8)
     : allTasks;
-
   var done = filtered.filter(function(_, i) {
     return state.checked["w"+weekNum+"d"+dayIdx+"t"+i];
   }).length;
-
   var energyRow = div("energy-row", ["Low","Medium","High"].map(function(e) {
     var active = state.energy === e;
     var cols = {
@@ -510,7 +506,6 @@ function buildToday() {
       onClick:function() { state.energy = e; save("en2",e); render(); }
     }, e + " energy");
   }));
-
   return div("", [
     el("div", {class:"hdr"}, [
       el("div", {class:"hdr-title"}, DAYS_FULL[dayIdx]),
@@ -540,7 +535,6 @@ function buildWeeks() {
     }
   });
   var ovPct = totalTasks > 0 ? Math.round((totalDone / totalTasks) * 100) : 0;
-
   var weekCards = WEEK_META.map(function(wm, i) {
     var pct = getWeekPct(wm);
     var sc  = getSC(wm.state);
@@ -558,7 +552,6 @@ function buildWeeks() {
     ]));
     return card;
   });
-
   return div("", [
     el("div", {class:"hdr"}, [
       el("div", {class:"hdr-title"}, "All Weeks"),
@@ -582,14 +575,12 @@ function buildWeekDetail() {
   var curScore = state.wscore[wm.week] || "";
   var sc       = getSC(curState);
   var pct      = getWeekPct(wm);
-
   var header = el("div", {style:{background:sc.bg, padding:"16px 14px"}}, [
     el("div", {style:{fontSize:"20px",fontWeight:"700",color:sc.text}}, wm.label),
     el("div", {style:{fontSize:"13px",color:sc.text,opacity:".8",marginTop:"3px"}}, wm.theme),
     el("div", {class:"prog-bar", style:{marginTop:"10px"}}, [el("div", {class:"prog-fill", style:{width:pct+"%", background:sc.dot}}, null)]),
     el("div", {style:{fontSize:"11px",color:sc.text,opacity:".75",marginTop:"4px"}}, pct+"% complete")
   ]);
-
   var tabs = div("tab-row", ["days","state","measures"].map(function(t) {
     var label = t === "days" ? "Daily Tasks" : t === "state" ? "Week State" : "Measures";
     return el("button", {
@@ -597,9 +588,7 @@ function buildWeekDetail() {
       onClick:function() { state.weekTab = t; render(); }
     }, label);
   }));
-
   var content;
-
   if (state.weekTab === "days") {
     if (!wm.hasDays) {
       content = div("", [
@@ -619,10 +608,8 @@ function buildWeekDetail() {
           div("day-dot", null)
         ]);
       }));
-
       var dayTasks = getTasks(wm.week, state.selDayIdx);
       var dayDone  = dayTasks.filter(function(_, i) { return state.checked["w"+wm.week+"d"+state.selDayIdx+"t"+i]; }).length;
-
       content = div("", [
         dayBtns,
         el("div", {class:"sec-label"}, DAYS_FULL[state.selDayIdx] + ": " + dayDone + " of " + dayTasks.length + " complete"),
@@ -631,7 +618,6 @@ function buildWeekDetail() {
         }))
       ]);
     }
-
   } else if (state.weekTab === "state") {
     var stateDescs = {
       Recovery:      "MVD only. Rest is the work. No project blocks, no pressure.",
@@ -639,7 +625,6 @@ function buildWeekDetail() {
       Maintenance:   "Full routines plus 2 to 3 project tasks per week per goal. Your baseline.",
       Growth:        "Full routines plus daily project blocks. Protect high energy for creative work."
     };
-
     var chips = div("state-row", ["Recovery","Stabilization","Maintenance","Growth"].map(function(s) {
       var sc2    = getSC(s);
       var active = curState === s;
@@ -649,21 +634,18 @@ function buildWeekDetail() {
         onClick:function() { state.wstate[wm.week] = s; save("wst2", state.wstate); render(); }
       }, s);
     }));
-
     var scoreEl = div("score-wrap", [
       el("div", {style:{fontSize:"11px",fontWeight:"600",color:"#888",textTransform:"uppercase",letterSpacing:".05em"}}, "Weekly score"),
       el("input", {class:"score-input", placeholder:"Target: "+(wm.score||"--"), value:curScore,
         onInput:function(e) { state.wscore[wm.week] = e.target.value; save("wsc2", state.wscore); }
       }, null)
     ]);
-
     content = div("", [
       el("div", {class:"sec-label"}, "System state this week"),
       chips,
       el("div", {class:"info-box"}, stateDescs[curState] || ""),
       scoreEl
     ]);
-
   } else {
     content = div("", MEASURES.map(function(m) {
       return div("m-row", [
@@ -672,7 +654,6 @@ function buildWeekDetail() {
       ]);
     }));
   }
-
   return div("", [
     btn("back-btn", "Back to weeks", function() { state.view = "weeks"; render(); }),
     header, tabs, content,
@@ -714,10 +695,6 @@ function buildMeasures() {
   ]);
 }
 
-var assistantMessages = [];
-
-var ASSISTANT_SYSTEM = "You are a personal productivity assistant built into a 12-week life planning app. You know everything about the user's plan.\n\nUSER CONTEXT:\n- On medical leave with unpredictable energy\n- Three goals: (1) Prioritize creative outlets: reconnect with art via The Artist Way, relaunch jewelry store as social impact brand, build Substack presence. (2) Invest in myself: sustainable routines, clear home zone by zone, daily mind/body/soul moments. (3) Invest in community: consistent contact with friends and family, launch dinner club, begin volunteering.\n- Tool stack: Google Keep (capture), Physical planner (daily tasks), Apple Calendar (schedule), Routinery (morning and evening routines), FlyLady (home zones), Notion (jewelry store and business notes), Substack (writing)\n- Weekly rhythm: Mon/Wed = work catchup + jewelry store. Tue = Substack + art. Thu = community + art. Fri-Sun = lighter load. Saturday = Artist Way chapter + Artist Date.\n- System states: Recovery (MVD only), Stabilization (routines + home), Maintenance (full routines + 2-3 project tasks), Growth (full routines + daily project blocks)\n- Minimum Viable Day: wake without phone, water, check Apple Calendar, write 1 task in planner, Morning Pages\n- The Artist Way runs one chapter per week for 12 weeks with daily Morning Pages (3 handwritten pages) and weekly Artist Date\n- Jewelry store is a social impact brand: proceeds go to local social justice organizations via wish lists, customers updated via newsletter\n- Executive dysfunction is a real factor. Systems must be visible, low-friction, and forgiving.\n- Planning amnesia is real. Everything important must be written down or built into the environment.\n\nWhen suggesting Apple Shortcuts:\n- Be specific about exactly how to set up the shortcut\n- Focus on shortcuts that reduce friction for daily habits\n- Common useful shortcuts: log water intake, open Morning Pages reminder, start Routinery, open Google Keep, log mood, start focus timer\n\nWhen suggesting habit stacks:\n- Use existing anchors: morning routine, meals, movement, evening routine\n- Keep stacks to 2-3 habits maximum\n- Always attach new habits to existing strong anchors\n\nTone: calm, direct, practical, non-preachy. No hustle culture. Assume variable energy. Short answers preferred unless detail is requested.";
-
 function buildAssistant() {
   if (!API_KEY) {
     var storedKey = localStorage.getItem("anthropic_key");
@@ -729,13 +706,25 @@ function buildAssistant() {
   function renderMessages() {
     chatHistory.innerHTML = "";
     if (!API_KEY) {
-  chatHistory.innerHTML = "";
-  var keyInput = el("input", {placeholder:"Paste your Anthropic API key here", style:{width:"100%",padding:"10px",borderRadius:"8px",border:"1px solid #eee",fontSize:"13px",marginBottom:"8px"}}, null);
-  var keyBtn = el("button", {style:{width:"100%",padding:"10px",borderRadius:"8px",background:"#111",color:"#fff",fontSize:"13px",cursor:"pointer"}, onClick:function() { var k = keyInput.value.trim(); if(k){ API_KEY = k; localStorage.setItem("anthropic_key",k); renderMessages(); } }}, "Save key");
-  chatHistory.appendChild(el("div",{style:{padding:"20px 0"}}, [el("div",{style:{fontSize:"14px",fontWeight:"600",color:"#111",marginBottom:"8px"}}, "Enter your Anthropic API key"), el("div",{style:{fontSize:"12px",color:"#888",marginBottom:"12px",lineHeight:"1.6"}}, "Your key is saved only on this device. Get it from console.anthropic.com"), keyInput, keyBtn]));
-  return;
-}
-if (assistantMessages.length === 0) {
+      var keyInput = el("input", {
+        placeholder:"Paste your Anthropic API key here",
+        style:{width:"100%",padding:"10px",borderRadius:"8px",border:"1px solid #eee",fontSize:"13px",marginBottom:"8px"}
+      }, null);
+      var keyBtn = el("button", {
+        style:{width:"100%",padding:"10px",borderRadius:"8px",background:"#111",color:"#fff",fontSize:"13px",cursor:"pointer"},
+        onClick:function() {
+          var k = keyInput.value.trim();
+          if (k) { API_KEY = k; localStorage.setItem("anthropic_key", k); renderMessages(); }
+        }
+      }, "Save key");
+      chatHistory.appendChild(el("div", {style:{padding:"20px 0"}}, [
+        el("div", {style:{fontSize:"14px",fontWeight:"600",color:"#111",marginBottom:"8px"}}, "Enter your Anthropic API key"),
+        el("div", {style:{fontSize:"12px",color:"#888",marginBottom:"12px",lineHeight:"1.6"}}, "Your key is saved only on this device. Get it from console.anthropic.com"),
+        keyInput, keyBtn
+      ]));
+      return;
+    }
+    if (assistantMessages.length === 0) {
       var suggestions = [
         "What should I focus on this week?",
         "Suggest an Apple Shortcut for my morning routine",
@@ -758,25 +747,15 @@ if (assistantMessages.length === 0) {
     }
     assistantMessages.forEach(function(msg) {
       var isUser = msg.role === "user";
-      chatHistory.appendChild(el("div", {
-        style:{
-          display:"flex",
-          justifyContent: isUser ? "flex-end" : "flex-start"
-        }
-      }, [
-        el("div", {
-          style:{
-            maxWidth:"85%",
-            padding:"10px 13px",
-            borderRadius: isUser ? "14px 14px 4px 14px" : "14px 14px 14px 4px",
-            background: isUser ? "#111" : "#fff",
-            border: isUser ? "none" : "1px solid #eee",
-            fontSize:"13px",
-            color: isUser ? "#fff" : "#111",
-            lineHeight:"1.6",
-            whiteSpace:"pre-wrap"
-          }
-        }, msg.content)
+      chatHistory.appendChild(el("div", {style:{display:"flex", justifyContent: isUser ? "flex-end" : "flex-start"}}, [
+        el("div", {style:{
+          maxWidth:"85%", padding:"10px 13px",
+          borderRadius: isUser ? "14px 14px 4px 14px" : "14px 14px 14px 4px",
+          background: isUser ? "#111" : "#fff",
+          border: isUser ? "none" : "1px solid #eee",
+          fontSize:"13px", color: isUser ? "#fff" : "#111",
+          lineHeight:"1.6", whiteSpace:"pre-wrap"
+        }}, msg.content)
       ]));
     });
     chatHistory.scrollTop = chatHistory.scrollHeight;
@@ -789,19 +768,12 @@ if (assistantMessages.length === 0) {
     assistantMessages.push({role:"user", content:text.trim()});
     isLoading = true;
     renderMessages();
-
-    var loadingEl = el("div", {
-      style:{display:"flex",justifyContent:"flex-start"}
-    }, [
-      el("div", {
-        style:{padding:"10px 13px",borderRadius:"14px 14px 14px 4px",background:"#fff",border:"1px solid #eee",fontSize:"13px",color:"#888"}
-      }, "Thinking...")
+    var loadingEl = el("div", {style:{display:"flex",justifyContent:"flex-start"}}, [
+      el("div", {style:{padding:"10px 13px",borderRadius:"14px 14px 14px 4px",background:"#fff",border:"1px solid #eee",fontSize:"13px",color:"#888"}}, "Thinking...")
     ]);
     chatHistory.appendChild(loadingEl);
     chatHistory.scrollTop = chatHistory.scrollHeight;
-
-    var messages = assistantMessages.slice(0, -1).concat([{role:"user",content:text.trim()}]);
-
+    var messages = assistantMessages.slice(0, -1).concat([{role:"user", content:text.trim()}]);
     fetch("https://api.anthropic.com/v1/messages", {
       method:"POST",
       headers:{
@@ -825,7 +797,7 @@ if (assistantMessages.length === 0) {
       assistantMessages.push({role:"assistant", content:reply});
       renderMessages();
     })
-    .catch(function(err) {
+    .catch(function() {
       isLoading = false;
       loadingEl.remove();
       assistantMessages.push({role:"assistant", content:"Something went wrong. Check your internet connection and try again."});
@@ -835,45 +807,29 @@ if (assistantMessages.length === 0) {
 
   renderMessages();
 
-  var inputRow = div("", null, {style:{display:"flex",gap:"8px",padding:"10px 14px 20px",background:"#fff",borderTop:"1px solid #eee"}});
-
   var input = el("input", {
     placeholder:"Ask about your plan...",
     style:{flex:"1",padding:"10px 12px",borderRadius:"22px",border:"1px solid #eee",fontSize:"14px",background:"#f9f9f9",color:"#111",outline:"none"}
   }, null);
-
   input.addEventListener("keydown", function(e) {
-    if (e.key === "Enter") {
-      var val = input.value;
-      input.value = "";
-      sendMessage(val);
-    }
+    if (e.key === "Enter") { var v = input.value; input.value = ""; sendMessage(v); }
   });
 
   var sendBtn = el("button", {
     style:{width:"40px",height:"40px",borderRadius:"50%",background:"#111",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:"0"},
-    onClick:function() {
-      var val = input.value;
-      input.value = "";
-      sendMessage(val);
-    }
-  }, [
-    el("svg", {width:"16",height:"16",viewBox:"0 0 16 16",fill:"none"}, [
-      el("path", {d:"M2 8L14 2L10 8L14 14L2 8Z",fill:"#fff"}, null)
-    ])
-  ]);
+    onClick:function() { var v = input.value; input.value = ""; sendMessage(v); }
+  }, [el("svg", {width:"16",height:"16",viewBox:"0 0 16 16",fill:"none"}, [
+    el("path", {d:"M2 8L14 2L10 8L14 14L2 8Z", fill:"#fff"}, null)
+  ])]);
 
-  inputRow.appendChild(input);
-  inputRow.appendChild(sendBtn);
+  var inputRow = div("", [input, sendBtn], {style:{display:"flex",gap:"8px",padding:"10px 14px 20px",background:"#fff",borderTop:"1px solid #eee"}});
 
   var clearBtn = el("button", {
     style:{background:"none",border:"none",fontSize:"12px",color:"#aaa",cursor:"pointer",padding:"0 14px 6px",textAlign:"right",display:"block",width:"100%"},
     onClick:function() { assistantMessages = []; renderMessages(); }
   }, "Clear conversation");
 
-  return el("div", {
-    style:{display:"flex",flexDirection:"column",height:"100vh",maxHeight:"100vh",background:"#f9f9f9",paddingBottom:"90px"}
-  }, [
+  return el("div", {style:{display:"flex",flexDirection:"column",height:"100vh",maxHeight:"100vh",background:"#f9f9f9",paddingBottom:"90px"}}, [
     el("div", {class:"hdr"}, [
       el("div", {class:"hdr-title"}, "Assistant"),
       el("div", {class:"hdr-sub"}, "Knows your full 12-week plan")
@@ -884,7 +840,7 @@ if (assistantMessages.length === 0) {
     bottomNav()
   ]);
 }
-  
+
 function buildParking() {
   return div("", [
     el("div", {class:"hdr"}, [
@@ -901,9 +857,9 @@ function buildParking() {
 
 function buildView() {
   var wrap = div("", null);
-  if (state.onboarding)         { wrap.appendChild(buildOnboarding()); return wrap; }
-  if (state.view === "today")      wrap.appendChild(buildToday());
-  else if (state.view === "weeks") wrap.appendChild(buildWeeks());
+  if (state.onboarding) { wrap.appendChild(buildOnboarding()); return wrap; }
+  if (state.view === "today")           wrap.appendChild(buildToday());
+  else if (state.view === "weeks")      wrap.appendChild(buildWeeks());
   else if (state.view === "weekDetail") wrap.appendChild(buildWeekDetail());
   else if (state.view === "measures")   wrap.appendChild(buildMeasures());
   else if (state.view === "parking")    wrap.appendChild(buildParking());
