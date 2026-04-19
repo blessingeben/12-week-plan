@@ -13,8 +13,6 @@
 body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#f5f5f5;color:#111;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:90px}
 button{font-family:inherit;cursor:pointer;border:none;outline:none}
 input{font-family:inherit;outline:none}
-
-/* layout */
 .hdr{background:#fff;padding:18px 16px 14px;border-bottom:1px solid #eee}
 .hdr-title{font-size:22px;font-weight:700;color:#111}
 .hdr-sub{font-size:13px;color:#888;margin-top:3px}
@@ -25,24 +23,16 @@ input{font-family:inherit;outline:none}
 .bn-label.active{font-weight:600;color:#111}
 .bn-dot{width:5px;height:5px;border-radius:50%;background:transparent;margin-top:1px}
 .bn-dot.active{background:#111}
-
-/* cards */
 .card{background:#fff;border:1px solid #eee;border-radius:14px;overflow:hidden;margin:10px 14px}
 .card-head{padding:11px 14px;display:flex;align-items:center;justify-content:space-between}
 .card-title{font-size:13px;font-weight:600;color:#111}
-
-/* week cards */
 .week-card{background:#fff;border:1px solid #eee;border-radius:14px;overflow:hidden;margin:8px 14px;cursor:pointer}
 .week-head{padding:13px 14px}
 .week-title{font-size:14px;font-weight:600}
 .week-theme{font-size:12px;opacity:.8;margin-top:2px}
 .week-pct{font-size:10px;opacity:.75;margin-top:3px}
-
-/* progress */
 .prog-bar{height:3px;background:rgba(0,0,0,0.08);border-radius:2px;margin-top:8px}
 .prog-fill{height:100%;border-radius:2px;transition:width .3s}
-
-/* tasks */
 .task-row{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-top:1px solid #f5f5f5;cursor:pointer}
 .cb{width:22px;height:22px;border-radius:7px;border:1.5px solid #ddd;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .cb.done{background:#1D9E75;border-color:#1D9E75}
@@ -52,8 +42,6 @@ input{font-family:inherit;outline:none}
 .task-label.done{color:#bbb;text-decoration:line-through}
 .task-detail{font-size:12px;color:#555;line-height:1.6;margin-top:5px;padding:8px;background:#f9f9f9;border-radius:8px}
 .task-dur{font-size:11px;color:#1D9E75;font-weight:500;margin-top:3px}
-
-/* days */
 .day-row{display:flex;gap:6px;padding:10px 14px;overflow-x:auto}
 .day-btn{min-width:50px;padding:7px 5px;border-radius:10px;border:1.5px solid #eee;background:#fff;display:flex;flex-direction:column;align-items:center;gap:2px}
 .day-btn.active{border-color:#111;background:#111}
@@ -64,32 +52,20 @@ input{font-family:inherit;outline:none}
 .day-dot{width:5px;height:5px;border-radius:50%;background:transparent}
 .day-btn.active .day-dot{background:#fff}
 .day-btn.done-day .day-dot{background:#1D9E75}
-
-/* tabs */
 .tab-row{display:flex;border-bottom:1px solid #eee;background:#fff}
 .tab-btn{flex:1;padding:11px 0;font-size:13px;font-weight:400;color:#aaa;background:none;border:none;border-bottom:2px solid transparent}
 .tab-btn.active{font-weight:600;color:#111;border-bottom:2px solid #111}
-
-/* state chips */
 .state-row{display:flex;gap:6px;flex-wrap:wrap;padding:10px 14px}
 .state-chip{padding:5px 12px;border-radius:20px;font-size:12px;border:1px solid #eee;background:transparent;color:#888;cursor:pointer}
-
-/* energy */
 .energy-row{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid #eee;background:#fff}
 .energy-btn{flex:1;padding:7px 0;border-radius:10px;font-size:12px;border:1px solid #eee;background:#f5f5f5;color:#888;text-align:center}
-
-/* measures */
 .m-row{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-top:1px solid #f5f5f5}
 .m-goal{font-size:13px;font-weight:500;color:#111}
 .m-track{font-size:11px;color:#888;margin-top:1px}
 .m-target{font-size:13px;font-weight:600;color:#1D9E75;flex-shrink:0}
-
-/* parking */
 .p-item{padding:11px 14px;border-top:1px solid #f5f5f5}
 .p-tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;background:#FAEEDA;color:#633806;margin-bottom:4px}
 .p-text{font-size:13px;color:#111;line-height:1.5}
-
-/* onboarding */
 .ob-wrap{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 .ob-body{flex:1;overflow-y:auto;padding:50px 24px 24px;display:flex;flex-direction:column;justify-content:center}
 .ob-title{font-size:26px;font-weight:700;line-height:1.2;margin-bottom:16px}
@@ -100,54 +76,28 @@ input{font-family:inherit;outline:none}
 .ob-dot.active{width:24px;background:rgba(0,0,0,.5)}
 .ob-btn{padding:12px 28px;border-radius:14px;background:rgba(0,0,0,.7);color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer}
 .ob-skip{font-size:13px;color:rgba(0,0,0,.4);background:none;border:none;cursor:pointer}
-
-/* back btn */
 .back-btn{display:flex;align-items:center;gap:6px;padding:14px 14px 8px;color:#666;font-size:14px;background:none;border:none;cursor:pointer}
-
-/* section label */
 .sec-label{padding:10px 14px 4px;font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.05em}
-
-/* score input */
 .score-wrap{padding:8px 14px 14px;display:flex;gap:10px;align-items:center}
 .score-input{flex:1;padding:8px 10px;border-radius:8px;border:1px solid #eee;font-size:13px;background:#f9f9f9;color:#111}
-
-/* info box */
 .info-box{padding:10px 14px;font-size:12px;color:#555;line-height:1.6}
-
-/* goal cards */
-.goal-card{margin:6px 14px;padding:13px 14px;border-radius:12px}
-.goal-title{font-size:14px;font-weight:600}
-.goal-sub{font-size:12px;margin-top:2px;opacity:.8}
-
-/* overall progress */
 .overall-card{margin:10px 14px;background:#fff;border:1px solid #eee;border-radius:14px;padding:14px}
 .overall-pct{font-size:36px;font-weight:700;color:#111}
 .overall-sub{font-size:12px;color:#888;margin-top:6px}
-
-/* quick access */
-.qa-card{margin:8px 14px;background:#fff;border:1px solid #eee;border-radius:14px;padding:14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between}
-.qa-title{font-size:14px;font-weight:600;color:#111}
-.qa-sub{font-size:12px;color:#888;margin-top:2px}
-.qa-arrow{font-size:18px;color:#ccc}
-
 .spacer{height:8px}
-.divider{height:1px;background:#f0f0f0;margin:0 14px}
 </style>
-
 </head>
 <body>
 <div id="app"></div>
 <script>
-// ── DATA ──────────────────────────────────────────────────────
-
-var DAYS_SHORT = [“Mon”,“Tue”,“Wed”,“Thu”,“Fri”,“Sat”,“Sun”];
-var DAYS_FULL = [“Monday”,“Tuesday”,“Wednesday”,“Thursday”,“Friday”,“Saturday”,“Sunday”];
+var DAYS_SHORT = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+var DAYS_FULL = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 
 var STATE_COLORS = {
-Recovery:   {bg:”#FCEBEB”,text:”#791F1F”,dot:”#E24B4A”},
-Stabilization:{bg:”#FAEEDA”,text:”#633806”,dot:”#EF9F27”},
-Maintenance:{bg:”#E6F1FB”,text:”#0C447C”,dot:”#378ADD”},
-Growth:     {bg:”#E1F5EE”,text:”#085041”,dot:”#1D9E75”}
+Recovery:      {bg:”#FCEBEB”,text:”#791F1F”,dot:”#E24B4A”},
+Stabilization: {bg:”#FAEEDA”,text:”#633806”,dot:”#EF9F27”},
+Maintenance:   {bg:”#E6F1FB”,text:”#0C447C”,dot:”#378ADD”},
+Growth:        {bg:”#E1F5EE”,text:”#085041”,dot:”#1D9E75”}
 };
 
 var BLOCK_STYLE = {
@@ -166,31 +116,16 @@ Setup:     {bg:”#F1EFE8”,text:”#444441”}
 };
 
 var ONBOARDING = [
-{
-title:“Welcome to your 12-Week Plan”,
-bg:”#EEEDFE”,text:”#3C3489”,
-body:“This is your personal operating system for the next 12 weeks. Every day is fully prescribed. You never have to wonder what to do next.\n\nBased on The 12 Week Year, The Artist Way, and your three goals, every week has a theme, every day has a focus, and every task tells you exactly what to do and for how long.”
-},
-{
-title:“Your tool stack”,
-bg:”#E1F5EE”,text:”#085041”,
-body:“You are using exactly these tools and nothing else.\n\nGoogle Keep: capture any thought the moment it appears.\n\nPhysical planner: write today tasks every morning with a time next to each.\n\nApple Calendar: check first every morning.\n\nRoutinery: runs your morning and evening routines step by step.\n\nFlyLady: guides your weekly home zone.\n\nNotion: jewelry store planning and business notes only.\n\nSubstack: where your writing gets published.”
-},
-{
-title:“How to use this app”,
-bg:”#FAEEDA”,text:”#633806”,
-body:“Every morning: open this app, tap Today, read your daily tasks from top to bottom, do them in order. Tap any task to see the full detail and instructions.\n\nEvery Sunday: tap Weeks, open the current week, tap Week State, score last week and set your state for the week ahead.\n\nWhen energy is low: tap Today, tap Low energy at the top. Your task list shrinks to essentials only.\n\nWhen something big changes: open your week, tap Week State, switch to Recovery.”
-},
-{
-title:“Your three goals”,
-bg:”#FCEBEB”,text:”#791F1F”,
-body:“Goal 1: Prioritize creative outlets.\nReconnect with your art through The Artist Way. Relaunch your jewelry store as a social impact brand. Build your Substack writing presence.\n\nGoal 2: Invest in yourself.\nBuild sustainable routines. Clear your home zone by zone. Create daily mind, body, and soul moments.\n\nGoal 3: Invest in community.\nCall friends and family consistently. Launch your dinner club. Begin meaningful local volunteering.”
-},
-{
-title:“The only rule that matters”,
-bg:”#E6F1FB”,text:”#0C447C”,
-body:“Incomplete weeks are not failed weeks.\n\nYour score target starts at 60% in week 1 and rises to 80% by week 12.\n\nOn hard days your Minimum Viable Day is:\n1. Wake without reaching for your phone\n2. Drink a full glass of water\n3. Check Apple Calendar\n4. Write 1 task in your physical planner\n5. Do your Morning Pages\n\nThat is a successful day. Everything else is a bonus.”
-}
+{title:“Welcome to your 12-Week Plan”,bg:”#EEEDFE”,text:”#3C3489”,
+body:“This is your personal operating system for the next 12 weeks. Every day is fully prescribed. You never have to wonder what to do next.\n\nBased on The 12 Week Year, The Artist Way, and your three goals, every week has a theme, every day has a focus, and every task tells you exactly what to do and for how long.”},
+{title:“Your tool stack”,bg:”#E1F5EE”,text:”#085041”,
+body:“You are using exactly these tools and nothing else.\n\nGoogle Keep: capture any thought the moment it appears.\n\nPhysical planner: write today tasks every morning with a time next to each.\n\nApple Calendar: check first every morning.\n\nRoutinery: runs your morning and evening routines step by step.\n\nFlyLady: guides your weekly home zone.\n\nNotion: jewelry store planning and business notes only.\n\nSubstack: where your writing gets published.”},
+{title:“How to use this app”,bg:”#FAEEDA”,text:”#633806”,
+body:“Every morning: open this app, tap Today, read your daily tasks from top to bottom, do them in order. Tap any task to see the full detail and instructions.\n\nEvery Sunday: tap Weeks, open the current week, tap Week State, score last week and set your state for the week ahead.\n\nWhen energy is low: tap Today, tap Low energy at the top. Your task list shrinks to essentials only.\n\nWhen something big changes: open your week, tap Week State, switch to Recovery.”},
+{title:“Your three goals”,bg:”#FCEBEB”,text:”#791F1F”,
+body:“Goal 1: Prioritize creative outlets.\nReconnect with your art through The Artist Way. Relaunch your jewelry store as a social impact brand. Build your Substack writing presence.\n\nGoal 2: Invest in yourself.\nBuild sustainable routines. Clear your home zone by zone. Create daily mind, body, and soul moments.\n\nGoal 3: Invest in community.\nCall friends and family consistently. Launch your dinner club. Begin meaningful local volunteering.”},
+{title:“The only rule that matters”,bg:”#E6F1FB”,text:”#0C447C”,
+body:“Incomplete weeks are not failed weeks.\n\nYour score target starts at 60% in week 1 and rises to 80% by week 12.\n\nOn hard days your Minimum Viable Day is:\n1. Wake without reaching for your phone\n2. Drink a full glass of water\n3. Check Apple Calendar\n4. Write 1 task in your physical planner\n5. Do your Morning Pages\n\nThat is a successful day. Everything else is a bonus.”}
 ];
 
 var MEASURES = [
@@ -217,21 +152,18 @@ var PARKING = [
 {tag:“Ongoing”,text:“Local area exploration: one new neighborhood or spot per week to build familiarity.”}
 ];
 
-// ── TASK GENERATOR ────────────────────────────────────────────
-
 function getTasks(weekNum, dayIdx) {
 var isFri = dayIdx === 4;
 var isSat = dayIdx === 5;
 var isSun = dayIdx === 6;
-var isWeekend = dayIdx >= 4;
 
 var morning = [
-{block:“Routine”, label:“Wake without your phone”, detail:“Before touching your phone, sit up, take 3 slow breaths, and plant your feet on the floor. Phone stays face-down for the first 10 minutes.”, dur:“5 min”},
-{block:“Body”,    label:“Drink a full glass of water”, detail:“Keep a glass on your nightstand so this requires zero effort. Do it before anything else.”, dur:“1 min”},
-{block:“Routine”, label:“Open Routinery and run Morning Anchor”, detail:“Open Routinery and tap your Morning Anchor routine. Follow each step as it appears. Do not skip ahead.”, dur:“15-20 min”},
-{block:“Mind”,    label:“Morning Pages”, detail:“Open your dedicated Morning Pages notebook. Write 3 full pages, stream of consciousness. Do not plan, edit, or reread. Just write whatever is in your head. Set a timer for 25 minutes.”, dur:“25 min”},
-{block:“Planning”,label:“Check Apple Calendar”, detail:“Open Apple Calendar. Read what is scheduled today. Note any meetings or commitments that affect your available time. Close the app after 5 minutes.”, dur:“5 min”},
-{block:“Planning”,label:“Write today plan in physical planner”, detail:“Open your physical planner. Write 3 to 5 tasks. Next to each task write how many minutes you are committing to it. For example: Jewelry store name brainstorm 20 min. You are committing to the time, not to finishing.”, dur:“5-10 min”}
+{block:“Routine”,  label:“Wake without your phone”, detail:“Before touching your phone, sit up, take 3 slow breaths, and plant your feet on the floor. Phone stays face-down for the first 10 minutes.”, dur:“5 min”},
+{block:“Body”,     label:“Drink a full glass of water”, detail:“Keep a glass on your nightstand so this requires zero effort. Do it before anything else.”, dur:“1 min”},
+{block:“Routine”,  label:“Open Routinery and run Morning Anchor”, detail:“Open Routinery and tap your Morning Anchor routine. Follow each step as it appears. Do not skip ahead.”, dur:“15-20 min”},
+{block:“Mind”,     label:“Morning Pages”, detail:“Open your dedicated Morning Pages notebook. Write 3 full pages, stream of consciousness. Do not plan, edit, or reread. Just write whatever is in your head. Set a timer for 25 minutes.”, dur:“25 min”},
+{block:“Planning”, label:“Check Apple Calendar”, detail:“Open Apple Calendar. Read what is scheduled today. Note any meetings or commitments that affect your available time. Close the app after 5 minutes.”, dur:“5 min”},
+{block:“Planning”, label:“Write today plan in physical planner”, detail:“Open your physical planner. Write 3 to 5 tasks. Next to each task write how many minutes you are committing to it. Example: Jewelry store name brainstorm 20 min. You are committing to the time, not to finishing.”, dur:“5-10 min”}
 ];
 
 var evening = [
@@ -242,28 +174,21 @@ var evening = [
 {block:“Routine”, label:“Phone on charger screens off by 11pm”, detail:“Put your phone on the charger across the room or outside your bedroom. No social feeds, no email, no scrolling after this point.”, dur:“Immediate”}
 ];
 
-var soul = {block:“Soul”, label:“Faith moment”, detail:“Open your Bible app or Enduring Word. Read one passage or chapter. Spend 5 minutes in quiet reflection or prayer. Keep this at the same time each day to build the habit.”, dur:“5-10 min”};
-
-var nourish = {block:“Body”, label:“Log meals in Nourish”, detail:“Open Nourish after each meal and log what you ate. If you skipped a meal, log it as skipped. The habit of opening the app matters more than perfection.”, dur:“2 min per meal”};
-
+var soul    = {block:“Soul”,    label:“Faith moment”, detail:“Open your Bible app or Enduring Word. Read one passage or chapter. Spend 5 minutes in quiet reflection or prayer. Keep this at the same time each day to build the habit.”, dur:“5-10 min”};
+var nourish = {block:“Body”,    label:“Log meals in Nourish”, detail:“Open Nourish after each meal and log what you ate. If you skipped a meal, log it as skipped. The habit of opening the app matters more than perfection.”, dur:“2 min per meal”};
 var outlookScan = {block:“Work”, label:“Scan Outlook for fires only 5 min max”, detail:“Open Outlook. You are not processing your inbox. You are checking for anything urgent that changes today plan. If nothing is on fire, close Outlook and do not open it again until your self-org block this afternoon.”, dur:“5 min”};
-
 var selfOrg = {block:“Planning”, label:“Afternoon self-org block 30 min”, detail:“Open Google Keep. Move any captured notes into your physical planner or Notion. Update today task list: mark what is done, move what is unfinished to tomorrow. This is your daily system maintenance.”, dur:“30 min”};
-
 var workBlock = {block:“Work”, label:“Work catchup deep work block”, detail:“Open your physical planner and pick the highest priority work task. Set your Clock app timer for 25 minutes. Work on that task only: phone on silent, Outlook and Slack closed. When the timer goes off take a 5-minute break then repeat for a second block.”, dur:“50-75 min”};
 
 var artPractice = function(mins, note) {
-return {block:“Creative”, label:“Daily art practice “ + mins + “ min”, detail:“Set your Clock app timer for “ + mins + “ minutes. Open your sketchbook or art supplies. Make something. Do not judge it, do not photograph it for social media, do not show anyone. “ + (note || “”), dur: mins + “ min”};
+return {block:“Creative”, label:“Daily art practice “ + mins + “ min”, detail:“Set your Clock app timer for “ + mins + “ minutes. Open your sketchbook or art supplies. Make something. Do not judge it. “ + (note || “”), dur:mins + “ min”};
 };
-
 var jewelryTask = function(task, detail) {
 return {block:“Business”, label:“Jewelry store: “ + task, detail:“Open Notion and go to your 12-Week Business Hub. “ + detail, dur:“20-30 min”};
 };
-
 var substackTask = function(task, detail) {
 return {block:“Creative”, label:“Substack: “ + task, detail:detail, dur:“20-45 min”};
 };
-
 var movement = function(type, detail) {
 return {block:“Body”, label:“Movement: “ + type, detail:detail, dur:“20-45 min”};
 };
@@ -272,8 +197,7 @@ var tasks = [];
 
 if (isSun) {
 tasks = morning.concat([
-soul,
-nourish,
+soul, nourish,
 {block:“Planning”, label:“Weekly Review: score last week”, detail:“Open this app. Go to the current week. Count how many tasks you completed versus how many were planned. Write your score in the Week State tab. Be honest. This is data not judgment.”, dur:“10 min”},
 {block:“Planning”, label:“Set system state for the week ahead”, detail:“Open this app. Go to next week. Tap Week State. Choose Recovery, Stabilization, Maintenance, or Growth based on how you are feeling going into the week.”, dur:“5 min”},
 {block:“Planning”, label:“Read next week tasks”, detail:“Open this app. Go to next week. Read every daily task for Monday through Sunday so nothing surprises you.”, dur:“10 min”},
@@ -285,8 +209,7 @@ movement(“gentle walk or rest”, “Open Nike Run Club if walking. Even 15 mi
 } else if (isSat) {
 var awChapter = weekNum > 0 ? weekNum : 1;
 tasks = morning.concat([
-soul,
-nourish,
+soul, nourish,
 {block:“Creative”, label:“The Artist Way: Week “ + awChapter + “ chapter”, detail:“Open The Artist Way to Week “ + awChapter + “. Read the full chapter. After reading, complete the chapter check-in questions in your Morning Pages notebook on a fresh page.”, dur:“30-40 min”},
 {block:“Creative”, label:“Artist Date: solo creative outing”, detail:“Go somewhere alone that feeds your creativity. A gallery, craft store, new neighborhood, market, or concert. No phone scrolling while you are there. Just observe and enjoy. Schedule this in Apple Calendar before Saturday so it actually happens.”, dur:“1-2 hours”},
 artPractice(30, “Saturday art practice is exploratory. Try a new medium, a new subject, or a technique from This Is Not A Sketchbook.”),
@@ -297,84 +220,64 @@ movement(“walk or light workout”, “Open Nike Run Club for a walk or Nike T
 
 } else if (isFri) {
 tasks = morning.concat([
-outlookScan,
-soul,
-nourish,
-workBlock,
-selfOrg,
+outlookScan, soul, nourish, workBlock, selfOrg,
 movement(“walk or workout”, “Open Nike Run Club or Nike Training Club. Friday movement sets up a good weekend. Even a 20-minute walk counts.”),
 artPractice(20, “Friday art practice is low pressure. Sketch something from your day or whatever feels natural.”),
 {block:“Community”, label:“Reach out to one person”, detail:“Send a voice note, call, or text one friend or family member with genuine intention. A direct personal reach-out. Ask a real question and mean it.”, dur:“10-15 min”}
 ]).concat(evening);
 
-} else if (dayIdx === 0) { // Monday
+} else if (dayIdx === 0) {
 var jTask = weekNum <= 3
 ? jewelryTask(“brand foundation writing”, “Open a new page titled Brand Foundation. Answer in writing: What does this brand stand for beyond selling jewelry? Who is your customer? How does the social impact model work? Write freely for 20 minutes.”)
 : weekNum <= 6
 ? jewelryTask(“product selection”, “Open your Product Selection page. Research 3 new product options today. For each one write: name, supplier, price point, and why it fits the brand.”)
 : jewelryTask(“launch checklist”, “Open your Launch Checklist page. Complete the next 2 items on the list.”);
 tasks = morning.concat([
-outlookScan,
-workBlock,
-selfOrg,
-soul,
-nourish,
+outlookScan, workBlock, selfOrg, soul, nourish,
 movement(“walk”, “Open Nike Run Club. Start your Monday with movement. Even 20 minutes changes your entire evening energy.”),
 artPractice(weekNum <= 3 ? 15 : weekNum <= 6 ? 20 : 30, “Monday art practice is short and consistent. The goal is showing up not making something great.”),
 jTask
 ]).concat(evening);
 
-} else if (dayIdx === 1) { // Tuesday
+} else if (dayIdx === 1) {
 var sTask = weekNum <= 3
 ? substackTask(“write your first draft”, “Open Substack. Create a new draft. Write for 30 minutes without stopping. Topic: introduce yourself and why you are building this brand. Do not edit while writing.”)
 : weekNum <= 6
 ? substackTask(“publish or revise”, “Open your Substack draft. Read it once. Make 3 specific improvements then schedule it to publish.”)
 : substackTask(“write this week piece”, “Open Substack. Write this week piece in one sitting. Write for 30 to 45 minutes. Schedule it to publish before Friday.”);
 tasks = morning.concat([
-outlookScan,
-sTask,
+outlookScan, sTask,
 artPractice(weekNum <= 3 ? 15 : weekNum <= 6 ? 25 : 35, “Tuesday art practice: work on something from This Is Not A Sketchbook. Complete the next exercise.”),
-selfOrg,
-soul,
-nourish,
+selfOrg, soul, nourish,
 movement(“workout”, “Open Nike Training Club. Select a workout that matches your energy. Complete the full session.”),
 {block:“Community”, label:“Check in with one person”, detail:“Send a voice note to one friend or family member you have not spoken to recently. Keep it simple: Hey thinking of you how are you doing.”, dur:“5-10 min”}
 ]).concat(evening);
 
-} else if (dayIdx === 2) { // Wednesday
+} else if (dayIdx === 2) {
 var j2Task = weekNum <= 3
 ? jewelryTask(“social impact model”, “Add a new section called Social Impact Model. Write: which 2 to 3 local organizations will receive proceeds, what percentage per sale, and how you will report impact to customers in your newsletter.”)
 : weekNum <= 6
 ? jewelryTask(“branding and visual identity”, “Open Pinterest or Milanote. Spend 20 minutes collecting images that represent your brand direction. Then write 3 sentences in Notion describing what you want the brand to look and feel like.”)
 : jewelryTask(“newsletter and marketing”, “Open your Newsletter page in Notion. Draft your first customer newsletter: brand introduction, social impact mission, and a preview of your first products.”);
 tasks = morning.concat([
-outlookScan,
-workBlock,
-j2Task,
-selfOrg,
-soul,
-nourish,
+outlookScan, workBlock, j2Task, selfOrg, soul, nourish,
 movement(“walk”, “Open Nike Run Club. Wednesday walk is your midweek reset. Go somewhere new if possible to build local familiarity.”),
 artPractice(weekNum <= 3 ? 15 : weekNum <= 6 ? 25 : 35, “Wednesday art practice: free exploration. No instructions, no exercises. Make whatever you feel like making.”)
 ]).concat(evening);
 
-} else if (dayIdx === 3) { // Thursday
+} else if (dayIdx === 3) {
 var commTask = weekNum >= 4
 ? {block:“Community”, label:“Dinner club or community planning”, detail:“Open your notes and review the dinner club plan. If you have not floated the idea yet, text or call 3 people today with a specific date and concept. If you have floated it, follow up with confirmations.”, dur:“20-30 min”}
 : {block:“Community”, label:“Intentional community contact”, detail:“Call or text one friend or family member you have been meaning to reach. Make it a real conversation not a quick check-in.”, dur:“15 min”};
 tasks = morning.concat([
-outlookScan,
-workBlock,
+outlookScan, workBlock,
 artPractice(weekNum <= 3 ? 15 : weekNum <= 6 ? 25 : 40, weekNum >= 7 ? “Thursday art practice is your longest session of the week. Work on a piece you want to develop further.” : “Thursday art practice: complete an exercise from This Is Not A Sketchbook.”),
-selfOrg,
-soul,
-nourish,
+selfOrg, soul, nourish,
 movement(“workout”, “Open Nike Training Club. Thursday workout: push a little harder than Tuesday since the weekend is coming.”),
 commTask
 ]).concat(evening);
 }
 
-// deduplicate
 var seen = {};
 return tasks.filter(function(t) {
 if (seen[t.label]) return false;
@@ -384,55 +287,44 @@ return true;
 }
 
 var WEEK_META = [
-{week:0, label:“Before Week 1”, state:“Stabilization”, score:null, theme:“Do these first in this order”, hasDays:false,
-setup:[
-{label:“Buy one dedicated Morning Pages notebook”, detail:“Go to any store that sells notebooks. Buy one that is only for Morning Pages. Label it Morning Pages on the cover. Keep it on your nightstand tonight.”},
-{label:“Create your Notion Business Hub”, detail:“Open Notion. Create a new page titled 12-Week Business Hub. Inside create 4 sub-pages: Brand Foundation, Product Selection, Launch Checklist, and Newsletter Drafts. Do not fill anything in yet.”},
-{label:“Set up Routinery Morning Anchor”, detail:“Open Routinery. Create a new routine called Morning Anchor. Add these steps: Drink water 1 min, Stretch or sit up slowly 5 min, Wash face 5 min, Get dressed 10 min. Set it to trigger at your typical wake time.”},
-{label:“Set up Routinery Evening Anchor”, detail:“Open Routinery. Create a new routine called Evening Anchor. Add these steps: Skincare 5 min, Brush teeth 2 min, Change into sleep clothes 3 min, Tidy one surface 5 min. Set it to trigger at 10pm.”},
-{label:“Set up FlyLady home zone schedule”, detail:“Open FlyLady. Navigate to Zone Cleaning. Set your current zone to Zone 1 which is your bedroom. Read what FlyLady assigns for this zone this week. Just familiarize yourself with how the zones work.”},
+{week:0,  label:“Before Week 1”, state:“Stabilization”, score:null,  theme:“Do these first in this order”,           hasDays:false, setup:[
+{label:“Buy one dedicated Morning Pages notebook”,    detail:“Go to any store that sells notebooks. Buy one that is only for Morning Pages. Label it Morning Pages on the cover. Keep it on your nightstand tonight.”},
+{label:“Create your Notion Business Hub”,             detail:“Open Notion. Create a new page titled 12-Week Business Hub. Inside create 4 sub-pages: Brand Foundation, Product Selection, Launch Checklist, and Newsletter Drafts. Do not fill anything in yet.”},
+{label:“Set up Routinery Morning Anchor”,             detail:“Open Routinery. Create a new routine called Morning Anchor. Add these steps: Drink water 1 min, Stretch or sit up slowly 5 min, Wash face 5 min, Get dressed 10 min. Set it to trigger at your typical wake time.”},
+{label:“Set up Routinery Evening Anchor”,             detail:“Open Routinery. Create a new routine called Evening Anchor. Add these steps: Skincare 5 min, Brush teeth 2 min, Change into sleep clothes 3 min, Tidy one surface 5 min. Set it to trigger at 10pm.”},
+{label:“Set up FlyLady home zone schedule”,           detail:“Open FlyLady. Navigate to Zone Cleaning. Set your current zone to Zone 1 which is your bedroom. Read what FlyLady assigns for this zone this week. Just familiarize yourself with how the zones work.”},
 {label:“Clean your bedroom to a functional baseline”, detail:“Set a timer for 45 minutes. Remove everything from the floor, clear your nightstand so only a water glass and Morning Pages notebook are on it, make your bed, open a window for 5 minutes. Stop when the timer goes off.”},
-{label:“Set up one consistent workspace”, detail:“Pick one spot in your home where you will work on personal projects. Clear that surface completely. Place your physical planner, a pen, and your Morning Pages notebook within arm reach. This spot is now your anchor workspace.”},
-{label:“Set your 10:45pm wind-down alarm”, detail:“Open Apple Calendar. Create a daily recurring event at 10:45pm titled Wind-down 15 min warning. This is your signal to begin your Evening Anchor routine and get off screens by 11pm.”},
-{label:“Create your Substack account”, detail:“Go to substack.com. Create a free account. Create your publication and pick a name that feels right for now. Do not write anything yet. Just get the account set up.”}
+{label:“Set up one consistent workspace”,             detail:“Pick one spot in your home where you will work on personal projects. Clear that surface completely. Place your physical planner, a pen, and your Morning Pages notebook within arm reach. This spot is now your anchor workspace.”},
+{label:“Set your 10:45pm wind-down alarm”,            detail:“Open Apple Calendar. Create a daily recurring event at 10:45pm titled Wind-down 15 min warning. This is your signal to begin your Evening Anchor routine and get off screens by 11pm.”},
+{label:“Create your Substack account”,                detail:“Go to substack.com. Create a free account. Create your publication and pick a name that feels right for now. Do not write anything yet. Just get the account set up.”}
 ]},
-{week:1,  label:“Week 1”,  state:“Stabilization”, score:“60%”, theme:“Start the engine: routines only”, hasDays:true},
-{week:2,  label:“Week 2”,  state:“Stabilization”, score:“60%”, theme:“Build the daily rhythm”, hasDays:true},
-{week:3,  label:“Week 3”,  state:“Stabilization”, score:“65%”, theme:“First upgrade: standard routines begin”, hasDays:true},
-{week:4,  label:“Week 4”,  state:“Maintenance”,   score:“70%”, theme:“First traction: one domino per goal”, hasDays:true},
-{week:5,  label:“Week 5”,  state:“Maintenance”,   score:“70%”, theme:“Deepen the practice”, hasDays:true},
-{week:6,  label:“Week 6”,  state:“Maintenance”,   score:“70%”, theme:“Close the first half: review and assess”, hasDays:true},
-{week:7,  label:“Week 7”,  state:“Growth”,        score:“75%”, theme:“Back half begins: outputs accelerate”, hasDays:true},
-{week:8,  label:“Week 8”,  state:“Growth”,        score:“75%”, theme:“Build momentum”, hasDays:true},
-{week:9,  label:“Week 9”,  state:“Growth”,        score:“75%”, theme:“Push through resistance”, hasDays:true},
-{week:10, label:“Week 10”, state:“Growth”,        score:“80%”, theme:“Launch”, hasDays:true},
-{week:11, label:“Week 11”, state:“Growth”,        score:“80%”, theme:“Document the impact”, hasDays:true},
-{week:12, label:“Week 12”, state:“Growth”,        score:“80%”, theme:“Complete and set up cycle 2”, hasDays:true}
+{week:1,  label:“Week 1”,  state:“Stabilization”, score:“60%”, theme:“Start the engine: routines only”,             hasDays:true},
+{week:2,  label:“Week 2”,  state:“Stabilization”, score:“60%”, theme:“Build the daily rhythm”,                       hasDays:true},
+{week:3,  label:“Week 3”,  state:“Stabilization”, score:“65%”, theme:“First upgrade: standard routines begin”,       hasDays:true},
+{week:4,  label:“Week 4”,  state:“Maintenance”,   score:“70%”, theme:“First traction: one domino per goal”,          hasDays:true},
+{week:5,  label:“Week 5”,  state:“Maintenance”,   score:“70%”, theme:“Deepen the practice”,                          hasDays:true},
+{week:6,  label:“Week 6”,  state:“Maintenance”,   score:“70%”, theme:“Close the first half: review and assess”,      hasDays:true},
+{week:7,  label:“Week 7”,  state:“Growth”,        score:“75%”, theme:“Back half begins: outputs accelerate”,         hasDays:true},
+{week:8,  label:“Week 8”,  state:“Growth”,        score:“75%”, theme:“Build momentum”,                               hasDays:true},
+{week:9,  label:“Week 9”,  state:“Growth”,        score:“75%”, theme:“Push through resistance”,                      hasDays:true},
+{week:10, label:“Week 10”, state:“Growth”,        score:“80%”, theme:“Launch”,                                       hasDays:true},
+{week:11, label:“Week 11”, state:“Growth”,        score:“80%”, theme:“Document the impact”,                          hasDays:true},
+{week:12, label:“Week 12”, state:“Growth”,        score:“80%”, theme:“Complete and set up cycle 2”,                  hasDays:true}
 ];
 
-// ── STATE ─────────────────────────────────────────────────────
-
 var state = {
-view: “today”,
-onboarding: true,
-obStep: 0,
-selWeekIdx: null,
-selDayIdx: 0,
-weekTab: “days”,
-checked: {},
-wstate: {},
-wscore: {},
-energy: “Medium”,
-openTasks: {}
+view:“today”, onboarding:true, obStep:0,
+selWeekIdx:null, selDayIdx:0, weekTab:“days”,
+checked:{}, wstate:{}, wscore:{}, energy:“Medium”, openTasks:{}
 };
 
 function load() {
 try {
-var ob = localStorage.getItem(“ob2”); if (ob) state.onboarding = false;
-var c  = localStorage.getItem(“chk2”); if (c) state.checked = JSON.parse(c);
-var ws = localStorage.getItem(“wst2”); if (ws) state.wstate = JSON.parse(ws);
-var sc = localStorage.getItem(“wsc2”); if (sc) state.wscore = JSON.parse(sc);
-var en = localStorage.getItem(“en2”);  if (en) state.energy = en;
+if (localStorage.getItem(“ob2”))   state.onboarding = false;
+var c  = localStorage.getItem(“chk2”); if (c)  state.checked = JSON.parse(c);
+var ws = localStorage.getItem(“wst2”); if (ws) state.wstate  = JSON.parse(ws);
+var sc = localStorage.getItem(“wsc2”); if (sc) state.wscore  = JSON.parse(sc);
+var en = localStorage.getItem(“en2”);  if (en) state.energy  = en;
 } catch(e) {}
 }
 
@@ -443,18 +335,15 @@ try { localStorage.setItem(key, typeof val === “string” ? val : JSON.stringi
 function render() {
 var app = document.getElementById(“app”);
 app.innerHTML = “”;
-var el = buildView();
-app.appendChild(el);
+app.appendChild(buildView());
 }
-
-// ── HELPERS ───────────────────────────────────────────────────
 
 function el(tag, attrs, children) {
 var e = document.createElement(tag);
 if (attrs) {
 Object.keys(attrs).forEach(function(k) {
-if (k === “class”) e.className = attrs[k];
-else if (k === “style”) Object.assign(e.style, attrs[k]);
+if (k === “class”)       e.className = attrs[k];
+else if (k === “style”)  Object.assign(e.style, attrs[k]);
 else if (k.startsWith(“on”)) e.addEventListener(k.slice(2).toLowerCase(), attrs[k]);
 else e.setAttribute(k, attrs[k]);
 });
@@ -470,18 +359,20 @@ return e;
 }
 
 function div(cls, children, extra) {
-return el(“div”, Object.assign({class: cls || “”}, extra || {}), children);
+return el(“div”, Object.assign({class:cls||””}, extra||{}), children);
 }
 
-function btn(cls, text, onClick, extra) {
-return el(“button”, Object.assign({class: cls || “”, onClick: onClick}, extra || {}), text);
+function btn(cls, text, onClick) {
+return el(“button”, {class:cls||””, onClick:onClick}, text);
 }
+
+function getSC(s) { return STATE_COLORS[s] || STATE_COLORS.Maintenance; }
 
 function checkmark() {
-var svg = document.createElementNS(“http://www.w3.org/2000/svg”,“svg”);
+var svg  = document.createElementNS(“http://www.w3.org/2000/svg”,“svg”);
+var path = document.createElementNS(“http://www.w3.org/2000/svg”,“path”);
 svg.setAttribute(“width”,“12”); svg.setAttribute(“height”,“12”);
 svg.setAttribute(“viewBox”,“0 0 12 12”); svg.setAttribute(“fill”,“none”);
-var path = document.createElementNS(“http://www.w3.org/2000/svg”,“path”);
 path.setAttribute(“d”,“M2 6l3 3 5-5”);
 path.setAttribute(“stroke”,”#fff”);
 path.setAttribute(“stroke-width”,“1.8”);
@@ -493,39 +384,38 @@ return svg;
 
 function getDayPct(weekNum, dayIdx) {
 var tasks = getTasks(weekNum, dayIdx);
-var done = tasks.filter(function(_, i) { return state.checked[“w”+weekNum+“d”+dayIdx+“t”+i]; }).length;
+var done  = tasks.filter(function(_, i) { return state.checked[“w”+weekNum+“d”+dayIdx+“t”+i]; }).length;
 return tasks.length > 0 ? Math.round((done / tasks.length) * 100) : 0;
 }
 
 function getWeekPct(wm) {
 if (!wm.hasDays) {
 var setup = wm.setup || [];
-var done = setup.filter(function(*, i) { return state.checked[“w”+wm.week+“s”+i]; }).length;
+var done  = setup.filter(function(*, i) { return state.checked[“w”+wm.week+“s”+i]; }).length;
 return setup.length > 0 ? Math.round((done / setup.length) * 100) : 0;
 }
 var total = 0, done = 0;
 for (var d = 0; d < 7; d++) {
 var tasks = getTasks(wm.week, d);
 total += tasks.length;
-done += tasks.filter(function(*, i) { return state.checked[“w”+wm.week+“d”+d+“t”+i]; }).length;
+done  += tasks.filter(function(*, i) { return state.checked[“w”+wm.week+“d”+d+“t”+i]; }).length;
 }
 return total > 0 ? Math.round((done / total) * 100) : 0;
 }
 
-function getSC(s) { return STATE_COLORS[s] || STATE_COLORS.Maintenance; }
-
 function bottomNav() {
 var items = [
-{icon:“☀️”, label:“Today”,    v:“today”},
-{icon:“📅”, label:“Weeks”,    v:“weeks”},
-{icon:“📊”, label:“Measures”, v:“measures”},
-{icon:“🅿️”, label:“Parking”,  v:“parking”}
+{icon:“sunrise”, label:“Today”,    v:“today”},
+{icon:“calendar”,label:“Weeks”,    v:“weeks”},
+{icon:“chart”,   label:“Measures”, v:“measures”},
+{icon:“park”,    label:“Parking”,  v:“parking”}
 ];
+var icons = {sunrise:“☀️”, calendar:“📅”, chart:“📊”, park:“🅿️”};
 return div(“bottom-nav”, items.map(function(item) {
-var active = state.view === item.v;
-return el(“button”, {class:“bn-btn”, onClick: function() { state.view = item.v; render(); }}, [
-div(“bn-icon”, item.icon),
-el(“div”, {class: “bn-label” + (active ? “ active” : “”)}, item.label),
+var active = state.view === item.v || (item.v === “weekDetail” && state.view === “weekDetail”);
+return el(“button”, {class:“bn-btn”, onClick:function() { state.view = item.v; render(); }}, [
+div(“bn-icon”, icons[item.icon]),
+el(“div”, {class:“bn-label” + (active ? “ active” : “”)}, item.label),
 div(“bn-dot” + (active ? “ active” : “”), null)
 ]);
 }));
@@ -534,44 +424,39 @@ div(“bn-dot” + (active ? “ active” : “”), null)
 function taskItem(task, id) {
 var done = !!state.checked[id];
 var open = !!state.openTasks[id];
-var bs = BLOCK_STYLE[task.block] || {bg:”#eee”, text:”#666”};
+var bs   = BLOCK_STYLE[task.block] || {bg:”#eee”, text:”#666”};
 
-var tagEl = el(“span”, {class:“block-tag”, style:{background:bs.bg, color:bs.text}}, task.block);
-var labelEl = el(“div”, {class:“task-label” + (done ? “ done” : “”)}, task.label);
-var durEl = el(“div”, {class:“task-dur”}, task.dur);
-
-var cbEl = el(“div”, {class:“cb” + (done ? “ done” : “”), onClick: function(e) {
+var cbEl = el(“div”, {class:“cb” + (done ? “ done” : “”), onClick:function(e) {
 e.stopPropagation();
 state.checked[id] = !state.checked[id];
 save(“chk2”, state.checked);
 render();
 }}, done ? [checkmark()] : null);
 
-var bodyChildren = [tagEl, labelEl];
-if (open && task.detail) {
-bodyChildren.push(el(“div”, {class:“task-detail”}, task.detail));
-}
-bodyChildren.push(durEl);
+var bodyChildren = [
+el(“span”, {class:“block-tag”, style:{background:bs.bg, color:bs.text}}, task.block),
+el(“div”,  {class:“task-label” + (done ? “ done” : “”)}, task.label)
+];
+if (open && task.detail) bodyChildren.push(el(“div”, {class:“task-detail”}, task.detail));
+bodyChildren.push(el(“div”, {class:“task-dur”}, task.dur));
 
-var bodyEl = div(“task-body”, bodyChildren);
-
-return el(“div”, {class:“task-row”, onClick: function() {
+return el(“div”, {class:“task-row”, onClick:function() {
 state.openTasks[id] = !state.openTasks[id];
 render();
-}}, [cbEl, bodyEl]);
+}}, [cbEl, div(“task-body”, bodyChildren)]);
 }
 
-// ── ONBOARDING ────────────────────────────────────────────────
-
 function buildOnboarding() {
-var s = ONBOARDING[state.obStep];
+var s    = ONBOARDING[state.obStep];
 var wrap = div(“ob-wrap”, null);
+
+var lines = s.body.split(”\n”).map(function(line) {
+return el(“div”, {style:{marginBottom:“8px”}}, line || “ “);
+});
 
 var body = el(“div”, {class:“ob-body”, style:{background:s.bg}}, [
 el(“div”, {class:“ob-title”, style:{color:s.text}}, s.title),
-el(“div”, {class:“ob-text”, style:{color:s.text}}, s.body.split(”\n”).map(function(line, i) {
-return el(“div”, {style:{marginBottom:“8px”}}, line || “ “);
-}))
+el(“div”, {class:“ob-text”,  style:{color:s.text}}, lines)
 ]);
 
 var dots = div(“ob-dots”, ONBOARDING.map(function(_, i) {
@@ -580,19 +465,12 @@ return div(“ob-dot” + (i === state.obStep ? “ active” : “”), null);
 
 var isLast = state.obStep === ONBOARDING.length - 1;
 var nextBtn = btn(“ob-btn”, isLast ? “Start my plan” : “Next”, function() {
-if (isLast) {
-state.onboarding = false;
-save(“ob2”, “1”);
-} else {
-state.obStep++;
-}
+if (isLast) { state.onboarding = false; save(“ob2”,“1”); }
+else state.obStep++;
 render();
 });
-
 var skipBtn = !isLast ? btn(“ob-skip”, “Skip”, function() {
-state.onboarding = false;
-save(“ob2”, “1”);
-render();
+state.onboarding = false; save(“ob2”,“1”); render();
 }) : null;
 
 var foot = div(“ob-foot”, [dots, div(””, [skipBtn, nextBtn].filter(Boolean))]);
@@ -601,122 +479,113 @@ wrap.appendChild(foot);
 return wrap;
 }
 
-// ── TODAY VIEW ────────────────────────────────────────────────
-
 function buildToday() {
-var today = new Date();
+var today  = new Date();
 var dayIdx = (today.getDay() + 6) % 7;
 var weekNum = 1;
 var allTasks = getTasks(weekNum, dayIdx);
 
 var filtered = state.energy === “Low”
-? allTasks.filter(function(t) { return [“Routine”,“Mind”,“Planning”,“Soul”,“Body”].indexOf(t.block) > -1; }).slice(0, 8)
+? allTasks.filter(function(t) {
+return [“Routine”,“Mind”,“Planning”,“Soul”,“Body”].indexOf(t.block) > -1;
+}).slice(0, 8)
 : allTasks;
 
-var done = filtered.filter(function(_, i) { return state.checked[“w”+weekNum+“d”+dayIdx+“t”+i]; }).length;
+var done = filtered.filter(function(_, i) {
+return state.checked[“w”+weekNum+“d”+dayIdx+“t”+i];
+}).length;
 
 var energyRow = div(“energy-row”, [“Low”,“Medium”,“High”].map(function(e) {
 var active = state.energy === e;
-var colors = {Low:{bg:”#FCEBEB”,border:”#E24B4A”,text:”#791F1F”}, Medium:{bg:”#FAEEDA”,border:”#EF9F27”,text:”#633806”}, High:{bg:”#E1F5EE”,border:”#1D9E75”,text:”#085041”}};
-var c = colors[e];
+var cols = {
+Low:    {bg:”#FCEBEB”, border:”#E24B4A”, text:”#791F1F”},
+Medium: {bg:”#FAEEDA”, border:”#EF9F27”, text:”#633806”},
+High:   {bg:”#E1F5EE”, border:”#1D9E75”, text:”#085041”}
+};
+var c = cols[e];
 return el(“button”, {
 class:“energy-btn”,
-style: active ? {background:c.bg, borderColor:c.border, color:c.text, fontWeight:“600”, border:“1px solid “+c.border} : {},
-onClick: function() { state.energy = e; save(“en2”, e); render(); }
+style: active ? {background:c.bg, color:c.text, fontWeight:“600”, border:“1px solid “+c.border} : {},
+onClick:function() { state.energy = e; save(“en2”,e); render(); }
 }, e + “ energy”);
 }));
 
-var wrap = div(””, [
+return div(””, [
 el(“div”, {class:“hdr”}, [
 el(“div”, {class:“hdr-title”}, DAYS_FULL[dayIdx]),
-el(“div”, {class:“hdr-sub”}, “Week 1 · Stabilization · Target 60%”)
+el(“div”, {class:“hdr-sub”},   “Week 1 · Stabilization · Target 60%”)
 ]),
 energyRow,
 el(“div”, {class:“sec-label”}, done + “ of “ + filtered.length + “ tasks complete”),
 div(””, filtered.map(function(task, i) {
-var id = “w”+weekNum+“d”+dayIdx+“t”+i;
-return taskItem(task, id);
+return taskItem(task, “w”+weekNum+“d”+dayIdx+“t”+i);
 })),
 bottomNav()
 ]);
-return wrap;
 }
-
-// ── WEEKS VIEW ────────────────────────────────────────────────
 
 function buildWeeks() {
 var totalTasks = 0, totalDone = 0;
 WEEK_META.forEach(function(wm) {
 if (!wm.hasDays) {
 totalTasks += (wm.setup||[]).length;
-totalDone += (wm.setup||[]).filter(function(*,i){return state.checked[“w”+wm.week+“s”+i];}).length;
+totalDone  += (wm.setup||[]).filter(function(*, i) { return state.checked[“w”+wm.week+“s”+i]; }).length;
 } else {
 for (var d = 0; d < 7; d++) {
 var tasks = getTasks(wm.week, d);
 totalTasks += tasks.length;
-totalDone += tasks.filter(function(*,i){return state.checked[“w”+wm.week+“d”+d+“t”+i];}).length;
+totalDone  += tasks.filter(function(*, i) { return state.checked[“w”+wm.week+“d”+d+“t”+i]; }).length;
 }
 }
 });
-var ovPct = totalTasks > 0 ? Math.round((totalDone/totalTasks)*100) : 0;
+var ovPct = totalTasks > 0 ? Math.round((totalDone / totalTasks) * 100) : 0;
 
 var weekCards = WEEK_META.map(function(wm, i) {
 var pct = getWeekPct(wm);
-var sc = getSC(wm.state);
+var sc  = getSC(wm.state);
 var card = div(“week-card”, null);
 card.addEventListener(“click”, function() {
-state.selWeekIdx = i;
-state.selDayIdx = 0;
-state.weekTab = “days”;
-state.view = “weekDetail”;
+state.selWeekIdx = i; state.selDayIdx = 0;
+state.weekTab = “days”; state.view = “weekDetail”;
 render();
 });
-var head = el(“div”, {class:“week-head”, style:{background:sc.bg}}, [
+card.appendChild(el(“div”, {class:“week-head”, style:{background:sc.bg}}, [
 el(“div”, {class:“week-title”, style:{color:sc.text}}, wm.label),
 el(“div”, {class:“week-theme”, style:{color:sc.text}}, wm.theme),
-el(“div”, {class:“prog-bar”}, [
-el(“div”, {class:“prog-fill”, style:{width:pct+”%”, background:sc.dot}}, null)
-]),
+el(“div”, {class:“prog-bar”}, [el(“div”, {class:“prog-fill”, style:{width:pct+”%”, background:sc.dot}}, null)]),
 el(“div”, {class:“week-pct”, style:{color:sc.text}}, pct > 0 ? pct+”% complete” : (wm.score ? “Target “+wm.score : “Tap to open”))
-]);
-card.appendChild(head);
+]));
 return card;
 });
 
 return div(””, [
 el(“div”, {class:“hdr”}, [
 el(“div”, {class:“hdr-title”}, “All Weeks”),
-el(“div”, {class:“hdr-sub”}, “Tap a week to open daily tasks”)
+el(“div”, {class:“hdr-sub”},   “Tap a week to open daily tasks”)
 ]),
 div(“spacer”, null),
 div(“overall-card”, [
 el(“div”, {style:{fontSize:“12px”,color:”#888”,marginBottom:“4px”}}, “Overall progress”),
 el(“div”, {class:“overall-pct”}, ovPct+”%”),
-el(“div”, {class:“prog-bar”, style:{marginTop:“8px”}}, [
-el(“div”, {class:“prog-fill”, style:{width:ovPct+”%”, background:”#1D9E75”}}, null)
-]),
-el(“div”, {class:“overall-sub”}, totalDone+” tasks complete”)
+el(“div”, {class:“prog-bar”, style:{marginTop:“8px”}}, [el(“div”, {class:“prog-fill”, style:{width:ovPct+”%”, background:”#1D9E75”}}, null)]),
+el(“div”, {class:“overall-sub”}, totalDone + “ tasks complete”)
 ]),
 div(””, weekCards),
 bottomNav()
 ]);
 }
 
-// ── WEEK DETAIL ───────────────────────────────────────────────
-
 function buildWeekDetail() {
-var wm = WEEK_META[state.selWeekIdx];
+var wm       = WEEK_META[state.selWeekIdx];
 var curState = state.wstate[wm.week] || wm.state;
 var curScore = state.wscore[wm.week] || “”;
-var sc = getSC(curState);
-var pct = getWeekPct(wm);
+var sc       = getSC(curState);
+var pct      = getWeekPct(wm);
 
 var header = el(“div”, {style:{background:sc.bg, padding:“16px 14px”}}, [
 el(“div”, {style:{fontSize:“20px”,fontWeight:“700”,color:sc.text}}, wm.label),
 el(“div”, {style:{fontSize:“13px”,color:sc.text,opacity:”.8”,marginTop:“3px”}}, wm.theme),
-el(“div”, {class:“prog-bar”, style:{marginTop:“10px”}}, [
-el(“div”, {class:“prog-fill”, style:{width:pct+”%”, background:sc.dot}}, null)
-]),
+el(“div”, {class:“prog-bar”, style:{marginTop:“10px”}}, [el(“div”, {class:“prog-fill”, style:{width:pct+”%”, background:sc.dot}}, null)]),
 el(“div”, {style:{fontSize:“11px”,color:sc.text,opacity:”.75”,marginTop:“4px”}}, pct+”% complete”)
 ]);
 
@@ -724,27 +593,27 @@ var tabs = div(“tab-row”, [“days”,“state”,“measures”].map(functi
 var label = t === “days” ? “Daily Tasks” : t === “state” ? “Week State” : “Measures”;
 return el(“button”, {
 class:“tab-btn” + (state.weekTab === t ? “ active” : “”),
-onClick: function() { state.weekTab = t; render(); }
+onClick:function() { state.weekTab = t; render(); }
 }, label);
 }));
 
 var content;
+
 if (state.weekTab === “days”) {
 if (!wm.hasDays) {
 content = div(””, [
 el(“div”, {class:“sec-label”}, “Setup checklist”),
 div(””, (wm.setup||[]).map(function(task, i) {
-var id = “w”+wm.week+“s”+i;
-return taskItem({block:“Setup”, label:task.label, detail:task.detail, dur:”–”}, id);
+return taskItem({block:“Setup”, label:task.label, detail:task.detail, dur:”–”}, “w”+wm.week+“s”+i);
 }))
 ]);
 } else {
 var dayBtns = div(“day-row”, DAYS_SHORT.map(function(d, di) {
-var p = getDayPct(wm.week, di);
+var p      = getDayPct(wm.week, di);
 var active = state.selDayIdx === di;
 var isDone = p === 100;
-var cls = “day-btn” + (active ? “ active” : “”) + (isDone && !active ? “ done-day” : “”);
-return el(“div”, {class:cls, onClick: function() { state.selDayIdx = di; render(); }}, [
+var cls    = “day-btn” + (active ? “ active” : “”) + (isDone && !active ? “ done-day” : “”);
+return el(“div”, {class:cls, onClick:function() { state.selDayIdx = di; render(); }}, [
 el(“div”, {class:“day-label”}, d),
 div(“day-dot”, null)
 ]);
@@ -752,14 +621,13 @@ div(“day-dot”, null)
 
 ```
   var dayTasks = getTasks(wm.week, state.selDayIdx);
-  var dayDone = dayTasks.filter(function(_,i){return state.checked["w"+wm.week+"d"+state.selDayIdx+"t"+i];}).length;
+  var dayDone  = dayTasks.filter(function(_, i) { return state.checked["w"+wm.week+"d"+state.selDayIdx+"t"+i]; }).length;
 
   content = div("", [
     dayBtns,
     el("div", {class:"sec-label"}, DAYS_FULL[state.selDayIdx] + ": " + dayDone + " of " + dayTasks.length + " complete"),
     div("", dayTasks.map(function(task, i) {
-      var id = "w"+wm.week+"d"+state.selDayIdx+"t"+i;
-      return taskItem(task, id);
+      return taskItem(task, "w"+wm.week+"d"+state.selDayIdx+"t"+i);
     }))
   ]);
 }
@@ -767,26 +635,27 @@ div(“day-dot”, null)
 
 } else if (state.weekTab === “state”) {
 var stateDescs = {
-Recovery:“MVD only. Rest is the work. No project blocks, no pressure.”,
-Stabilization:“Routines plus home cleanup. One project task max per day.”,
-Maintenance:“Full routines plus 2 to 3 project tasks per week per goal. Your baseline.”,
-Growth:“Full routines plus daily project blocks. Protect high energy for creative work.”
+Recovery:      “MVD only. Rest is the work. No project blocks, no pressure.”,
+Stabilization: “Routines plus home cleanup. One project task max per day.”,
+Maintenance:   “Full routines plus 2 to 3 project tasks per week per goal. Your baseline.”,
+Growth:        “Full routines plus daily project blocks. Protect high energy for creative work.”
 };
-var chips = div(“state-row”, [“Recovery”,“Stabilization”,“Maintenance”,“Growth”].map(function(s) {
-var sc2 = getSC(s);
-var active = curState === s;
-return el(“div”, {
-class:“state-chip”,
-style: active ? {background:sc2.bg, color:sc2.text, borderColor:sc2.dot, fontWeight:“600”} : {},
-onClick: function() { state.wstate[wm.week] = s; save(“wst2”, state.wstate); render(); }
-}, s);
-}));
 
 ```
+var chips = div("state-row", ["Recovery","Stabilization","Maintenance","Growth"].map(function(s) {
+  var sc2    = getSC(s);
+  var active = curState === s;
+  return el("div", {
+    class:"state-chip",
+    style: active ? {background:sc2.bg, color:sc2.text, borderColor:sc2.dot, fontWeight:"600"} : {},
+    onClick:function() { state.wstate[wm.week] = s; save("wst2", state.wstate); render(); }
+  }, s);
+}));
+
 var scoreEl = div("score-wrap", [
   el("div", {style:{fontSize:"11px",fontWeight:"600",color:"#888",textTransform:"uppercase",letterSpacing:".05em"}}, "Weekly score"),
   el("input", {class:"score-input", placeholder:"Target: "+(wm.score||"--"), value:curScore,
-    onInput: function(e) { state.wscore[wm.week] = e.target.value; save("wsc2", state.wscore); }
+    onInput:function(e) { state.wscore[wm.week] = e.target.value; save("wsc2", state.wscore); }
   }, null)
 ]);
 
@@ -801,38 +670,33 @@ content = div("", [
 } else {
 content = div(””, MEASURES.map(function(m) {
 return div(“m-row”, [
-div(””, [
-el(“div”, {class:“m-goal”}, m.goal),
-el(“div”, {class:“m-track”}, m.track)
-]),
+div(””, [el(“div”,{class:“m-goal”},m.goal), el(“div”,{class:“m-track”},m.track)]),
 el(“div”, {class:“m-target”}, m.target)
 ]);
 }));
 }
 
 return div(””, [
-el(“button”, {class:“back-btn”, onClick: function() { state.view = “weeks”; render(); }}, “Back to weeks”),
+btn(“back-btn”, “Back to weeks”, function() { state.view = “weeks”; render(); }),
 header, tabs, content,
 bottomNav()
 ]);
 }
 
-// ── MEASURES VIEW ─────────────────────────────────────────────
-
 function buildMeasures() {
 var energyItems = [
-{level:“Low energy day”, desc:“MVD only: Morning Pages, water, check calendar, write 1 task, rest. No project blocks. Rest is the work.”},
+{level:“Low energy day”,    desc:“MVD only: Morning Pages, water, check calendar, write 1 task, rest. No project blocks. Rest is the work.”},
 {level:“Medium energy day”, desc:“Full morning routine plus Morning Pages plus work tasks plus 30-min project block plus full evening routine. Your baseline.”},
-{level:“High energy day”, desc:“Full routine plus 3 deep work blocks plus full workout plus 60-min project block. Use high energy days for creative and business work, not admin.”}
+{level:“High energy day”,   desc:“Full routine plus 3 deep work blocks plus full workout plus 60-min project block. Use high energy days for creative and business work, not admin.”}
 ];
 return div(””, [
 el(“div”, {class:“hdr”}, [
 el(“div”, {class:“hdr-title”}, “Lead Measures”),
-el(“div”, {class:“hdr-sub”}, “Track these weekly, not outcomes”)
+el(“div”, {class:“hdr-sub”},   “Track these weekly, not outcomes”)
 ]),
 div(“spacer”, null),
 div(“card”, [
-div(“card-head”, [el(“div”,{class:“card-title”},“Weekly targets”)], {style:{background:”#EEEDFE”}}),
+el(“div”, {class:“card-head”, style:{background:”#EEEDFE”}}, [el(“div”,{class:“card-title”},“Weekly targets”)]),
 div(””, MEASURES.map(function(m) {
 return div(“m-row”, [
 div(””, [el(“div”,{class:“m-goal”},m.goal), el(“div”,{class:“m-track”},m.track)]),
@@ -841,54 +705,43 @@ el(“div”,{class:“m-target”},m.target)
 }))
 ]),
 div(“card”, [
-div(“card-head”, [el(“div”,{class:“card-title”},“Energy variants”)], {style:{background:”#FAEEDA”}}),
-div(””, energyItems.map(function(e, i) {
-return div(””, [
-el(“div”,{style:{fontSize:“13px”,fontWeight:“600”,color:”#111”,marginBottom:“3px”}},e.level),
-el(“div”,{style:{fontSize:“12px”,color:”#555”,lineHeight:“1.6”,marginBottom:“12px”}},e.desc)
-], {style:{padding: i===0?“11px 14px”:“0 14px 11px”}});
+el(“div”, {class:“card-head”, style:{background:”#FAEEDA”}}, [el(“div”,{class:“card-title”},“Energy variants”)]),
+div(””, energyItems.map(function(item, i) {
+return el(“div”, {style:{padding: i===0 ? “11px 14px” : “0 14px 11px”}}, [
+el(“div”,{style:{fontSize:“13px”,fontWeight:“600”,color:”#111”,marginBottom:“3px”}}, item.level),
+el(“div”,{style:{fontSize:“12px”,color:”#555”,lineHeight:“1.6”,marginBottom:“12px”}}, item.desc)
+]);
 }))
 ]),
 bottomNav()
 ]);
 }
 
-// ── PARKING VIEW ──────────────────────────────────────────────
-
 function buildParking() {
 return div(””, [
 el(“div”, {class:“hdr”}, [
 el(“div”, {class:“hdr-title”}, “Parking Lot”),
-el(“div”, {class:“hdr-sub”}, “Deferred decisions: revisit at the right time”)
+el(“div”, {class:“hdr-sub”},   “Deferred decisions: revisit at the right time”)
 ]),
 div(“spacer”, null),
 div(“card”, PARKING.map(function(p) {
-return div(“p-item”, [
-div(“p-tag”, p.tag),
-div(“p-text”, p.text)
-]);
+return div(“p-item”, [div(“p-tag”, p.tag), div(“p-text”, p.text)]);
 })),
 bottomNav()
 ]);
 }
 
-// ── ROUTER ────────────────────────────────────────────────────
-
 function buildView() {
 var wrap = div(””, null);
-if (state.onboarding) {
-wrap.appendChild(buildOnboarding());
-return wrap;
-}
-if (state.view === “today”) wrap.appendChild(buildToday());
+if (state.onboarding)         { wrap.appendChild(buildOnboarding()); return wrap; }
+if (state.view === “today”)      wrap.appendChild(buildToday());
 else if (state.view === “weeks”) wrap.appendChild(buildWeeks());
 else if (state.view === “weekDetail”) wrap.appendChild(buildWeekDetail());
-else if (state.view === “measures”) wrap.appendChild(buildMeasures());
-else if (state.view === “parking”) wrap.appendChild(buildParking());
+else if (state.view === “measures”)   wrap.appendChild(buildMeasures());
+else if (state.view === “parking”)    wrap.appendChild(buildParking());
 return wrap;
 }
 
-// ── INIT ──────────────────────────────────────────────────────
 load();
 render();
 </script>
