@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -18,18 +18,21 @@
   --terra:#A0522D;--terra-l:#C47A45;--terra-p:#F0E0CC;
   --sage:#3D6B3D;--sage-p:#DDE8DD;
   --gold:#7A5C10;--gold-p:#F5ECC0;
+  --skip:#b33030;--skip-p:#FCEBEB;
   --border:rgba(92,79,58,0.15);--border-m:rgba(92,79,58,0.28);
 }
 body{font-family:'Crimson Pro',Georgia,serif;background:var(--sand);color:var(--ink);max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:90px;font-size:16px;line-height:1.55}
 button{font-family:inherit;cursor:pointer;border:none;outline:none}
 input,textarea{font-family:inherit;outline:none}
 
+/* ── HEADER ── */
 .hdr{background:#fff;padding:14px 16px 11px;border-bottom:1px solid var(--border)}
 .hdr-title{font-family:'Lora',Georgia,serif;font-size:19px;font-weight:500;color:var(--ink)}
 .hdr-sub{font-size:12px;color:var(--ink-l);margin-top:2px}
 .hdr-row{display:flex;align-items:center;justify-content:space-between}
 .state-badge{padding:3px 9px;border-radius:8px;font-size:11px;font-weight:600;letter-spacing:.02em}
 
+/* ── BOTTOM NAV ── */
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--border);display:flex;padding:8px 0 20px;z-index:100}
 .bn-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;padding:4px 0}
 .bn-icon{font-size:16px}
@@ -38,12 +41,14 @@ input,textarea{font-family:inherit;outline:none}
 .bn-dot{width:4px;height:4px;border-radius:50%;background:transparent;margin-top:1px}
 .bn-dot.active{background:var(--terra)}
 
+/* ── ENERGY BAR ── */
 .energy-bar{display:flex;gap:6px;padding:9px 14px;background:#fff;border-bottom:1px solid var(--border)}
 .e-btn{flex:1;padding:7px 4px;border-radius:10px;font-family:'Crimson Pro',serif;font-size:12px;font-weight:500;border:1.5px solid var(--border);background:var(--sand);color:var(--ink-l);text-align:center;transition:all .15s}
 .e-btn.active-low{background:#FCEBEB;border-color:#E24B4A;color:#791F1F;font-weight:600}
 .e-btn.active-medium{background:#FAEEDA;border-color:#EF9F27;color:#633806;font-weight:600}
 .e-btn.active-high{background:#E1F5EE;border-color:#1D9E75;color:#085041;font-weight:600}
 
+/* ── DAY STRIP ── */
 .day-strip{display:flex;gap:5px;padding:9px 14px;overflow-x:auto;background:#fff;border-bottom:1px solid var(--border)}
 .day-pill{min-width:44px;padding:7px 4px;border-radius:10px;border:1.5px solid var(--border);background:var(--sand);display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;flex-shrink:0;transition:all .15s}
 .day-pill.today{border-color:var(--ink);background:var(--ink)}
@@ -55,32 +60,71 @@ input,textarea{font-family:inherit;outline:none}
 .day-pill.today .dp-dot{background:#fff}
 .day-pill.done .dp-dot{background:var(--sage)}
 
+/* ── PROGRESS STRIP ── */
 .progress-strip{padding:8px 14px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
 .prog-track{flex:1;height:4px;background:var(--sand-dd);border-radius:2px;overflow:hidden}
 .prog-fill{height:100%;border-radius:2px;transition:width .4s;background:var(--sage)}
 .prog-label{font-size:12px;color:var(--ink-l);white-space:nowrap;font-family:'Crimson Pro',serif}
 .prog-pct{font-size:13px;font-weight:700;color:var(--sage);white-space:nowrap;font-family:'Lora',serif}
 
+/* ── WEEK SELECTOR ── */
 .week-sel-row{display:flex;align-items:center;gap:6px;padding:8px 14px 6px;background:#fff;border-bottom:1px solid var(--border);overflow-x:auto}
 .week-sel-lbl{font-size:11px;font-weight:600;color:var(--ink-l);flex-shrink:0;text-transform:uppercase;letter-spacing:.05em;font-family:'Crimson Pro',serif}
-.week-pill{padding:4px 10px;border-radius:8px;font-size:11px;font-weight:400;font-family:'Crimson Pro',serif;background:var(--sand);color:var(--ink-l);border:1px solid var(--border);flex-shrink:0;transition:all .15s}
+.week-pill{padding:4px 10px;border-radius:8px;font-size:11px;font-family:'Crimson Pro',serif;background:var(--sand);color:var(--ink-l);border:1px solid var(--border);flex-shrink:0;transition:all .15s}
 .week-pill.active{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
 
-.task-item{background:#fff;border-bottom:1px solid rgba(92,79,58,0.07);cursor:pointer}
-.task-main{display:flex;align-items:flex-start;gap:10px;padding:11px 14px}
-.cb{width:24px;height:24px;border-radius:7px;border:2px solid var(--border-m);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .15s}
-.cb.done{background:var(--sage);border-color:var(--sage)}
-.task-content{flex:1;min-width:0}
+/* ── TASK ITEMS ── */
+.task-item{background:#fff;border-bottom:1px solid rgba(92,79,58,0.07)}
+.task-item.skipped{background:#fdf8f8}
+.task-main{display:flex;align-items:flex-start;gap:8px;padding:10px 12px 10px 14px}
+.task-status-btns{display:flex;flex-direction:column;gap:3px;flex-shrink:0;margin-top:1px}
+.ts-btn{width:26px;height:26px;border-radius:7px;border:1.5px solid var(--border-m);background:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:all .15s;line-height:1}
+.ts-btn.done-btn.active{background:var(--sage);border-color:var(--sage)}
+.ts-btn.skip-btn.active{background:var(--skip);border-color:var(--skip)}
+.ts-btn svg{pointer-events:none}
+.task-content{flex:1;min-width:0;cursor:pointer}
 .task-label{font-size:14px;font-weight:500;color:var(--ink);line-height:1.4;font-family:'Crimson Pro',serif}
 .task-label.done{color:#bbb;text-decoration:line-through}
+.task-label.skipped{color:var(--skip);opacity:.7;text-decoration:line-through}
 .task-meta{display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap}
 .block-chip{font-size:9px;font-weight:700;padding:2px 6px;border-radius:7px;text-transform:uppercase;letter-spacing:.04em;font-family:'Crimson Pro',serif}
 .task-dur{font-size:11px;color:var(--sage);font-weight:600;font-family:'Crimson Pro',serif}
+.task-dur.skipped{color:var(--skip);opacity:.6}
+.task-actions{display:flex;gap:6px;flex-shrink:0;margin-top:2px}
+.task-edit-btn,.task-del-btn{width:26px;height:26px;border-radius:7px;border:1px solid var(--border);background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:all .15s}
+.task-edit-btn:hover{border-color:var(--terra);background:var(--terra-p)}
+.task-del-btn:hover{border-color:var(--skip);background:var(--skip-p)}
 .task-detail{padding:0 14px 13px 48px;font-size:13px;color:var(--ink-m);line-height:1.7;animation:fadeIn .15s ease;font-family:'Crimson Pro',serif}
-.task-chevron{font-size:13px;color:#ccc;flex-shrink:0;margin-top:4px;transition:transform .15s}
+.task-chevron{font-size:13px;color:#ccc;flex-shrink:0;margin-top:4px;transition:transform .15s;cursor:pointer}
 .task-chevron.open{transform:rotate(90deg)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 
+/* ── EDIT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(44,36,25,0.5);z-index:300;display:flex;align-items:flex-end;max-width:480px;margin:0 auto}
+.modal-sheet{background:#fff;border-radius:20px 20px 0 0;padding:20px 18px 40px;width:100%}
+.modal-title{font-family:'Lora',serif;font-size:17px;font-weight:500;color:var(--ink);margin-bottom:14px}
+.modal-label{font-size:11px;font-weight:700;color:var(--ink-l);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;margin-top:12px}
+.modal-input{width:100%;background:var(--sand);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'Crimson Pro',serif;font-size:15px;color:var(--ink);transition:border-color .2s}
+.modal-input:focus{outline:none;border-color:var(--terra)}
+.modal-textarea{width:100%;background:var(--sand);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'Crimson Pro',serif;font-size:14px;color:var(--ink);resize:vertical;min-height:80px;line-height:1.5}
+.modal-textarea:focus{outline:none;border-color:var(--terra)}
+.modal-row{display:flex;gap:8px;margin-top:16px}
+.modal-btn-save{flex:1;background:var(--terra);color:#fff;border:none;border-radius:9px;padding:12px;font-family:'Lora',serif;font-size:15px;cursor:pointer;transition:background .2s}
+.modal-btn-save:hover{background:var(--ink)}
+.modal-btn-cancel{padding:12px 20px;background:var(--sand);color:var(--ink-l);border:1px solid var(--border);border-radius:9px;font-family:'Crimson Pro',serif;font-size:15px;cursor:pointer}
+
+/* ── ADD TASK ── */
+.add-task-row{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#fff;border-top:1px solid var(--border)}
+.add-task-input{flex:1;background:var(--sand);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'Crimson Pro',serif;font-size:14px;color:var(--ink)}
+.add-task-input:focus{outline:none;border-color:var(--terra)}
+.add-task-input::placeholder{color:var(--ink-l);font-style:italic}
+.add-task-btn{padding:8px 14px;background:var(--terra);color:#fff;border-radius:8px;font-family:'Crimson Pro',serif;font-size:13px;font-weight:600;white-space:nowrap}
+
+/* ── SKIP LEGEND ── */
+.legend-row{display:flex;gap:12px;padding:6px 14px 8px;background:#fff;border-bottom:1px solid var(--border)}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ink-l)}
+
+/* ── WEEK CARDS ── */
 .week-card{background:#fff;border-bottom:1px solid var(--border);cursor:pointer;padding:13px 14px;display:flex;align-items:center;justify-content:space-between}
 .wc-left{flex:1;min-width:0}
 .wc-title{font-family:'Lora',serif;font-size:14px;font-weight:500;color:var(--ink)}
@@ -92,10 +136,12 @@ input,textarea{font-family:inherit;outline:none}
 .wc-badge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;flex-shrink:0;margin-left:10px}
 .wc-arrow{font-size:14px;color:#ccc;margin-left:8px}
 
+/* ── TAB ROW ── */
 .tab-row{display:flex;background:#fff;border-bottom:1px solid var(--border)}
 .tab-btn{flex:1;padding:11px 0;font-family:'Crimson Pro',serif;font-size:13px;font-weight:400;color:#aaa;background:none;border:none;border-bottom:2px solid transparent;transition:all .15s}
 .tab-btn.active{font-weight:600;color:var(--ink);border-bottom:2px solid var(--terra)}
 
+/* ── WEEK STATE ── */
 .state-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 14px}
 .state-card{padding:13px;border-radius:12px;border:2px solid transparent;cursor:pointer;transition:all .15s}
 .state-card.active{border-color:currentColor;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
@@ -105,12 +151,14 @@ input,textarea{font-family:inherit;outline:none}
 .score-label{font-size:10px;font-weight:700;color:var(--ink-l);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
 .score-input{width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);font-family:'Crimson Pro',serif;font-size:14px;background:var(--sand);color:var(--ink)}
 
+/* ── MEASURES / M-ROW ── */
 .m-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid rgba(92,79,58,0.07);background:#fff}
 .m-left{flex:1}
 .m-goal{font-size:13px;font-weight:500;color:var(--ink);font-family:'Crimson Pro',serif}
 .m-track{font-size:11px;color:var(--ink-l);margin-top:1px}
 .m-target{font-size:14px;font-weight:700;color:var(--sage);font-family:'Lora',serif}
 
+/* ── REFERENCE ── */
 .ref-section{margin:8px 14px;background:#fff;border-radius:13px;overflow:hidden;border:1px solid var(--border)}
 .ref-head{padding:13px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
 .ref-title{font-family:'Lora',serif;font-size:13px;font-weight:500;color:var(--ink)}
@@ -123,10 +171,12 @@ input,textarea{font-family:inherit;outline:none}
 .shortcut-tag{display:inline-block;background:#E6F1FB;color:#0C447C;font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;margin-bottom:4px;letter-spacing:.03em;text-transform:uppercase}
 .habit-tag{display:inline-block;background:var(--sage-p);color:var(--sage);font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;margin-bottom:4px;letter-spacing:.03em;text-transform:uppercase}
 
+/* ── PARKING ── */
 .p-item{padding:12px 14px;border-bottom:1px solid rgba(92,79,58,0.07);background:#fff}
-.p-tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600;background:var(--gold-p);color:var(--gold);margin-bottom:5px;letter-spacing:.02em}
+.p-tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600;background:var(--gold-p);color:var(--gold);margin-bottom:5px}
 .p-text{font-size:13px;color:var(--ink);line-height:1.55}
 
+/* ── ONBOARDING ── */
 .ob-wrap{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;max-width:480px;margin:0 auto}
 .ob-body{flex:1;overflow-y:auto;padding:50px 26px 26px;display:flex;flex-direction:column;justify-content:center}
 .ob-title{font-family:'Lora',Georgia,serif;font-size:26px;font-weight:500;line-height:1.2;margin-bottom:14px}
@@ -138,6 +188,7 @@ input,textarea{font-family:inherit;outline:none}
 .ob-btn{padding:13px 30px;border-radius:14px;background:rgba(0,0,0,.7);color:#fff;font-family:'Lora',serif;font-size:15px;font-weight:500}
 .ob-skip{font-family:'Crimson Pro',serif;font-size:13px;color:rgba(0,0,0,.35);background:none;border:none;cursor:pointer}
 
+/* ── MISC ── */
 .back-btn{display:flex;align-items:center;gap:6px;padding:12px 14px 8px;color:var(--ink-l);font-size:14px;background:none;border:none;cursor:pointer;font-family:'Crimson Pro',serif}
 .sec-label{padding:10px 14px 4px;font-size:10px;font-weight:700;color:var(--ink-l);text-transform:uppercase;letter-spacing:.06em}
 .spacer{height:8px}
@@ -150,13 +201,12 @@ input,textarea{font-family:inherit;outline:none}
 .mvd-title{font-family:'Lora',serif;font-size:13px;font-weight:500;color:#3C3489}
 .mvd-body{font-size:12px;color:#534AB7;margin-top:2px;line-height:1.5}
 
-/* VISION & GOALS */
+/* ── VISION & GOALS ── */
 .vision-banner{background:var(--ink);border-radius:13px;padding:24px 20px;margin:10px 14px;position:relative;overflow:hidden}
 .vision-banner::before{content:'Vision';position:absolute;right:-6px;top:-8px;font-family:'Lora',serif;font-size:70px;font-style:italic;color:rgba(245,240,232,0.05);pointer-events:none;line-height:1}
 .vision-banner-eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--terra-l);margin-bottom:8px;font-family:'Crimson Pro',serif}
 .vision-banner-title{font-family:'Lora',serif;font-size:20px;color:var(--sand);margin-bottom:6px}
 .vision-banner-body{font-size:14px;color:rgba(245,240,232,0.6);line-height:1.6;font-style:italic}
-
 .area-card{background:#fff;border:1px solid var(--border);border-radius:13px;margin:8px 14px;overflow:hidden}
 .area-head{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:rgba(245,240,232,0.5)}
 .area-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
@@ -165,10 +215,9 @@ input,textarea{font-family:inherit;outline:none}
 .prompt-row{margin-bottom:16px}
 .prompt-row:last-child{margin-bottom:0}
 .prompt-starter{font-size:13px;color:var(--terra);margin-bottom:5px;font-style:italic}
-.prompt-input{width:100%;background:var(--sand);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'Crimson Pro',serif;font-size:15px;color:var(--ink);resize:vertical;min-height:62px;transition:border-color .2s,background .2s;line-height:1.5}
-.prompt-input:focus{outline:none;border-color:var(--terra);background:#fff}
+.prompt-input{width:100%;background:var(--sand);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'Crimson Pro',serif;font-size:15px;color:var(--ink);resize:vertical;min-height:62px;transition:border-color .2s;line-height:1.5}
+.prompt-input:focus{outline:none;border-color:var(--terra)}
 .prompt-input::placeholder{color:var(--ink-l);font-style:italic}
-
 .goal-card{background:#fff;border:1px solid var(--border);border-radius:13px;margin:8px 14px;overflow:hidden}
 .goal-card-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px 0}
 .goal-num{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--terra);font-family:'Crimson Pro',serif;font-weight:700}
@@ -179,8 +228,7 @@ input,textarea{font-family:inherit;outline:none}
 .goal-title-input:focus{outline:none;border-bottom-color:var(--terra)}
 .goal-title-input::placeholder{color:var(--ink-l);font-weight:400;font-style:italic;font-family:'Crimson Pro',serif;font-size:15px}
 .goal-sec-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-l);margin-bottom:8px;margin-top:14px}
-.goal-sec-label:first-of-type{margin-top:0}
-.tactic-row{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.tactic-row-g{display:flex;align-items:center;gap:7px;margin-bottom:7px}
 .tactic-dot{width:6px;height:6px;border-radius:50%;background:var(--terra-l);flex-shrink:0}
 .tactic-input{flex:1;background:var(--sand);border:1px solid var(--border);border-radius:7px;padding:7px 11px;font-family:'Crimson Pro',serif;font-size:14px;color:var(--ink);transition:border-color .2s}
 .tactic-input:focus{outline:none;border-color:var(--terra)}
@@ -192,7 +240,7 @@ input,textarea{font-family:inherit;outline:none}
 .note-area::placeholder{color:var(--ink-l);font-style:italic}
 .add-tactic-btn{background:transparent;border:1px dashed var(--border-m);border-radius:7px;padding:6px 12px;font-family:'Crimson Pro',serif;font-size:13px;color:var(--ink-l);cursor:pointer;width:100%;text-align:left;margin-top:4px;transition:all .2s}
 .add-tactic-btn:hover{border-color:var(--terra);color:var(--terra)}
-.add-goal-wrap{margin:4px 14px 8px;text-align:center}
+.add-goal-wrap{margin:4px 14px 8px}
 .add-goal-btn{background:transparent;border:1.5px dashed var(--border-m);border-radius:10px;padding:12px;font-family:'Crimson Pro',serif;font-size:14px;color:var(--ink-l);cursor:pointer;width:100%;transition:all .2s}
 .add-goal-btn:hover{border-color:var(--terra);color:var(--terra)}
 .sprint-badge{display:inline-flex;align-items:center;gap:5px;background:var(--gold-p);border:1px solid rgba(122,92,16,0.3);border-radius:20px;padding:4px 14px;font-size:12px;color:var(--gold);letter-spacing:.03em;margin:8px 14px 4px;font-family:'Crimson Pro',serif}
@@ -225,15 +273,18 @@ var BLOCK_STYLE={
   Work:{bg:"#E6F1FB",text:"#0C447C"},Creative:{bg:"#EEEDFE",text:"#3C3489"},
   Business:{bg:"#FAECE7",text:"#712B13"},Community:{bg:"#EAF3DE",text:"#27500A"},
   Home:{bg:"#F1EFE8",text:"#444441"},Planning:{bg:"#E6F1FB",text:"#0C447C"},
-  Rest:{bg:"#F1EFE8",text:"#444441"},Setup:{bg:"#F1EFE8",text:"#444441"}
+  Rest:{bg:"#F1EFE8",text:"#444441"},Setup:{bg:"#F1EFE8",text:"#444441"},
+  Custom:{bg:"#F5ECC0",text:"#7A5C10"}
 };
+
 var ONBOARDING=[
-  {title:"Welcome to your 12-Week Plan",bg:"#EEEDFE",text:"#3C3489",body:"This is your personal operating system for the next 12 weeks. Every day is fully prescribed. You never have to wonder what to do next.\n\nEvery task tells you exactly what to do, which app to open, and how long it takes. Tap any task to see the full instructions."},
+  {title:"Welcome to your 12-Week Year",bg:"#EEEDFE",text:"#3C3489",body:"This is your personal operating system for the next 12 weeks. Every day is fully prescribed so you never have to wonder what to do next.\n\nStart with Vision & Goals to set your 3-year picture. Then use Today every morning to work through your day."},
   {title:"Your tool stack",bg:"#E1F5EE",text:"#085041",body:"Google Keep: capture any thought the moment it appears.\n\nPhysical planner: write today tasks every morning with a time next to each.\n\nApple Calendar: check first every morning.\n\nRoutinery: runs your morning and evening routines step by step.\n\nFlyLady: guides your weekly home zone.\n\nNotion: jewelry store planning and business notes only.\n\nSubstack: where your writing gets published."},
-  {title:"How to use this app",bg:"#FAEEDA",text:"#633806",body:"Every morning: open this app, set your energy level, read today tasks from top to bottom, do them in order.\n\nOn low energy days: the task list shrinks automatically to your Minimum Viable Day only.\n\nEvery Sunday: go to Weeks, open the current week, score last week, set your state for the week ahead.\n\nFirst time: go to Vision and Goals to set your 3-year picture before starting Week 1."},
+  {title:"Checking off your day",bg:"#FAEEDA",text:"#633806",body:"Each task has two buttons.\n\nThe checkmark means done. Tap it when you complete a task.\n\nThe X means skipped. Tap it when you did not do a task today — not failed, just not done. Be honest with yourself.\n\nYou can also edit or delete any task using the pencil and trash icons. Add your own tasks at the bottom of any day."},
   {title:"Your three goals",bg:"#FCEBEB",text:"#791F1F",body:"Goal 1: Prioritize creative outlets.\nReconnect with your art through The Artist Way. Relaunch your jewelry store as a social impact brand. Build your Substack writing presence.\n\nGoal 2: Invest in yourself.\nBuild sustainable routines. Clear your home zone by zone. Create daily mind, body, and soul moments.\n\nGoal 3: Invest in community.\nCall friends and family consistently. Launch your dinner club. Begin meaningful local volunteering."},
   {title:"The only rule",bg:"#E6F1FB",text:"#0C447C",body:"Incomplete weeks are not failed weeks.\n\nYour Minimum Viable Day on hard days:\n1. Wake without reaching for your phone\n2. Drink a full glass of water\n3. Check Apple Calendar\n4. Write 1 task in your physical planner\n5. Do your Morning Pages\n\nThat is a successful day. Everything else is a bonus."}
 ];
+
 var MEASURES=[
   {goal:"Morning Pages",track:"Days completed",target:"7/7"},
   {goal:"Art practice",track:"Days making something",target:"5-7"},
@@ -246,6 +297,7 @@ var MEASURES=[
   {goal:"Home zone",track:"Zones cleaned",target:"1"},
   {goal:"Community",track:"Intentional contacts",target:"2-3"}
 ];
+
 var PARKING=[
   {tag:"Week 7",text:"Art show planning: begins only if art practice feels rebuilt. If not ready, moves to cycle 2."},
   {tag:"Week 8",text:"DashPass cancellation: reassess when cooking at home 4 or more nights consistently."},
@@ -256,12 +308,13 @@ var PARKING=[
   {tag:"December",text:"Routinery and FlyLady subscription renewal decisions."},
   {tag:"Ongoing",text:"Local area exploration: one new neighborhood or spot per week."}
 ];
+
 var REFERENCE=[
   {title:"Apple Shortcuts for your routines",tag:"shortcut",items:[
-    {title:"Morning Pages reminder",body:"Open Shortcuts app. Tap + to create new shortcut. Add action: Show Notification. Set title to Morning Pages and body to 3 pages, no rereading, no editing. Set automation to trigger daily at your wake time. This fires before you open any app."},
+    {title:"Morning Pages reminder",body:"Open Shortcuts app. Tap + to create new shortcut. Add action: Show Notification. Set title to Morning Pages and body to 3 pages, no rereading, no editing. Set automation to trigger daily at your wake time."},
     {title:"Open Routinery on wake",body:"Create a shortcut: Open App and select Routinery. Set as a personal automation triggered when your alarm is dismissed. Routinery opens automatically when you silence your morning alarm."},
-    {title:"Google Keep quick capture",body:"Add a Google Keep widget to your lock screen. Settings → Wallpaper → Customize → add widget → Google Keep. One tap from the lock screen opens a new note. Fastest possible capture."},
-    {title:"Evening wind-down trigger",body:"Create a Focus mode called Wind Down. Set it to activate automatically at 10:45pm. In the Focus settings, allow only your alarm app and silence all notifications. Your phone goes quiet automatically."},
+    {title:"Google Keep quick capture",body:"Add a Google Keep widget to your lock screen. Settings → Wallpaper → Customize → add widget → Google Keep. One tap from the lock screen opens a new note."},
+    {title:"Evening wind-down trigger",body:"Create a Focus mode called Wind Down. Set it to activate automatically at 10:45pm. Allow only your alarm app and silence all notifications. Your phone goes quiet automatically."},
     {title:"Start focus timer",body:"Create a shortcut: Set Timer for 25 minutes. Name it Focus Block. Add to home screen. One tap starts your Pomodoro without opening Clock."}
   ]},
   {title:"Habit stacks by time of day",tag:"habit",items:[
@@ -278,13 +331,14 @@ var REFERENCE=[
     {title:"High energy day: capture everything",body:"Full morning routine. Morning Pages. 3 deep work blocks before noon. Full workout. Cook dinner. 60-min personal project block. Do not spend high energy days on admin or email."}
   ]},
   {title:"When you feel stuck",tag:"habit",items:[
-    {title:"Stuck on a task for more than 3 minutes",body:"Stop. Open Google Keep. Write the task title followed with TODO. Move to the next task. Return to it in the afternoon self-org block. Stuck tasks are not failed tasks. They are deferred tasks."},
-    {title:"Missed 2 or more days in a row",body:"Do not try to catch up. Open this app, go to your current week, tap Week State, switch to Recovery or Stabilization. Do MVD today. One completed MVD day resets the streak."},
+    {title:"Stuck on a task for more than 3 minutes",body:"Stop. Open Google Keep. Write the task title followed with TODO. Move to the next task. Return to it in the afternoon self-org block."},
+    {title:"Missed 2 or more days in a row",body:"Do not try to catch up. Open this app, go to your current week, tap Week State, switch to Recovery or Stabilization. Do MVD today."},
     {title:"Everything feels urgent at once",body:"Open Google Keep. Brain dump every task and worry into one note. Do not organize it. Then close Keep. Open your physical planner. Write 1 task only. Start that task."},
     {title:"No motivation to start",body:"Do not wait for motivation. Open Routinery and tap Morning Anchor. Follow the first step only. Motivation follows action, not the other way around."}
   ]}
 ];
 
+/* ── TASK GENERATION ── */
 function getTasks(weekNum,dayIdx){
   var isFri=dayIdx===4,isSat=dayIdx===5,isSun=dayIdx===6;
   var morning=[
@@ -293,7 +347,7 @@ function getTasks(weekNum,dayIdx){
     {block:"Routine",label:"Open Routinery: Morning Anchor",detail:"Open Routinery and tap your Morning Anchor routine. Follow each step as it appears. Do not skip ahead.",dur:"15-20 min"},
     {block:"Mind",label:"Morning Pages",detail:"Open your dedicated Morning Pages notebook. Write 3 full pages, stream of consciousness. Do not plan, edit, or reread. Set a timer for 25 minutes.",dur:"25 min"},
     {block:"Planning",label:"Check Apple Calendar",detail:"Open Apple Calendar. Read what is scheduled today. Note any meetings or commitments. Close after 5 minutes.",dur:"5 min"},
-    {block:"Planning",label:"Write today plan in physical planner",detail:"Open your physical planner. Write 3 to 5 tasks. Next to each task write how many minutes you are committing to it. You are committing to the time, not to finishing.",dur:"5-10 min"}
+    {block:"Planning",label:"Write today plan in physical planner",detail:"Open your physical planner. Write 3 to 5 tasks with time commitments next to each. You are committing to the time, not to finishing.",dur:"5-10 min"}
   ];
   var evening=[
     {block:"Mind",label:"Google Keep brain sweep",detail:"Open Google Keep. Dump everything still in your head: worries, ideas, tomorrow tasks. Takes 3 minutes. Clears your mind before sleep.",dur:"3 min"},
@@ -303,10 +357,10 @@ function getTasks(weekNum,dayIdx){
     {block:"Routine",label:"Phone on charger, screens off by 11pm",detail:"Phone on charger across the room or outside the bedroom. No social feeds, no email, no scrolling after this point.",dur:"Immediate"}
   ];
   var soul={block:"Soul",label:"Faith moment",detail:"Open your Bible app or Enduring Word. Read one passage. Spend 5 minutes in quiet reflection or prayer. Same time every day builds the habit.",dur:"5-10 min"};
-  var nourish={block:"Body",label:"Log meals in Nourish",detail:"Open Nourish after each meal and log what you ate. The habit of opening the app matters more than perfection.",dur:"2 min per meal"};
+  var nourish={block:"Body",label:"Log meals in Nourish",detail:"Open Nourish after each meal and log what you ate. The habit of opening the app matters more than perfection.",dur:"2 min/meal"};
   var outlook={block:"Work",label:"Scan Outlook for fires only",detail:"Open Outlook. Check for anything urgent that changes today plan only. If nothing is on fire, close and do not reopen until self-org block.",dur:"5 min"};
-  var selfOrg={block:"Planning",label:"Afternoon self-org block",detail:"Open Google Keep. Move captured notes into planner or Notion. Mark done tasks, move unfinished to tomorrow. This is your daily system maintenance.",dur:"30 min"};
-  var workBlock={block:"Work",label:"Work catchup: deep work block",detail:"Open your physical planner. Pick the highest priority work task. Set Clock timer for 25 minutes. Work on that task only: phone silent, Outlook and Slack closed. Break 5 min. Repeat once.",dur:"50-75 min"};
+  var selfOrg={block:"Planning",label:"Afternoon self-org block",detail:"Open Google Keep. Move captured notes into planner or Notion. Mark done tasks, move unfinished to tomorrow.",dur:"30 min"};
+  var workBlock={block:"Work",label:"Work catchup: deep work block",detail:"Open your physical planner. Pick the highest priority work task. Set Clock timer for 25 minutes. Phone silent, Outlook and Slack closed. Break 5 min. Repeat once.",dur:"50-75 min"};
   var art=function(m,n){return{block:"Creative",label:"Art practice: "+m+" min",detail:"Set Clock timer for "+m+" minutes. Open sketchbook or art supplies. Make something. Do not judge it. "+(n||""),dur:m+" min"};};
   var jwl=function(t,d){return{block:"Business",label:"Jewelry store: "+t,detail:"Open Notion, go to 12-Week Business Hub. "+d,dur:"20-30 min"};};
   var sub=function(t,d){return{block:"Creative",label:"Substack: "+t,detail:d,dur:"20-45 min"};};
@@ -314,7 +368,7 @@ function getTasks(weekNum,dayIdx){
   var tasks=[];
   if(isSun){
     tasks=morning.concat([soul,nourish,
-      {block:"Planning",label:"Weekly Review: score last week",detail:"Open this app. Go to the current week. Count completed tasks versus planned. Write your score in Week State tab. Be honest. This is data not judgment.",dur:"10 min"},
+      {block:"Planning",label:"Weekly Review: score last week",detail:"Open this app. Go to the current week. Count completed tasks versus planned. Write your score in Week State tab. This is data not judgment.",dur:"10 min"},
       {block:"Planning",label:"Set system state for the week ahead",detail:"Open this app. Go to next week. Tap Week State. Choose Recovery, Stabilization, Maintenance, or Growth based on how you feel.",dur:"5 min"},
       {block:"Planning",label:"Read next week tasks",detail:"Open this app. Go to next week. Read every daily task for Monday through Sunday so nothing surprises you.",dur:"10 min"},
       {block:"Planning",label:"Block deep work slots in Apple Calendar",detail:"Create calendar blocks: Deep Work Work on Mon and Wed morning, Deep Work Creative on Tue and Thu evening, Project Block Friday afternoon. Treat as unmovable.",dur:"10 min"},
@@ -325,7 +379,7 @@ function getTasks(weekNum,dayIdx){
     var ch=weekNum>0?weekNum:1;
     tasks=morning.concat([soul,nourish,
       {block:"Creative",label:"Artist Way: Week "+ch+" chapter",detail:"Open The Artist Way to Week "+ch+". Read the full chapter. Complete chapter check-in questions in your Morning Pages notebook on a fresh page.",dur:"30-40 min"},
-      {block:"Creative",label:"Artist Date: solo creative outing",detail:"Go somewhere alone that feeds your creativity. Gallery, craft store, new neighborhood, market, or concert. No phone scrolling. Just observe and enjoy.",dur:"1-2 hours"},
+      {block:"Creative",label:"Artist Date: solo creative outing",detail:"Go somewhere alone that feeds your creativity. Gallery, craft store, new neighborhood, market, or concert. No phone scrolling. Just observe and enjoy.",dur:"1-2 hrs"},
       art(30,"Saturday is exploratory. Try a new medium, new subject, or a technique from This Is Not A Sketchbook."),
       mov("walk or light workout","Open Nike Run Club for a walk or Nike Training Club for a light session. Should feel enjoyable not obligatory."),
       {block:"Community",label:"Call or text one person with intention",detail:"Pick one friend or family member. Call them or send a voice note. Ask how they are really doing and listen.",dur:"15-30 min"},
@@ -370,15 +424,15 @@ function getTasks(weekNum,dayIdx){
     ]).concat(evening);
   }
   var seen={};
-  return tasks.filter(function(t){ if(seen[t.label]) return false; seen[t.label]=true; return true; });
+  return tasks.filter(function(t){if(seen[t.label])return false;seen[t.label]=true;return true;});
 }
 
 var WEEK_META=[
   {week:0,label:"Before Week 1",state:"Stabilization",score:null,theme:"Do these first, in this order",hasDays:false,setup:[
     {label:"Buy one dedicated Morning Pages notebook",detail:"Go to any store. Buy one notebook only for Morning Pages. Label it Morning Pages on the cover. Keep it on your nightstand tonight."},
     {label:"Create your Notion Business Hub",detail:"Open Notion. Create a page titled 12-Week Business Hub. Inside create 4 sub-pages: Brand Foundation, Product Selection, Launch Checklist, Newsletter Drafts. Do not fill anything in yet."},
-    {label:"Set up Routinery Morning Anchor",detail:"Open Routinery. Create Morning Anchor routine with: Drink water 1 min, Stretch 5 min, Wash face 5 min, Get dressed 10 min. Set to trigger at your typical wake time."},
-    {label:"Set up Routinery Evening Anchor",detail:"Open Routinery. Create Evening Anchor routine with: Skincare 5 min, Brush teeth 2 min, Change into sleep clothes 3 min, Tidy one surface 5 min. Set to trigger at 10pm."},
+    {label:"Set up Routinery Morning Anchor",detail:"Open Routinery. Create Morning Anchor routine: Drink water 1 min, Stretch 5 min, Wash face 5 min, Get dressed 10 min. Set to trigger at your typical wake time."},
+    {label:"Set up Routinery Evening Anchor",detail:"Open Routinery. Create Evening Anchor routine: Skincare 5 min, Brush teeth 2 min, Change into sleep clothes 3 min, Tidy one surface 5 min. Set to trigger at 10pm."},
     {label:"Set up FlyLady home zone schedule",detail:"Open FlyLady. Navigate to Zone Cleaning. Set current zone to Zone 1 which is your bedroom. Read what FlyLady assigns for this zone. Just familiarize yourself. Do not clean yet."},
     {label:"Clean bedroom to a functional baseline",detail:"Set timer for 45 minutes. Remove everything from the floor. Clear nightstand to water glass and Morning Pages notebook only. Make bed. Open a window 5 minutes. Stop when timer goes off."},
     {label:"Set up one consistent workspace",detail:"Pick one spot for personal project work. Clear it completely. Place physical planner, pen, and Morning Pages notebook within arm reach. This is your anchor workspace."},
@@ -401,29 +455,41 @@ var WEEK_META=[
 
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 
+/* ── APP STATE ── */
 var S={
   view:"today",onboarding:true,obStep:0,
   selWeekIdx:null,selDayIdx:0,weekTab:"days",
-  checked:{},wstate:{},wscore:{},energy:"Medium",openTasks:{},
+  // checked[id] = "done" | "skip" | undefined
+  checked:{},
+  // custom task overrides: edits[id] = {label, detail, dur} ; deleted[id] = true
+  edits:{},deleted:{},
+  // custom added tasks per day: customTasks["w1d0"] = [{id,label,detail,dur,block}]
+  customTasks:{},
+  wstate:{},wscore:{},energy:"Medium",openTasks:{},
   refOpen:{},todayWeek:1,
   vision:{},goals:[
     {id:uid(),text:"",tactics:["","",""],note:""},
     {id:uid(),text:"",tactics:["","",""],note:""},
     {id:uid(),text:"",tactics:["","",""],note:""}
   ],
-  goalsTab:"vision"
+  goalsTab:"vision",
+  // edit modal
+  editModal:null
 };
 
 function load(){
   try{
-    if(localStorage.getItem("ob5")) S.onboarding=false;
-    var c=localStorage.getItem("chk5"); if(c) S.checked=JSON.parse(c);
-    var ws=localStorage.getItem("wst5"); if(ws) S.wstate=JSON.parse(ws);
-    var sc=localStorage.getItem("wsc5"); if(sc) S.wscore=JSON.parse(sc);
-    var en=localStorage.getItem("en5"); if(en) S.energy=en;
-    var tw=localStorage.getItem("tw5"); if(tw) S.todayWeek=parseInt(tw);
-    var vi=localStorage.getItem("vis5"); if(vi) S.vision=JSON.parse(vi);
-    var gl=localStorage.getItem("gls5"); if(gl){
+    if(localStorage.getItem("ob6")) S.onboarding=false;
+    var c=localStorage.getItem("chk6");  if(c)  S.checked=JSON.parse(c);
+    var ed=localStorage.getItem("ed6");  if(ed) S.edits=JSON.parse(ed);
+    var dl=localStorage.getItem("dl6");  if(dl) S.deleted=JSON.parse(dl);
+    var ct=localStorage.getItem("ct6");  if(ct) S.customTasks=JSON.parse(ct);
+    var ws=localStorage.getItem("wst6"); if(ws) S.wstate=JSON.parse(ws);
+    var sc=localStorage.getItem("wsc6"); if(sc) S.wscore=JSON.parse(sc);
+    var en=localStorage.getItem("en6");  if(en) S.energy=en;
+    var tw=localStorage.getItem("tw6");  if(tw) S.todayWeek=parseInt(tw);
+    var vi=localStorage.getItem("vis6"); if(vi) S.vision=JSON.parse(vi);
+    var gl=localStorage.getItem("gls6"); if(gl){
       var loaded=JSON.parse(gl);
       S.goals=loaded.map(function(g){return Object.assign({id:uid(),text:"",tactics:["","",""],note:""},g);});
     }
@@ -433,6 +499,7 @@ function load(){
 function sv(key,val){try{localStorage.setItem(key,typeof val==="string"?val:JSON.stringify(val));}catch(e){}}
 function render(){var a=document.getElementById("app");a.innerHTML="";a.appendChild(buildView());}
 
+/* ── DOM HELPERS ── */
 function el(tag,attrs,children){
   var e=document.createElement(tag);
   if(attrs) Object.keys(attrs).forEach(function(k){
@@ -442,7 +509,7 @@ function el(tag,attrs,children){
     else e.setAttribute(k,attrs[k]);
   });
   if(children)(Array.isArray(children)?children:[children]).forEach(function(c){
-    if(c==null) return;
+    if(c==null)return;
     if(typeof c==="string"||typeof c==="number") e.appendChild(document.createTextNode(c));
     else e.appendChild(c);
   });
@@ -452,39 +519,60 @@ function div(cls,children,extra){return el("div",Object.assign({class:cls||""},e
 function btn(cls,text,onClick){return el("button",{class:cls||"",onClick:onClick},text);}
 function getSC(s){return STATE_COLORS[s]||STATE_COLORS.Maintenance;}
 function esc(s){return(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function flashSave(id){var e=document.getElementById(id);if(!e)return;e.classList.add("show");clearTimeout(e._t);e._t=setTimeout(function(){e.classList.remove("show");},1800);}
 
-function flashSave(id){
-  var e=document.getElementById(id);if(!e)return;
-  e.classList.add("show");clearTimeout(e._t);
-  e._t=setTimeout(function(){e.classList.remove("show");},1800);
+function svgCheck(){
+  var svg=document.createElementNS("http://www.w3.org/2000/svg","svg");var p=document.createElementNS("http://www.w3.org/2000/svg","path");
+  svg.setAttribute("width","13");svg.setAttribute("height","13");svg.setAttribute("viewBox","0 0 12 12");svg.setAttribute("fill","none");
+  p.setAttribute("d","M2 6l3 3 5-5");p.setAttribute("stroke","#fff");p.setAttribute("stroke-width","2");p.setAttribute("stroke-linecap","round");p.setAttribute("stroke-linejoin","round");
+  svg.appendChild(p);return svg;
+}
+function svgX(){
+  var svg=document.createElementNS("http://www.w3.org/2000/svg","svg");var p=document.createElementNS("http://www.w3.org/2000/svg","path");
+  svg.setAttribute("width","12");svg.setAttribute("height","12");svg.setAttribute("viewBox","0 0 12 12");svg.setAttribute("fill","none");
+  p.setAttribute("d","M2 2l8 8M10 2l-8 8");p.setAttribute("stroke","#fff");p.setAttribute("stroke-width","2");p.setAttribute("stroke-linecap","round");
+  svg.appendChild(p);return svg;
 }
 
-function checkmark(){
-  var svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
-  var p=document.createElementNS("http://www.w3.org/2000/svg","path");
-  svg.setAttribute("width","13");svg.setAttribute("height","13");
-  svg.setAttribute("viewBox","0 0 12 12");svg.setAttribute("fill","none");
-  p.setAttribute("d","M2 6l3 3 5-5");p.setAttribute("stroke","#fff");
-  p.setAttribute("stroke-width","2");p.setAttribute("stroke-linecap","round");
-  p.setAttribute("stroke-linejoin","round");svg.appendChild(p);return svg;
-}
-
-function getDayPct(wn,di){
-  var t=getTasks(wn,di);
-  var d=t.filter(function(_,i){return S.checked["w"+wn+"d"+di+"t"+i];}).length;
-  return t.length>0?Math.round((d/t.length)*100):0;
+function getDayPct(weekNum,dayIdx){
+  var tasks=getDayTasks(weekNum,dayIdx);
+  var done=tasks.filter(function(t){return S.checked[t.id]==="done";}).length;
+  return tasks.length>0?Math.round((done/tasks.length)*100):0;
 }
 
 function getWeekPct(wm){
   if(!wm.hasDays){
-    var s=wm.setup||[];var d=s.filter(function(_,i){return S.checked["w"+wm.week+"s"+i];}).length;
+    var s=wm.setup||[];var d=s.filter(function(_,i){return S.checked["w"+wm.week+"s"+i]==="done";}).length;
     return s.length>0?Math.round((d/s.length)*100):0;
   }
   var total=0,done=0;
-  for(var d2=0;d2<7;d2++){var t=getTasks(wm.week,d2);total+=t.length;done+=t.filter(function(_,i){return S.checked["w"+wm.week+"d"+d2+"t"+i];}).length;}
+  for(var d2=0;d2<7;d2++){var t=getDayTasks(wm.week,d2);total+=t.length;done+=t.filter(function(t){return S.checked[t.id]==="done";}).length;}
   return total>0?Math.round((done/total)*100):0;
 }
 
+/* Get tasks for a day, applying edits/deletes/custom additions */
+function getDayTasks(weekNum,dayIdx){
+  var base=getTasks(weekNum,dayIdx);
+  var result=[];
+  base.forEach(function(t,i){
+    var id="w"+weekNum+"d"+dayIdx+"t"+i;
+    if(S.deleted[id]) return;
+    var override=S.edits[id];
+    if(override){
+      result.push(Object.assign({},t,override,{id:id}));
+    } else {
+      result.push(Object.assign({},t,{id:id}));
+    }
+  });
+  var cKey="w"+weekNum+"d"+dayIdx;
+  var custom=S.customTasks[cKey]||[];
+  custom.forEach(function(ct){
+    if(!S.deleted[ct.id]) result.push(ct);
+  });
+  return result;
+}
+
+/* ── BOTTOM NAV ── */
 function bottomNav(){
   var items=[
     {icon:"☀️",label:"Today",v:"today"},
@@ -504,28 +592,117 @@ function bottomNav(){
   }));
 }
 
-function taskItem(task,id){
-  var done=!!S.checked[id],open=!!S.openTasks[id];
+/* ── TASK ITEM (with done/skip/edit/delete) ── */
+function taskItem(task,isSetup){
+  var id=task.id;
+  var status=S.checked[id]||"";
+  var isDone=status==="done",isSkip=status==="skip";
+  var open=!!S.openTasks[id];
   var bs=BLOCK_STYLE[task.block]||{bg:"#eee",text:"#666"};
-  var cbEl=el("div",{class:"cb"+(done?" done":""),onClick:function(e){
-    e.stopPropagation();S.checked[id]=!S.checked[id];sv("chk5",S.checked);render();
-  }},done?[checkmark()]:null);
-  var row=div("task-main",[cbEl,
-    div("task-content",[
-      el("div",{class:"task-label"+(done?" done":"")},task.label),
-      div("task-meta",[
-        el("span",{class:"block-chip",style:{background:bs.bg,color:bs.text}},task.block),
-        el("span",{class:"task-dur"},task.dur)
-      ])
-    ]),
-    el("span",{class:"task-chevron"+(open?" open":"")},"\u203a")
+
+  var doneBtnEl=el("div",{class:"ts-btn done-btn"+(isDone?" active":""),onClick:function(e){
+    e.stopPropagation();
+    S.checked[id]=isDone?"":("done");
+    sv("chk6",S.checked);render();
+  }},isDone?[svgCheck()]:["✓"]);
+
+  var skipBtnEl=el("div",{class:"ts-btn skip-btn"+(isSkip?" active":""),onClick:function(e){
+    e.stopPropagation();
+    S.checked[id]=isSkip?"":("skip");
+    sv("chk6",S.checked);render();
+  }},isSkip?[svgX()]:["✕"]);
+
+  var editBtnEl=el("div",{class:"task-edit-btn",title:"Edit",onClick:function(e){
+    e.stopPropagation();
+    S.editModal={id:id,label:task.label,detail:task.detail||"",dur:task.dur||"",isSetup:!!isSetup};
+    render();
+  }},"✎");
+
+  var delBtnEl=el("div",{class:"task-del-btn",title:"Delete",onClick:function(e){
+    e.stopPropagation();
+    if(!confirm("Remove this task?"))return;
+    S.deleted[id]=true;sv("dl6",S.deleted);render();
+  }},"🗑");
+
+  var labelCls="task-label"+(isDone?" done":"")+(isSkip?" skipped":"");
+  var durCls="task-dur"+(isSkip?" skipped":"");
+
+  var contentEl=div("task-content",[
+    el("div",{class:labelCls},task.label),
+    div("task-meta",[
+      el("span",{class:"block-chip",style:{background:bs.bg,color:bs.text}},task.block),
+      el("span",{class:durCls},task.dur)
+    ])
   ]);
-  var item=div("task-item",[row]);
+  contentEl.addEventListener("click",function(){S.openTasks[id]=!S.openTasks[id];render();});
+
+  var mainRow=div("task-main",[
+    div("task-status-btns",[doneBtnEl,skipBtnEl]),
+    contentEl,
+    div("task-actions",[editBtnEl,delBtnEl]),
+    el("span",{class:"task-chevron"+(open?" open":""),onClick:function(e){e.stopPropagation();S.openTasks[id]=!S.openTasks[id];render();}},"›")
+  ]);
+
+  var itemCls="task-item"+(isSkip?" skipped":"");
+  var item=div(itemCls,[mainRow]);
   if(open&&task.detail) item.appendChild(el("div",{class:"task-detail"},task.detail));
-  item.addEventListener("click",function(){S.openTasks[id]=!S.openTasks[id];render();});
   return item;
 }
 
+/* ── ADD TASK ROW ── */
+function addTaskRow(weekNum,dayIdx){
+  var inp=el("input",{class:"add-task-input",type:"text",placeholder:"Add a task for today…"},null);
+  var addBtn=el("button",{class:"add-task-btn",onClick:function(){
+    var v=inp.value.trim();if(!v)return;
+    var cKey="w"+weekNum+"d"+dayIdx;
+    if(!S.customTasks[cKey]) S.customTasks[cKey]=[];
+    S.customTasks[cKey].push({id:"c"+uid(),label:v,detail:"",dur:"",block:"Custom"});
+    sv("ct6",S.customTasks);inp.value="";render();
+  }},"Add");
+  return div("add-task-row",[inp,addBtn]);
+}
+
+/* ── EDIT MODAL ── */
+function buildEditModal(){
+  var m=S.editModal;
+  var labelInp=el("input",{class:"modal-input",type:"text",value:esc(m.label)},null);
+  var durInp=el("input",{class:"modal-input",type:"text",value:esc(m.dur),placeholder:"e.g. 25 min"},null);
+  var detailArea=el("textarea",{class:"modal-textarea"},null);
+  detailArea.value=m.detail||"";
+
+  var overlay=div("modal-overlay",[
+    div("modal-sheet",[
+      el("div",{class:"modal-title"},"Edit Task"),
+      el("div",{class:"modal-label"},"Task name"),
+      labelInp,
+      el("div",{class:"modal-label"},"Duration"),
+      durInp,
+      el("div",{class:"modal-label"},"Detail / instructions"),
+      detailArea,
+      div("modal-row",[
+        el("button",{class:"modal-btn-cancel",onClick:function(){S.editModal=null;render();}},"Cancel"),
+        el("button",{class:"modal-btn-save",onClick:function(){
+          var newLabel=labelInp.value.trim();
+          if(!newLabel){alert("Task name cannot be empty.");return;}
+          S.edits[m.id]={label:newLabel,detail:detailArea.value.trim(),dur:durInp.value.trim()};
+          // Also update customTasks if this is a custom task
+          Object.keys(S.customTasks).forEach(function(k){
+            S.customTasks[k]=S.customTasks[k].map(function(ct){
+              if(ct.id===m.id) return Object.assign({},ct,{label:newLabel,detail:detailArea.value.trim(),dur:durInp.value.trim()});
+              return ct;
+            });
+          });
+          sv("ed6",S.edits);sv("ct6",S.customTasks);
+          S.editModal=null;render();
+        }},"Save")
+      ])
+    ])
+  ]);
+  overlay.addEventListener("click",function(e){if(e.target===overlay){S.editModal=null;render();}});
+  return overlay;
+}
+
+/* ── ONBOARDING ── */
 function buildOnboarding(){
   var s=ONBOARDING[S.obStep];
   var wrap=div("ob-wrap",null);
@@ -536,28 +713,30 @@ function buildOnboarding(){
   ]);
   var dots=div("ob-dots",ONBOARDING.map(function(_,i){return div("ob-dot"+(i===S.obStep?" active":""),null);}));
   var isLast=S.obStep===ONBOARDING.length-1;
-  var nextBtn=btn("ob-btn",isLast?"Start my plan \u2192":"Next \u2192",function(){
-    if(isLast){S.onboarding=false;sv("ob5","1");}else S.obStep++;render();
+  var nextBtn=btn("ob-btn",isLast?"Start my plan →":"Next →",function(){
+    if(isLast){S.onboarding=false;sv("ob6","1");}else S.obStep++;render();
   });
-  var skipBtn=!isLast?btn("ob-skip","Skip",function(){S.onboarding=false;sv("ob5","1");render();}):null;
+  var skipBtn=!isLast?btn("ob-skip","Skip",function(){S.onboarding=false;sv("ob6","1");render();}):null;
   var foot=div("ob-foot",[dots,div("",[skipBtn,nextBtn].filter(Boolean))]);
   wrap.appendChild(body);wrap.appendChild(foot);return wrap;
 }
 
+/* ── TODAY ── */
 function buildToday(){
   var today=new Date(),dayIdx=(today.getDay()+6)%7,weekNum=S.todayWeek;
   var wm=WEEK_META[weekNum]||WEEK_META[1],sc=getSC(wm.state);
-  var allTasks=getTasks(weekNum,dayIdx);
+  var allTasks=getDayTasks(weekNum,dayIdx);
   var mvdBlocks=["Routine","Mind","Planning","Soul","Body"];
   var filtered=S.energy==="Low"?allTasks.filter(function(t){return mvdBlocks.indexOf(t.block)>-1;}).slice(0,7):allTasks;
-  var done=filtered.filter(function(_,i){return S.checked["w"+weekNum+"d"+dayIdx+"t"+i];}).length;
+  var done=filtered.filter(function(t){return S.checked[t.id]==="done";}).length;
+  var skipped=filtered.filter(function(t){return S.checked[t.id]==="skip";}).length;
   var pct=filtered.length>0?Math.round((done/filtered.length)*100):0;
 
   var wSelRow=div("week-sel-row",null);
   wSelRow.appendChild(el("div",{class:"week-sel-lbl"},"Week"));
   for(var wi=1;wi<=12;wi++){(function(w){
     var active=S.todayWeek===w;
-    wSelRow.appendChild(el("button",{class:"week-pill"+(active?" active":""),onClick:function(){S.todayWeek=w;sv("tw5",String(w));render();}},"W"+w));
+    wSelRow.appendChild(el("button",{class:"week-pill"+(active?" active":""),onClick:function(){S.todayWeek=w;sv("tw6",String(w));render();}},"W"+w));
   })(wi);}
 
   var dayStrip=div("day-strip",DAYS_SHORT.map(function(d,di){
@@ -567,43 +746,60 @@ function buildToday(){
 
   var energyBar=div("energy-bar",["Low","Medium","High"].map(function(e){
     var active=S.energy===e;
-    return el("button",{class:"e-btn"+(active?" active-"+e.toLowerCase():""),onClick:function(){S.energy=e;sv("en5",e);render();}},e+" energy");
+    return el("button",{class:"e-btn"+(active?" active-"+e.toLowerCase():""),onClick:function(){S.energy=e;sv("en6",e);render();}},e+" energy");
   }));
 
   var progStrip=div("progress-strip",[
     el("div",{class:"prog-label"},DAYS_FULL[dayIdx]),
     el("div",{class:"prog-track"},[el("div",{class:"prog-fill",style:{width:pct+"%"}},null)]),
-    el("div",{class:"prog-pct"},done+"/"+filtered.length)
+    el("div",{class:"prog-pct"},done+" done"+(skipped>0?" · "+skipped+" skipped":""))
+  ]);
+
+  var legend=div("legend-row",[
+    div("legend-item",[el("span",{style:{color:"var(--sage)",fontWeight:"700",fontSize:"14px"}},"✓")," = done"]),
+    div("legend-item",[el("span",{style:{color:"var(--skip)",fontWeight:"700",fontSize:"14px"}},"✕")," = skipped"]),
+    div("legend-item",[el("span",{style:{fontSize:"13px"}},"✎")," = edit"]),
+    div("legend-item",[el("span",{style:{fontSize:"12px"}},"🗑")," = delete"])
   ]);
 
   var mvdBanner=S.energy==="Low"?div("mvd-banner",[
-    div("mvd-icon","\ud83e\udd4a"),
+    div("mvd-icon","🪨"),
     div("",[div("mvd-title","Minimum Viable Day mode"),div("mvd-body","Showing essential tasks only. Rest is the work today.")])
   ]):null;
 
   var children=[
     el("div",{class:"hdr"},[div("hdr-row",[el("div",{class:"hdr-title"},"Today"),el("div",{class:"state-badge",style:{background:sc.bg,color:sc.text}},wm.state)])]),
-    wSelRow,dayStrip,energyBar,progStrip
+    wSelRow,dayStrip,energyBar,progStrip,legend
   ];
   if(mvdBanner) children.push(mvdBanner);
-  children.push(div("card-wrap",filtered.map(function(task,i){return taskItem(task,"w"+weekNum+"d"+dayIdx+"t"+i);})));
+  var taskWrap=div("card-wrap",filtered.map(function(task){return taskItem(task,false);}));
+  children.push(taskWrap);
+  children.push(addTaskRow(weekNum,dayIdx));
   children.push(bottomNav());
+  if(S.editModal) children.push(buildEditModal());
   return div("",children);
 }
 
+/* ── WEEKS ── */
 function buildWeeks(){
   var totalTasks=0,totalDone=0;
   WEEK_META.forEach(function(wm){
-    if(!wm.hasDays){var s=wm.setup||[];totalTasks+=s.length;totalDone+=s.filter(function(_,i){return S.checked["w"+wm.week+"s"+i];}).length;}
-    else{for(var d=0;d<7;d++){var t=getTasks(wm.week,d);totalTasks+=t.length;totalDone+=t.filter(function(_,i){return S.checked["w"+wm.week+"d"+d+"t"+i];}).length;}}
+    if(!wm.hasDays){
+      var s=wm.setup||[];totalTasks+=s.length;
+      s.forEach(function(_,i){if(S.checked["w"+wm.week+"s"+i]==="done") totalDone++;});
+    } else {
+      for(var d=0;d<7;d++){var t=getDayTasks(wm.week,d);totalTasks+=t.length;totalDone+=t.filter(function(t){return S.checked[t.id]==="done";}).length;}
+    }
   });
   var ovPct=totalTasks>0?Math.round((totalDone/totalTasks)*100):0;
   var cards=WEEK_META.map(function(wm,i){
     var pct=getWeekPct(wm),sc=getSC(wm.state);
     var card=div("week-card",[
-      div("wc-left",[el("div",{class:"wc-title"},wm.label),el("div",{class:"wc-theme"},wm.theme),div("wc-prog",[div("wc-bar",[el("div",{class:"wc-fill",style:{width:pct+"%",background:sc.dot}},null)]),el("div",{class:"wc-pct"},pct>0?pct+"%":"")])]),
+      div("wc-left",[el("div",{class:"wc-title"},wm.label),el("div",{class:"wc-theme"},wm.theme),
+        div("wc-prog",[div("wc-bar",[el("div",{class:"wc-fill",style:{width:pct+"%",background:sc.dot}},null)]),el("div",{class:"wc-pct"},pct>0?pct+"%":"")])
+      ]),
       wm.score?el("div",{class:"wc-badge",style:{background:sc.bg,color:sc.text}},wm.score):div("",null),
-      el("div",{class:"wc-arrow"},"\u203a")
+      el("div",{class:"wc-arrow"},"›")
     ]);
     card.addEventListener("click",function(){S.selWeekIdx=i;S.selDayIdx=0;S.weekTab="days";S.view="weekDetail";render();});
     return card;
@@ -616,6 +812,7 @@ function buildWeeks(){
   ]);
 }
 
+/* ── WEEK DETAIL ── */
 function buildWeekDetail(){
   var wm=WEEK_META[S.selWeekIdx],curState=S.wstate[wm.week]||wm.state,curScore=S.wscore[wm.week]||"";
   var sc=getSC(curState),pct=getWeekPct(wm);
@@ -631,18 +828,31 @@ function buildWeekDetail(){
   var content;
   if(S.weekTab==="days"){
     if(!wm.hasDays){
-      content=div("",[el("div",{class:"sec-label"},"Setup checklist"),div("card-wrap",(wm.setup||[]).map(function(task,i){return taskItem({block:"Setup",label:task.label,detail:task.detail,dur:"--"},"w"+wm.week+"s"+i);}))]);
+      var setupItems=(wm.setup||[]).map(function(task,i){
+        var id="w"+wm.week+"s"+i;
+        var t=Object.assign({},task,{id:id,block:"Setup",dur:"--"});
+        if(S.edits[id]) t=Object.assign(t,S.edits[id]);
+        if(S.deleted[id]) return null;
+        return taskItem(t,true);
+      }).filter(Boolean);
+      content=div("",[el("div",{class:"sec-label"},"Setup checklist"),div("card-wrap",setupItems)]);
     } else {
       var dayBtns=div("day-strip",DAYS_SHORT.map(function(d,di){
         var p=getDayPct(wm.week,di),active=S.selDayIdx===di,isDone=p===100;
         return el("div",{class:"day-pill"+(active?" today":"")+(isDone&&!active?" done":""),onClick:function(){S.selDayIdx=di;render();}},[el("div",{class:"dp-name"},d),div("dp-dot",null)]);
       }));
-      var dayTasks=getTasks(wm.week,S.selDayIdx);
-      var dayDone=dayTasks.filter(function(_,i){return S.checked["w"+wm.week+"d"+S.selDayIdx+"t"+i];}).length;
+      var dayTasks=getDayTasks(wm.week,S.selDayIdx);
+      var dayDone=dayTasks.filter(function(t){return S.checked[t.id]==="done";}).length;
+      var daySkipped=dayTasks.filter(function(t){return S.checked[t.id]==="skip";}).length;
       var dayPct=dayTasks.length>0?Math.round((dayDone/dayTasks.length)*100):0;
       content=div("",[dayBtns,
-        div("progress-strip",[el("div",{class:"prog-label"},DAYS_FULL[S.selDayIdx]),el("div",{class:"prog-track"},[el("div",{class:"prog-fill",style:{width:dayPct+"%"}},null)]),el("div",{class:"prog-pct"},dayDone+"/"+dayTasks.length)]),
-        div("card-wrap",dayTasks.map(function(task,i){return taskItem(task,"w"+wm.week+"d"+S.selDayIdx+"t"+i);}))
+        div("progress-strip",[
+          el("div",{class:"prog-label"},DAYS_FULL[S.selDayIdx]),
+          el("div",{class:"prog-track"},[el("div",{class:"prog-fill",style:{width:dayPct+"%"}},null)]),
+          el("div",{class:"prog-pct"},dayDone+" done"+(daySkipped>0?" · "+daySkipped+" skipped":""))
+        ]),
+        div("card-wrap",dayTasks.map(function(task){return taskItem(task,false);})),
+        addTaskRow(wm.week,S.selDayIdx)
       ]);
     }
   } else if(S.weekTab==="state"){
@@ -654,32 +864,29 @@ function buildWeekDetail(){
     ];
     var grid=div("state-grid",stateInfo.map(function(info){
       var sc2=getSC(info.s),active=curState===info.s;
-      return el("div",{class:"state-card"+(active?" active":""),style:{background:sc2.bg,color:sc2.text},onClick:function(){S.wstate[wm.week]=info.s;sv("wst5",S.wstate);render();}},[
+      return el("div",{class:"state-card"+(active?" active":""),style:{background:sc2.bg,color:sc2.text},onClick:function(){S.wstate[wm.week]=info.s;sv("wst6",S.wstate);render();}},[
         el("div",{class:"state-name"},info.s),el("div",{class:"state-desc"},info.desc)
       ]);
     }));
-    content=div("",[grid,div("score-section",[el("div",{class:"score-label"},"Weekly score"),el("input",{class:"score-input",placeholder:"Target: "+(wm.score||"--"),value:curScore,onInput:function(e){S.wscore[wm.week]=e.target.value;sv("wsc5",S.wscore);}},null)])]);
+    content=div("",[grid,div("score-section",[el("div",{class:"score-label"},"Weekly score"),el("input",{class:"score-input",placeholder:"Target: "+(wm.score||"--"),value:curScore,onInput:function(e){S.wscore[wm.week]=e.target.value;sv("wsc6",S.wscore);}},null)])]);
   } else {
     content=div("card-wrap",MEASURES.map(function(m){return div("m-row",[div("m-left",[el("div",{class:"m-goal"},m.goal),el("div",{class:"m-track"},m.track)]),el("div",{class:"m-target"},m.target)]);}));
   }
-  return div("",[btn("back-btn","\u2190 All weeks",function(){S.view="weeks";render();}),header,tabs,content,bottomNav()]);
+  var wrap=div("",[btn("back-btn","← All weeks",function(){S.view="weeks";render();}),header,tabs,content,bottomNav()]);
+  if(S.editModal) wrap.appendChild(buildEditModal());
+  return wrap;
 }
 
-/* VISION & GOALS */
+/* ── VISION & GOALS ── */
 var VISION_FIELDS=["v-career-1","v-career-2","v-career-3","v-fin-1","v-fin-2","v-fin-3","v-grow-1","v-grow-2","v-grow-3","v-spirit-1","v-spirit-2","v-spirit-3"];
-
-function saveVision(){
-  VISION_FIELDS.forEach(function(id){var e=document.getElementById(id);if(e) S.vision[id]=e.value;});
-  sv("vis5",S.vision);flashSave("save-vision-msg");
-}
-
+function saveVision(){VISION_FIELDS.forEach(function(id){var e=document.getElementById(id);if(e) S.vision[id]=e.value;});sv("vis6",S.vision);flashSave("save-vision-msg");}
 function saveGoals(){
   S.goals.forEach(function(g){
     var te=document.getElementById("g-title-"+g.id);if(te) g.text=te.value;
     var ne=document.getElementById("g-note-"+g.id);if(ne) g.note=ne.value;
     g.tactics.forEach(function(_,ti){var t=document.getElementById("g-tac-"+g.id+"-"+ti);if(t) g.tactics[ti]=t.value;});
   });
-  sv("gls5",S.goals);flashSave("save-goals-msg");
+  sv("gls6",S.goals);flashSave("save-goals-msg");
 }
 
 function buildVisionGoals(){
@@ -687,9 +894,7 @@ function buildVisionGoals(){
     el("button",{class:"tab-btn"+(S.goalsTab==="vision"?" active":""),onClick:function(){S.goalsTab="vision";render();}},"Vision"),
     el("button",{class:"tab-btn"+(S.goalsTab==="goals"?" active":""),onClick:function(){S.goalsTab="goals";render();}},"Goals & Tactics")
   ]);
-
   var content;
-
   if(S.goalsTab==="vision"){
     var areas=[
       {icon:"💼",name:"Career & Business",bg:"var(--terra-p)",prompts:[
@@ -730,10 +935,7 @@ function buildVisionGoals(){
       div("",cards),
       div("btn-row",[btn("btn-primary","Save Vision",function(){saveVision();}),el("span",{class:"save-msg",id:"save-vision-msg"},"Saved")])
     ]);
-    setTimeout(function(){
-      VISION_FIELDS.forEach(function(id){var e=document.getElementById(id);if(e&&S.vision[id]) e.value=S.vision[id];});
-    },0);
-
+    setTimeout(function(){VISION_FIELDS.forEach(function(id){var e=document.getElementById(id);if(e&&S.vision[id]) e.value=S.vision[id];});},0);
   } else {
     var anchors=[
       {key:"v-career-2",area:"Career vision"},
@@ -741,57 +943,48 @@ function buildVisionGoals(){
       {key:"v-grow-1",area:"Personal growth"},
       {key:"v-spirit-2",area:"Purpose & legacy"}
     ].filter(function(a){return S.vision[a.key]&&S.vision[a.key].trim();});
-
     var anchorSection=anchors.length
-      ?div("vision-anchor-wrap",[
-          el("div",{class:"vision-anchor-lbl"},"Your why — from the vision"),
-          div("",anchors.map(function(a){return div("vision-anchor",[el("div",{class:"vision-anchor-area"},a.area),document.createTextNode(S.vision[a.key])]);}))
-        ])
+      ?div("vision-anchor-wrap",[el("div",{class:"vision-anchor-lbl"},"Your why — from the vision"),div("",anchors.map(function(a){return div("vision-anchor",[el("div",{class:"vision-anchor-area"},a.area),document.createTextNode(S.vision[a.key])]);}))])
       :div("empty-state","Complete your Vision first — it will appear here as your anchor for why these goals matter.");
-
     var goalCards=S.goals.map(function(g,i){
       var tacticRows=g.tactics.map(function(t,ti){
-        return div("tactic-row",[
+        return div("tactic-row-g",[
           div("tactic-dot",null),
           el("input",{class:"tactic-input",type:"text",id:"g-tac-"+g.id+"-"+ti,value:esc(t),placeholder:"What will you do every week?",oninput:function(){saveGoals();}},null),
-          ti>0?el("button",{class:"tactic-rm",onClick:function(){g.tactics.splice(ti,1);sv("gls5",S.goals);render();}},"×"):null
+          ti>0?el("button",{class:"tactic-rm",onClick:function(){g.tactics.splice(ti,1);sv("gls6",S.goals);render();}},"×"):null
         ].filter(Boolean));
       });
       return div("goal-card",[
         div("goal-card-head",[
           el("div",{class:"goal-num"},"Goal "+(i+1)),
-          S.goals.length>1?el("button",{class:"goal-del",onClick:function(){if(!confirm("Remove this goal?"))return;S.goals.splice(i,1);sv("gls5",S.goals);render();}},"×"):null
+          S.goals.length>1?el("button",{class:"goal-del",onClick:function(){if(!confirm("Remove this goal?"))return;S.goals.splice(i,1);sv("gls6",S.goals);render();}},"×"):null
         ].filter(Boolean)),
         div("goal-body",[
           el("input",{class:"goal-title-input",type:"text",id:"g-title-"+g.id,value:esc(g.text),placeholder:"What will you achieve in these 12 weeks?",oninput:function(){saveGoals();}},null),
           el("div",{class:"goal-sec-label"},"Weekly tactics"),
           div("",tacticRows),
-          el("button",{class:"add-tactic-btn",onClick:function(){if(g.tactics.length>=7)return;g.tactics.push("");sv("gls5",S.goals);render();}},"+ add tactic"),
+          el("button",{class:"add-tactic-btn",onClick:function(){if(g.tactics.length>=7)return;g.tactics.push("");sv("gls6",S.goals);render();}},"+ add tactic"),
           el("div",{class:"goal-sec-label",style:{marginTop:"16px"}},"Notes & context"),
           el("textarea",{class:"note-area",id:"g-note-"+g.id,placeholder:"Why does this goal matter? What obstacles might get in the way? Any relevant context…",oninput:function(){saveGoals();}},null)
         ])
       ]);
     });
-
-    setTimeout(function(){
-      S.goals.forEach(function(g){var ne=document.getElementById("g-note-"+g.id);if(ne) ne.value=g.note||"";});
-    },0);
-
+    setTimeout(function(){S.goals.forEach(function(g){var ne=document.getElementById("g-note-"+g.id);if(ne) ne.value=g.note||"";});},0);
     content=div("",[
       el("div",{class:"sprint-badge"},"◆ Sprint 1 — Weeks 1–12"),
       anchorSection,
       div("",goalCards),
-      S.goals.length<5?div("add-goal-wrap",[btn("add-goal-btn","+ Add another goal",function(){S.goals.push({id:uid(),text:"",tactics:["","",""],note:""});sv("gls5",S.goals);render();})]):null,
+      S.goals.length<5?div("add-goal-wrap",[btn("add-goal-btn","+ Add another goal",function(){S.goals.push({id:uid(),text:"",tactics:["","",""],note:""});sv("gls6",S.goals);render();})]):null,
       div("btn-row",[btn("btn-primary","Save Goals",function(){saveGoals();}),el("span",{class:"save-msg",id:"save-goals-msg"},"Saved")])
     ].filter(Boolean));
   }
-
   return div("",[
     el("div",{class:"hdr"},[el("div",{class:"hdr-title"},"Vision & Goals"),el("div",{class:"hdr-sub"},"Your 3-year picture and 12-week plan")]),
     tabRow,content,bottomNav()
   ]);
 }
 
+/* ── MEASURES ── */
 function buildMeasures(){
   return div("",[
     el("div",{class:"hdr"},[el("div",{class:"hdr-title"},"Lead Measures"),el("div",{class:"hdr-sub"},"Track these weekly, not outcomes")]),
@@ -801,16 +994,16 @@ function buildMeasures(){
   ]);
 }
 
+/* ── REFERENCE ── */
 function buildReference(){
   var sections=REFERENCE.map(function(sec,si){
     var open=!!S.refOpen[si];
-    var head=div("ref-head",[el("div",{class:"ref-title"},sec.title),el("div",{class:"ref-arrow"+(open?" open":"")},"\u203a")]);
+    var head=div("ref-head",[el("div",{class:"ref-title"},sec.title),el("div",{class:"ref-arrow"+(open?" open":"")},">")]);
     head.addEventListener("click",function(){S.refOpen[si]=!S.refOpen[si];render();});
     var section=div("ref-section",[head]);
     if(open){
       var body=div("ref-body",sec.items.map(function(item){
-        var tagCls=sec.tag==="shortcut"?"shortcut-tag":"habit-tag";
-        return div("ref-item",[el("span",{class:tagCls},sec.tag==="shortcut"?"Shortcut":"Habit"),el("div",{class:"ref-item-title"},item.title),el("div",{class:"ref-item-body"},item.body)]);
+        return div("ref-item",[el("span",{class:sec.tag==="shortcut"?"shortcut-tag":"habit-tag"},sec.tag==="shortcut"?"Shortcut":"Habit"),el("div",{class:"ref-item-title"},item.title),el("div",{class:"ref-item-body"},item.body)]);
       }));
       section.appendChild(body);
     }
@@ -818,12 +1011,11 @@ function buildReference(){
   });
   return div("",[
     el("div",{class:"hdr"},[el("div",{class:"hdr-title"},"Reference"),el("div",{class:"hdr-sub"},"Shortcuts, habit stacks, and guides")]),
-    div("spacer",null),
-    div("",sections),
-    bottomNav()
+    div("spacer",null),div("",sections),bottomNav()
   ]);
 }
 
+/* ── PARKING ── */
 function buildParking(){
   return div("",[
     el("div",{class:"hdr"},[el("div",{class:"hdr-title"},"Parking Lot"),el("div",{class:"hdr-sub"},"Deferred decisions")]),
@@ -833,6 +1025,7 @@ function buildParking(){
   ]);
 }
 
+/* ── ROUTER ── */
 function buildView(){
   var wrap=div("",null);
   if(S.onboarding){wrap.appendChild(buildOnboarding());return wrap;}
@@ -846,8 +1039,7 @@ function buildView(){
   return wrap;
 }
 
-load();
-render();
+load();render();
 </script>
 </body>
 </html>
